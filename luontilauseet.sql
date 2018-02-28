@@ -51,7 +51,7 @@ CREATE TABLE teokset (
     tekija VARCHAR(50) NOT NULL,
     tyyppi VARCHAR(50),
     genre VARCHAR(50),
-    paino DECIMAL,
+    paino DECIMAL NOT NULL,
     PRIMARY KEY(isbn)
 );
 
