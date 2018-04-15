@@ -1,65 +1,58 @@
-CREATE TABLE kayttaja (
-    tunnus SERIAL,
-    etunimi VARCHAR(50) NOT NULL,
-    sukunimi VARCHAR(50) NOT NULL,
-    osoite VARCHAR(50),
+CREATE TABLE user (
+    id INT SERIAL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    address VARCHAR(50),
     email VARCHAR(50),
-    puhelinnumero VARCHAR(20),
-    PRIMARY KEY(tunnus)
+    phone_number VARCHAR(20),
+    PRIMARY KEY(id)
 );
 
-CREATE TABLE keskusdivari (
-    tunnus SERIAL,
-    nimi VARCHAR(50) NOT NULL,
-    osoite VARCHAR(50),
+CREATE TABLE antiquarian (
+    id INT SERIAL,
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(50),
     web VARCHAR(50),
     PRIMARY KEY(tunnus)
 );
 
-CREATE TABLE divari (
-    tunnus SERIAL,
-    nimi VARCHAR(50) NOT NULL,
-    osoite VARCHAR(50),
-    PRIMARY KEY(tunnus)
-);
-
-CREATE TYPE tilaus_tila AS ENUM (
-    'odottaa', 'käsitelty', 'lähetetty'
+CREATE TYPE order_status AS ENUM (
+    'waiting', 'processed', 'sent'
  );
 
-CREATE TABLE tilaus (
-    id SERIAL,
-    tilauspvm DATE NOT NULL,
-    tila tilaus_tila,
-    kayttajatunnus INT NOT NULL,
+CREATE TABLE order (
+    id INT SERIAL,
+    orderdate DATE NOT NULL,
+    status order_status,
+    username INT NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY(kayttajatunnus) REFERENCES kayttaja(tunnus)
+    FOREIGN KEY(username) REFERENCES user(id)
 );
 
-CREATE TABLE teos (
-    id SERIAL,
-    tekija VARCHAR(50) NOT NULL,
-    nimi VARCHAR(50) NOT NULL,
+CREATE TABLE work (
+    id INT SERIAL,
+    auchtor VARCHAR(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
     isbn VARCHAR(20),
-    julkaisuvuosi INT,
+    published INT,
     genre VARCHAR(50),
-    tyyppi VARCHAR(50),
-    paino DECIMAL NOT NULL,
+    type VARCHAR(50),
+    weight DECIMAL NOT NULL,
     PRIMARY KEY(id)
 );
 
-CREATE TYPE tuote_tila AS ENUM (
-    'vapaa', 'varattu', 'poistettu'
+CREATE TYPE product_status AS ENUM (
+    'free', 'taken', 'removed'
 );
 
-CREATE TABLE tuote (
-    id SERIAL,
+CREATE TABLE product (
+    id INT SERIAL,
     isbn VARCHAR(20) NOT NULL,
-    tilaus INT,
-    tila tuote_tila DEFAULT 'vapaa',
-    myyntihinta DECIMAL,
-    sisaanostohinta DECIMAL,
+    order INT,
+    status product_status DEFAULT 'free',
+    selling price DECIMAL,
+    purchase_price DECIMAL,
     PRIMARY KEY(id),
-    FOREIGN KEY(isbn) REFERENCES teokset,
-    FOREIGN KEY(tilaus) REFERENCES tilaus(id)
+    FOREIGN KEY(isbn) REFERENCES work(isbn),
+    FOREIGN KEY(order) REFERENCES order(id)
 );
