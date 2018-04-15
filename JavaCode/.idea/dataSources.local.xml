@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Tiko Server" uuid="fd1b0d1c-62c0-45b7-97c9-3d50813f1779">
+      <database-info product="PostgreSQL" version="9.1.24lts2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.2">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>tiko</user-name>
+      <introspection-schemas>tikoht:public</introspection-schemas>
+    </data-source>
+  </component>
+</project>
