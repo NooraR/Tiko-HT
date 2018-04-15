@@ -31,5 +31,5 @@ _ReSharper*/
 #Nuget packages folder
 packages/
 *.iws
-.idea/workspace.xml
-.idea/tasks.xml
+workspace.xml
+tasks.xml
