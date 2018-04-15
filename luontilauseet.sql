@@ -1,11 +1,5 @@
-CREATE TABLE rooli (
-    id INT,
-    nimi VARCHAR(25) NOT NULL,
-    PRIMARY KEY(id)
-);
-
 CREATE TABLE kayttaja (
-    tunnus INT,
+    tunnus SERIAL,
     etunimi VARCHAR(50) NOT NULL,
     sukunimi VARCHAR(50) NOT NULL,
     osoite VARCHAR(50),
@@ -14,16 +8,8 @@ CREATE TABLE kayttaja (
     PRIMARY KEY(tunnus)
 );
 
-CREATE TABLE roolitus (
-    id INT,
-    tunnus INT,
-    PRIMARY KEY(id, tunnus),
-    FOREIGN KEY(id) REFERENCES rooli,
-    FOREIGN KEY(tunnus) REFERENCES kayttaja
-);
-
 CREATE TABLE keskusdivari (
-    tunnus INT,
+    tunnus SERIAL,
     nimi VARCHAR(50) NOT NULL,
     osoite VARCHAR(50),
     web VARCHAR(50),
@@ -31,40 +17,49 @@ CREATE TABLE keskusdivari (
 );
 
 CREATE TABLE divari (
-    tunnus INT,
+    tunnus SERIAL,
     nimi VARCHAR(50) NOT NULL,
     osoite VARCHAR(50),
     PRIMARY KEY(tunnus)
 );
 
+CREATE TYPE tilaus_tila AS ENUM (
+    'odottaa', 'käsitelty', 'lähetetty'
+ );
+
 CREATE TABLE tilaus (
-    id INT,
+    id SERIAL,
     tilauspvm DATE NOT NULL,
+    tila tilaus_tila,
     kayttajatunnus INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(kayttajatunnus) REFERENCES kayttaja(tunnus)
 );
 
-CREATE TABLE teokset (
-    isbn VARCHAR(20),
-    nimi VARCHAR(50) NOT NULL,
+CREATE TABLE teos (
+    id SERIAL,
     tekija VARCHAR(50) NOT NULL,
-    tyyppi VARCHAR(50),
+    nimi VARCHAR(50) NOT NULL,
+    isbn VARCHAR(20),
+    julkaisuvuosi INT,
     genre VARCHAR(50),
+    tyyppi VARCHAR(50),
     paino DECIMAL NOT NULL,
-    PRIMARY KEY(isbn)
+    PRIMARY KEY(id)
 );
 
-CREATE TABLE tuotteet(
-    id INT,
-    divari INT NOT NULL,
+CREATE TYPE tuote_tila AS ENUM (
+    'vapaa', 'varattu', 'poistettu'
+);
+
+CREATE TABLE tuote (
+    id SERIAL,
     isbn VARCHAR(20) NOT NULL,
     tilaus INT,
-    tila INT,
+    tila tuote_tila DEFAULT 'vapaa',
     myyntihinta DECIMAL,
     sisaanostohinta DECIMAL,
     PRIMARY KEY(id),
-    FOREIGN KEY(divari) REFERENCES divari(tunnus),
     FOREIGN KEY(isbn) REFERENCES teokset,
     FOREIGN KEY(tilaus) REFERENCES tilaus(id)
 );
