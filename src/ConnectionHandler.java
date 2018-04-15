@@ -30,7 +30,7 @@ class ConnectionHandler {
         return conn;
     }
 
-    public boolean inser(Connection connection, String input){
+    public boolean insert(Connection connection, String input){
         Statement stmt = null;
         try{
             stmt = connection.createStatement();
