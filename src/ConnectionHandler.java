@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 class ConnectionHandler {
 
@@ -27,5 +28,27 @@ class ConnectionHandler {
         }
 
         return conn;
+    }
+
+    public boolean inser(Connection connection, String input){
+        Statement stmt = null;
+        try{
+            stmt = connection.createStatement();
+            stmt.executeUpdate(input);
+            stmt.close();
+        } catch ( Exception e ) {
+            System.err.println(e);
+            return false;
+        }
+        System.out.println("Table created successfully");
+        return true;
+        }
+
+    public void closeConnection(Connection connection){
+        try{
+            connection.close();
+        } catch (Exception e){
+            System.err.println("Error while closing connection.");
+        }
     }
 }
