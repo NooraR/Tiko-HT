@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Tietokantaohjelmointi" />
         <module name="Tiko-HT" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Tietokantaohjelmointi" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
