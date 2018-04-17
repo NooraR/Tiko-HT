@@ -23,6 +23,10 @@ public class Work {
         this.weight = weight;
     }
 
+    public Work() {
+
+    }
+
     public int getId() {
         return id;
     }

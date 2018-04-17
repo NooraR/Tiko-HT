@@ -18,6 +18,16 @@ public class User {
         phoneNumber = Phonenumber;
     }
 
+    public User(){
+        this.id = -1;
+        this.firstName = "";
+        this.lastName = "";
+        this.address = "";
+        this.email = "";
+        this.phoneNumber = "";
+
+    }
+
 
     public String getFirstName() {
         return firstName;
