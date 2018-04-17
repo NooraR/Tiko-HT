@@ -24,7 +24,7 @@ CREATE TABLE order (
     id INT SERIAL,
     orderdate DATE NOT NULL,
     status order_status,
-    username INT NOT NULL,
+    user INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(username) REFERENCES user(id)
 );
