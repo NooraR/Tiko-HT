@@ -1,6 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
+import java.sql.*;
 
 class ConnectionHandler {
 
@@ -43,6 +41,17 @@ class ConnectionHandler {
         System.out.println("Table created successfully");
         return true;
         }
+
+    public ResultSet select (Connection connection, String selectCommand, String input) throws SQLException {
+        try{
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(selectCommand);
+            return resultSet;
+        } catch (Exception e) {
+            System.err.println(e);
+            throw new SQLException("Could not return result set!");
+        }
+    }
 
     public void closeConnection(Connection connection){
         try{
