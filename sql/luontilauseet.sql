@@ -32,7 +32,7 @@ CREATE TABLE userorder (
 
 CREATE TABLE work (
     id        SERIAL,
-    auchtor   VARCHAR(50) NOT NULL,
+    author   VARCHAR(50) NOT NULL,
     name      VARCHAR(50) NOT NULL,
     isbn      VARCHAR(20),
     published INT,
