@@ -1,4 +1,4 @@
-package DB;
+package datamodel;
 
 import java.sql.Date;
 

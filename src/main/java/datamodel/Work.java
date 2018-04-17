@@ -1,4 +1,4 @@
-package DB;
+package datamodel;
 
 public class Work {
 
