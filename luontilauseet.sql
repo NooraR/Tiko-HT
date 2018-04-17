@@ -24,9 +24,9 @@ CREATE TABLE order (
     id INT SERIAL,
     orderdate DATE NOT NULL,
     status order_status,
-    username INT NOT NULL,
+    user INT NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY(username) REFERENCES user(id)
+    FOREIGN KEY(user) REFERENCES user(id)
 );
 
 CREATE TABLE work (
@@ -50,7 +50,7 @@ CREATE TABLE product (
     isbn VARCHAR(20) NOT NULL,
     order INT,
     status product_status DEFAULT 'free',
-    selling price DECIMAL,
+    selling_price DECIMAL,
     purchase_price DECIMAL,
     PRIMARY KEY(id),
     FOREIGN KEY(isbn) REFERENCES work(isbn),
