@@ -1,3 +1,5 @@
+package database;
+
 import datamodel.User;
 import datamodel.Work;
 
@@ -48,7 +50,7 @@ public class QueryHandler {
         return null;
     }
 
-    public List<Work> getAllWorks() throws SQLException {
+    public List<Work> getAllWorks() throws Exception {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -56,7 +58,11 @@ public class QueryHandler {
 
         try {
             connection = con.getConnection();
-            ps = connection.prepareStatement("SELECT * FROM useraccount;");
+            ps = connection.prepareStatement(
+                    "SELECT work.id, work.author, work.name, work.isbn, work.published, work.genre, work.type, work.weight, " +
+                            "(SELECT COUNT(product.id) FROM product WHERE product.id = work.id) AS balance" +
+                            " FROM work;"
+            );
             rs = ps.executeQuery();
 
             workList = new ArrayList<Work>();
@@ -70,39 +76,15 @@ public class QueryHandler {
                 work.setGenre(rs.getString("genre"));
                 work.setType(rs.getString("type"));
                 work.setWeight(rs.getDouble("weight"));
-                work.setBalance(getBalanceForWork(work));
+                work.setBalance(rs.getInt("balance"));
                 workList.add(work);
             }
 
             return workList;
         } catch(Exception e) {
-            System.err.println("Error while generating List<User>!");
+            throw new Exception("Could not fetch data of all works: " + e.getMessage());
         } finally {
             con.closeConnection(connection, ps, rs);
         }
-        return null;
-    }
-
-    public int getBalanceForWork(Work work) throws Exception {
-        Connection connection = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int balance = 0;
-
-        try {
-            connection = con.getConnection();
-            ps = connection.prepareStatement("SELECT COUNT(id) AS balance FROM product WHERE workid = ? AND status = 'free'");
-            ps.setInt(1, work.getId());
-
-            rs = ps.executeQuery();
-            if(rs.next()) {
-                balance = rs.getInt("balance");
-            }
-        } catch (Exception e) {
-            throw new Exception("Failed to get balance for work");
-        } finally {
-            con.closeConnection(connection, ps, rs);
-        }
-        return balance;
     }
 }
