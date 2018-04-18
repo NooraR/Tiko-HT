@@ -17,6 +17,9 @@ public class PublicController {
             List<Work> works = handler.getAllWorks();
 
             json = gson.toJson(works);
+
+            res.type("application/json");
+            res.status(200);
         } catch (Exception e) {
             json = gson.toJson(new Error() {
                 String error = "Failed to fetch works: " + e.getMessage();
