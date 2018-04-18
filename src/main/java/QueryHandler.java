@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryHandler {
-    ConnectionHandler con;
+    private ConnectionHandler con;
 
     public QueryHandler() {
         con = new ConnectionHandler();
