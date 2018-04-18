@@ -30,8 +30,10 @@ class ConnectionHandler {
         return connection;
     }
 
-    public void closeConnection(Connection connection){
+    public void closeConnection(Connection connection, PreparedStatement ps, ResultSet rs){
         try{
+            ps.close();
+            rs.close();
             connection.close();
         } catch (Exception e){
             System.err.println("Error while closing connection.");
@@ -66,9 +68,7 @@ class ConnectionHandler {
         } catch(Exception e) {
             System.err.println("Error while generating List<User>!");
         } finally {
-            ps.close();
-            rs.close();
-            connection.close();
+            closeConnection(connection, ps, rs);
         }
         return null;
     }
@@ -103,9 +103,7 @@ class ConnectionHandler {
         } catch(Exception e) {
             System.err.println("Error while generating List<User>!");
         } finally {
-            ps.close();
-            rs.close();
-            connection.close();
+            closeConnection(connection, ps, rs);
         }
         return null;
     }
