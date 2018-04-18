@@ -70,7 +70,7 @@ public class QueryHandler {
                 work.setGenre(rs.getString("genre"));
                 work.setType(rs.getString("type"));
                 work.setWeight(rs.getDouble("weight"));
-
+                work.setBalance(getBalanceForWork(work));
                 workList.add(work);
             }
 
@@ -81,5 +81,28 @@ public class QueryHandler {
             con.closeConnection(connection, ps, rs);
         }
         return null;
+    }
+
+    public int getBalanceForWork(Work work) throws Exception {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int balance = 0;
+
+        try {
+            connection = con.getConnection();
+            ps = connection.prepareStatement("SELECT COUNT(id) AS balance FROM product WHERE workid = ? AND status = 'free'");
+            ps.setInt(1, work.getId());
+
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                balance = rs.getInt("balance");
+            }
+        } catch (Exception e) {
+            throw new Exception("Failed to get balance for work");
+        } finally {
+            con.closeConnection(connection, ps, rs);
+        }
+        return balance;
     }
 }
