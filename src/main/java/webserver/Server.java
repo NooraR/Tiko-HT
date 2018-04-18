@@ -17,7 +17,13 @@ public class Server {
             res.redirect("/index.html");
             return null;
         });
+
+        get("/data/listWorks", (req, res) -> {
+            return PublicController.listWorks(req, res);
+        });
+
         get("*", (req, res) -> {
+            res.status(404);
             res.redirect("/notfound.html");
             return null;
         });
