@@ -10,8 +10,9 @@ public class Work {
     private String genre;
     private String type;
     private double weight;
+    private int balance;
 
-    public Work(int id, String author, String name, String isbn, int published, String genre, String type, double weight){
+    public Work(int id, String author, String name, String isbn, int published, String genre, String type, double weight, int balance){
 
         this.id = id;
         this.author = author;
@@ -21,6 +22,7 @@ public class Work {
         this.genre = genre;
         this.type = type;
         this.weight = weight;
+        this.balance = balance;
     }
 
     public Work() {
@@ -91,4 +93,11 @@ public class Work {
         this.weight = weight;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
 }
