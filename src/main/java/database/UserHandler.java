@@ -91,6 +91,8 @@ public class UserHandler {
                 user.setAddress(rs.getString("address"));
                 user.setEmail(rs.getString("email"));
                 user.setPhoneNumber(rs.getString("phone_number"));
+
+                return user;
             } else {
                 throw new Exception("User doesn't exist");
             }
@@ -99,20 +101,17 @@ public class UserHandler {
         } finally {
             con.closeConnection(connection, ps, rs);
         }
-        return user;
     }
 
     /**
-     * Add's a new user into the database.
-     * @param user
-     * @return
-     * @throws Exception
+     * Adds a new user into the database.
+     * @param user User object
+     * @return boolean telling if succeeded
+     * @throws Exception if something went wrong
      */
     public boolean addUser(User user) throws Exception {
         Connection connection = null;
         PreparedStatement ps = null;
-
-        boolean successful = false;
 
         try {
             if(userExists(user.getEmail())) {
@@ -129,7 +128,7 @@ public class UserHandler {
                 ps.setString(5, user.getPassword());
                 ps.setString(6, user.getPhoneNumber());
 
-                successful = ps.executeUpdate() > 0;
+                return ps.executeUpdate() > 0;
             } else {
                 throw new Exception("User already exists");
             }
@@ -138,7 +137,5 @@ public class UserHandler {
         } finally {
             con.closeConnection(connection, ps, null);
         }
-
-        return successful;
     }
 }
