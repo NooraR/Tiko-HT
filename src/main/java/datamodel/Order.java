@@ -11,7 +11,8 @@ import java.util.Objects;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userorder_id_seq")
+    @SequenceGenerator(name = "order_id_seq", sequenceName = "userorder_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
@@ -25,7 +26,7 @@ public class Order {
     private order_status status;
 
     @OneToMany
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userid", referencedColumnName = "id")
     private List<Product> productList;
 
     private enum order_status {

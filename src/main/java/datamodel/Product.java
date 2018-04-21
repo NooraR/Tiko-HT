@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Product {
 
     @Id
+    @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
@@ -25,7 +26,7 @@ public class Product {
     private double purchasePrice;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "workid", referencedColumnName = "id")
     private Work work;
 
     private enum product_status {
