@@ -3,6 +3,8 @@ import database.UserHandler;
 import datamodel.Product;
 import datamodel.User;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String args[]) {
@@ -15,9 +17,11 @@ public class Main {
 
 
             ProductHandler productHandler = new ProductHandler();
-            Product product = productHandler.getProductByStatus(Product.product_status.FREE);
+            List<Product> products = productHandler.getProductByStatus("FREE");
 
-            System.out.println(product.getSellingPrice());
+            for (Product pro: products){
+                System.out.println(pro.getStatus());
+            }
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

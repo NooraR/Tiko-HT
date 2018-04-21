@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.*;
 
+import java.util.List;
+
 public class ProductHandler {
     private SessionFactory sessionFactory;
 
@@ -13,20 +15,18 @@ public class ProductHandler {
         sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
     }
 
-    public Product getProductByStatus(Product.product_status product_status) throws Exception {
+    public List<Product> getProductByStatus(String status) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
         try {
             session.beginTransaction();
 
-            Query query = sessionFactory.getCurrentSession().createQuery("from Product where product_status=:product_status");
-            query.setParameter("product_status", product_status);
-
-            Product product = (Product) query.uniqueResult();
+            Query query = session.createQuery("FROM Product WHERE status = '"+status+"'");
+            List<Product> products = (List<Product>)query.list();
 
             session.getTransaction().commit();
 
-            return product;
+            return products;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new Exception("Failed to get user by id: " + e.getMessage());
