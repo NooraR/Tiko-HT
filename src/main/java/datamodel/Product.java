@@ -29,6 +29,12 @@ public class Product {
     @JoinColumn(name = "workid", referencedColumnName = "id")
     private Work work;
 
+    @ManyToOne
+    @JoinColumn(name = "orderid", referencedColumnName = "id")
+    private Order order;
+
+
+
     public enum product_status {
         FREE, RESERVED, UNAVAILABLE;
     }
@@ -72,6 +78,14 @@ public class Product {
 
     public void setPurchasePrice(double purchasePrice) {
         this.purchasePrice = purchasePrice;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override

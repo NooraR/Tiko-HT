@@ -17,10 +17,17 @@ public class Main {
 
 
             ProductHandler productHandler = new ProductHandler();
-            List<Product> products = productHandler.getProductByStatus("FREE");
+            List<Product> products = productHandler.getProductsByStatus("FREE");
+
+
 
             for (Product pro: products){
                 System.out.println(pro.getStatus());
+            }
+
+            products = productHandler.getProductsByOrderId(1);
+            for (Product pro: products){
+                System.out.println(pro.getSellingPrice());
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
