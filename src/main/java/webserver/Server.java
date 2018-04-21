@@ -17,7 +17,11 @@ public class Server {
             res.redirect("/index.html");
             return null;
         });
+
+        get("/data/listWorks", PublicController::listWorks);
+
         get("*", (req, res) -> {
+            res.status(404);
             res.redirect("/notfound.html");
             return null;
         });
