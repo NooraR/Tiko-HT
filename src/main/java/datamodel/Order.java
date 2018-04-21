@@ -1,27 +1,43 @@
 package datamodel;
 
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
+import java.util.Objects;
 
 
+@Entity
+@Table(name = "userorder", schema = "central", catalog = "tikoht")
 public class Order {
 
-    private enum order_status {
-        waiting, processed, sent
-    }
-
+    @Id
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @Basic
+    @Column(name = "orderdate", nullable = false)
     private Date orderdate;
+
+    @Basic
+    @Column(name = "status", nullable = false, columnDefinition = "order_status DEFAULT 'WAITING' NOT NULL")
+    @Enumerated(EnumType.STRING)
     private order_status status;
-    private int user;
 
-    public Order(int id, Date orderdate, order_status status, int user){
+    @OneToMany
+    @JoinColumn(name = "id")
+    private List<Product> productList;
 
-        this.id = id;
-        this.orderdate = orderdate;
-        this.status = status;
-        this.user = user;
+    private enum order_status {
+        WAITING, PROCESSED, COMPLETE
     }
 
+    public Order(){
+
+        this.id = -1;
+        this.orderdate = null;
+        this.status = null;
+        productList = null;
+    }
 
     public int getId() {
         return id;
@@ -47,12 +63,18 @@ public class Order {
         this.status = status;
     }
 
-    public int getUser() {
-        return user;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id &&
+                Objects.equals(orderdate, order.orderdate);
     }
 
-    public void setUser(int user) {
-        this.user = user;
-    }
+    @Override
+    public int hashCode() {
 
+        return Objects.hash(id, orderdate);
+    }
 }

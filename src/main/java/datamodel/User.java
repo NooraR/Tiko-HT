@@ -1,35 +1,56 @@
 package datamodel;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "useraccount", schema = "central", catalog = "tikoht")
 public class User {
 
+    @Id
+    @Column(name = "id", nullable = false)
     private int id;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String email;
-    private String password;
-    private String phoneNumber;
 
-    public User(int id, String firstName, String lastName, String address, String email, String password, String phoneNumber) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-    }
+    @Basic
+    @Column(name = "first_name", nullable = false, length = 50)
+    private String firstName;
+
+    @Basic
+    @Column(name = "last_name", nullable = false, length = 50)
+    private String lastName;
+
+    @Basic
+    @Column(name = "address", nullable = true, length = 50)
+    private String address;
+
+    @Basic
+    @Column(name = "email", nullable = false, length = 50)
+    private String email;
+
+    @Basic
+    @Column(name = "password", nullable = true, length = 300)
+    private String password;
+
+    @Basic
+    @Column(name = "phone_number", nullable = true, length = 20)
+    private String phoneNumber;
 
     public User(){
         this.id = -1;
-        this.firstName = "";
-        this.lastName = "";
-        this.address = "";
-        this.email = "";
-        this.phoneNumber = "";
-
+        this.firstName = null;
+        this.lastName = null;
+        this.address = null;
+        this.email = null;
+        this.phoneNumber = null;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -63,6 +84,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -71,19 +100,23 @@ public class User {
         this.phoneNumber = phone_number;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(address, user.address) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(phoneNumber, user.phoneNumber);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Override
+    public int hashCode() {
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+        return Objects.hash(id, firstName, lastName, address, email, password, phoneNumber);
     }
 }

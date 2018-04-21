@@ -1,32 +1,62 @@
 package datamodel;
 
+import org.hibernate.annotations.Formula;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.Objects;
+
+@Entity
 public class Work {
 
+    @Id
+    @Column(name = "id", nullable = false)
     private int id;
+
+    @Basic
+    @Column(name = "author", nullable = false, length = 50)
     private String author;
+
+    @Basic
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
+
+    @Basic
+    @Column(name = "isbn", nullable = true, length = 20)
     private String isbn;
+
+    @Basic
+    @Column(name = "published", nullable = true)
     private int published;
+
+    @Basic
+    @Column(name = "genre", nullable = true, length = 50)
     private String genre;
+
+    @Basic
+    @Column(name = "type", nullable = true, length = 50)
     private String type;
+
+    @Basic
+    @Column(name = "weight", nullable = false, precision = 0)
     private double weight;
+
+    @Formula("(SELECT COUNT(product.id) FROM product WHERE product.workid = id)")
     private int balance;
 
-    public Work(int id, String author, String name, String isbn, int published, String genre, String type, double weight, int balance){
 
-        this.id = id;
-        this.author = author;
-        this.name = name;
-        this.isbn = isbn;
-        this.published = published;
-        this.genre = genre;
-        this.type = type;
-        this.weight = weight;
-        this.balance = balance;
-    }
-
-    public Work() {
-
+    public Work(){
+        this.id = -1;
+        this.author = null;
+        this.name = null;
+        this.isbn = null;
+        this.published = 0;
+        this.genre = null;
+        this.type = null;
+        this.weight = 0;
+        this.balance = 0;
     }
 
     public int getId() {
@@ -99,5 +129,26 @@ public class Work {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Work work = (Work) o;
+        return id == work.id &&
+                published == work.published &&
+                Double.compare(work.weight, weight) == 0 &&
+                Objects.equals(author, work.author) &&
+                Objects.equals(name, work.name) &&
+                Objects.equals(isbn, work.isbn) &&
+                Objects.equals(genre, work.genre) &&
+                Objects.equals(type, work.type);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, author, name, isbn, published, genre, type, weight);
     }
 }
