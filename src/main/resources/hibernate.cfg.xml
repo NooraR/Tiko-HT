@@ -7,15 +7,11 @@
     <property name="connection.url">jdbc:postgresql://51.255.172.150:5432/tikoht</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
     <mapping class="datamodel.Antiquarian"/>
-    <mapping resource="datamodel/Antiquarian.hbm.xml"/>
-    <mapping resource="datamodel/Product.hbm.xml"/>
     <mapping class="datamodel.Product"/>
-    <mapping resource="datamodel/User.hbm.xml"/>
     <mapping class="datamodel.User"/>
     <mapping class="datamodel.Order"/>
-    <mapping resource="datamodel/Order.hbm.xml"/>
-    <mapping resource="datamodel/Work.hbm.xml"/>
     <mapping class="datamodel.Work"/>
+
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
