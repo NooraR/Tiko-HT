@@ -1,5 +1,6 @@
 package database;
 
+import datamodel.Work;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,14 +19,14 @@ public class WorkHandler {
         this.sessionFactory = sessionFactory;
     }
 
-    public List getWorksAvailable() throws Exception {
+    public List<Work> getWorksAvailable() throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
         try {
             session.beginTransaction();
 
             Query query = session.createQuery("from Work");
-            List list = query.list();
+            List<Work> list = (List<Work>) query.list();
 
             session.getTransaction().commit();
 
