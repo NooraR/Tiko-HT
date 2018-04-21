@@ -1,16 +1,14 @@
 package datamodel;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Antiquarian {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "antiquarian_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
     @Basic

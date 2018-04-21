@@ -11,7 +11,8 @@ import java.util.Objects;
 public class Order {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userorder_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
     @Basic

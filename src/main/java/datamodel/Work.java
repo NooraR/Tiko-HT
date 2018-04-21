@@ -2,17 +2,15 @@ package datamodel;
 
 import org.hibernate.annotations.Formula;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Work {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "work_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
     @Basic
