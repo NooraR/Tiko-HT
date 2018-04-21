@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import javax.persistence.EntityExistsException;
+
 public class UserHandler {
     private SessionFactory sessionFactory;
 
@@ -45,7 +47,7 @@ public class UserHandler {
             if(query.uniqueResult() == null) {
                 userId = (Integer) session.save(user);
             } else {
-                throw new Exception("User already exists.");
+                throw new EntityExistsException("User already exists.");
             }
 
             session.getTransaction().commit();
