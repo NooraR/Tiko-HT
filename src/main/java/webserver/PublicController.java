@@ -21,8 +21,9 @@ public class PublicController {
             res.type("application/json");
             res.status(200);
         } catch (Exception e) {
-            json = gson.toJson(new Error() {
-                String error = "Failed to fetch works: " + e.getMessage();
+            json = gson.toJson(new Object() {
+                boolean success = false;
+                String error = "Failed to fetch works";
             });
         }
         return json;
