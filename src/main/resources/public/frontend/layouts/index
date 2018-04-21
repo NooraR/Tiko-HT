@@ -1,0 +1,30 @@
+import React from "react";
+import styled, { injectGlobal } from "../styled-components.d.ts";
+import Header from "../components/Header";
+
+injectGlobal`
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+    }
+
+    body {
+        border-top: 5px solid black;
+    }
+`;
+
+const Container = styled.div`
+    max-width: 45rem;
+    margin: 0 auto;
+    padding: 0 1rem 1rem 1rem;
+    position: relative;
+`;
+
+const Layout = () => (
+    <Container>
+        <Header title = "Antikvariaatti" />
+    </Container>
+);
+
+export default Layout;

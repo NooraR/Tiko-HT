@@ -9,16 +9,16 @@ public class Server {
 
         //Spark config
         port(80);
-        staticFiles.location("/public");
+        staticFiles.location("/public/frontend");
         staticFiles.expireTime(600L);
 
         //Routes
         get("/", (req, res) -> {
-            res.redirect("/index.html");
+            res.redirect("/pages/index.js");
             return null;
         });
         get("*", (req, res) -> {
-            res.redirect("/notfound.html");
+            res.redirect("/pages/404.js");
             return null;
         });
 
