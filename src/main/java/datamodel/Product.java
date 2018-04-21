@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Product {
 
     @Id
-    @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq")
+    @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     private int id;

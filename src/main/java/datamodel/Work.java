@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Work {
 
     @Id
-    @SequenceGenerator(name = "work_id_seq", sequenceName = "work_id_seq")
+    @SequenceGenerator(name = "work_id_seq", sequenceName = "work_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "work_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
