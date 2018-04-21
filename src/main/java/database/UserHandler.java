@@ -6,11 +6,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class UserHandler {
+    private SessionFactory sessionFactory;
+
     public UserHandler() {
+        sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
     }
 
     public User getUserById(int id) throws Exception {
-        SessionFactory sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
         Session session = sessionFactory.getCurrentSession();
 
         try {
