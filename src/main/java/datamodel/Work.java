@@ -42,7 +42,7 @@ public class Work {
     @Column(name = "weight", nullable = false, precision = 0)
     private double weight;
 
-    @Formula("(SELECT COUNT(product.id) FROM product WHERE product.workid = id)")
+    @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = 'FREE')")
     private int balance;
 
 
