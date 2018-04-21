@@ -29,7 +29,7 @@ public class Product {
     @JoinColumn(name = "workid", referencedColumnName = "id")
     private Work work;
 
-    private enum product_status {
+    public enum product_status {
         FREE, RESERVED, UNAVAILABLE;
     }
 
