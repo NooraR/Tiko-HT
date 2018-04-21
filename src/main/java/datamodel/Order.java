@@ -25,9 +25,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private order_status status;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "userid", referencedColumnName = "id")
-    private List<Product> productList;
+    private User orderer;
+
+    @OneToMany
+    @JoinColumn(name = "orderid", referencedColumnName = "id")
+    private List<Product> products;
 
     private enum order_status {
         WAITING, PROCESSED, COMPLETE
@@ -38,7 +42,7 @@ public class Order {
         this.id = -1;
         this.orderdate = null;
         this.status = null;
-        productList = null;
+        products = null;
     }
 
     public int getId() {
@@ -63,6 +67,22 @@ public class Order {
 
     public void setStatus(order_status status) {
         this.status = status;
+    }
+
+    public User getOrderer() {
+        return orderer;
+    }
+
+    public void setOrderer(User orderer) {
+        this.orderer = orderer;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override

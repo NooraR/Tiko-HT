@@ -13,6 +13,10 @@ public class UserHandler {
         sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
     }
 
+    public UserHandler(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public User getUserById(int id) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
@@ -40,6 +44,8 @@ public class UserHandler {
             int userId = -1;
             if(query.uniqueResult() == null) {
                 userId = (Integer) session.save(user);
+            } else {
+                throw new Exception("User already exists.");
             }
 
             session.getTransaction().commit();
@@ -47,7 +53,7 @@ public class UserHandler {
             return userId;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            throw new Exception("Failed to add new user: " + e.getMessage());
+            throw new Exception("Adding new user failed: " + e.getMessage());
         }
     }
 }

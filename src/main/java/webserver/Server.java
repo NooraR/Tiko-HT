@@ -3,9 +3,7 @@ package webserver;
 import database.HibernateConfiguration;
 import org.hibernate.SessionFactory;
 
-import static spark.Spark.get;
-import static spark.Spark.port;
-import static spark.Spark.staticFiles;
+import static spark.Spark.*;
 
 public class Server {
     public static void main(String args[]) {
@@ -24,14 +22,18 @@ public class Server {
             return null;
         });
 
-        get("/data/listWorks", (request, response) -> {
-            return PublicController.listWorks(request, response, sessionFactory);
+        get("/data/listWorks", (req, res) -> {
+            return PublicController.listWorks(req, res, sessionFactory);
         });
 
         get("*", (req, res) -> {
             res.status(404);
             res.redirect("/notfound.html");
             return null;
+        });
+
+        post("/register", (req, res) -> {
+            return UserController.register(req, res, sessionFactory);
         });
 
     }
