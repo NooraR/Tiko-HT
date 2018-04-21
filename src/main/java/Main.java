@@ -15,7 +15,7 @@ public class Main {
 
 
             ProductHandler productHandler = new ProductHandler();
-            Product product = productHandler.getProductById(Product.product_status.FREE);
+            Product product = productHandler.getProductByStatus(Product.product_status.FREE);
 
             System.out.println(product.getSellingPrice());
         } catch (Exception e) {

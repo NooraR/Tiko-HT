@@ -13,7 +13,7 @@ public class ProductHandler {
         sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
     }
 
-    public Product getProductById(Product.product_status product_status) throws Exception {
+    public Product getProductByStatus(Product.product_status product_status) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
         try {
