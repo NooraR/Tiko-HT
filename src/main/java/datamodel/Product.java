@@ -35,6 +35,7 @@ public class Product {
 
 
 
+
     public enum product_status {
         FREE, RESERVED, UNAVAILABLE;
     }
@@ -86,6 +87,14 @@ public class Product {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Work getWork() {
+        return work;
+    }
+
+    public void setWork(Work work) {
+        this.work = work;
     }
 
     @Override
