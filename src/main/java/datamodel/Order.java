@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Order {
 
     @Id
-    @SequenceGenerator(name = "order_id_seq", sequenceName = "userorder_id_seq")
+    @SequenceGenerator(name = "order_id_seq", sequenceName = "userorder_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
