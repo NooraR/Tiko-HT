@@ -20,13 +20,14 @@ public class ProductHandler {
         Session session = sessionFactory.getCurrentSession();
 
         try {
+            System.out.println("Started retrieving products by status: "+status);
             session.beginTransaction();
 
             Query query = session.createQuery("FROM Product WHERE status = '"+status+"'");
             List<Product> products = (List<Product>)query.list();
 
             session.getTransaction().commit();
-
+            System.out.println("Retrieval succesful.");
             return products;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
@@ -52,6 +53,39 @@ public class ProductHandler {
         }
     }
 
+    public boolean setProductReserved(int id) throws Exception{
+        Session session = sessionFactory.getCurrentSession();
+        System.out.println("Started reserving product");
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("UPDATE Product SET status = 'RESERVED' WHERE id ="+id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+            System.out.println("Product is now reserved.");
+            return true;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            System.err.println("Could not change product's status to RESERVED!" + e);
+            return false;
+        }
+    }
+
+    public boolean setProductUnavailable(int id) throws Exception{
+        Session session = sessionFactory.getCurrentSession();
+        System.out.println("Started making product unavailable.");
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("UPDATE Product SET status = 'UNAVAILABLE' WHERE id ="+id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+            System.out.println("Product is now unavailable.");
+            return true;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            System.err.println("Could not change product's status to UNAVAILABLE!" + e);
+            return false;
+        }
+    }
 
 
 }

@@ -24,8 +24,17 @@ public class Main {
             for (Product pro: products){
                 System.out.println(pro.getStatus());
             }
+            System.out.println();
+            productHandler.setProductUnavailable(products.get(0).getId());
+            products = productHandler.getProductsByStatus("FREE");
+            System.out.println();
+
+            for (Product pro: products){
+                System.out.println(pro.getStatus());
+            }
 
             products = productHandler.getProductsByOrderId(1);
+            System.out.println();
             for (Product pro: products){
                 System.out.println(pro.getSellingPrice());
             }

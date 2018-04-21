@@ -107,6 +107,8 @@ public class Product {
                 Double.compare(product.purchasePrice, purchasePrice) == 0;
     }
 
+
+
     @Override
     public int hashCode() {
 
