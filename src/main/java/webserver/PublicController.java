@@ -1,21 +1,20 @@
 package webserver;
 
 import com.google.gson.Gson;
-import database.QueryHandler;
-import datamodel.Work;
+import database.WorkHandler;
+import org.hibernate.SessionFactory;
 import spark.Request;
 import spark.Response;
 
 import java.util.List;
 
 public class PublicController {
-    /*
-    public static String listWorks(Request req, Response res) {
+    public static String listWorks(Request req, Response res, SessionFactory sessionFactory) {
         Gson gson = new Gson();
         String json = null;
         try {
-            QueryHandler handler = new QueryHandler();
-            //List<Work> works = handler.getAllWorks();
+            WorkHandler handler = new WorkHandler(sessionFactory);
+            List works = handler.getWorksAvailable();
 
             json = gson.toJson(works);
 
@@ -28,5 +27,4 @@ public class PublicController {
         }
         return json;
     }
-    */
 }
