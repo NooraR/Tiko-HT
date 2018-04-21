@@ -18,7 +18,7 @@ public class Server {
             return null;
         });
 
-        get("/data/listWorks", PublicController::listWorks);
+        //get("/data/listWorks", PublicController::listWorks);
 
         get("*", (req, res) -> {
             res.status(404);

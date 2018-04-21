@@ -9,12 +9,13 @@ import spark.Response;
 import java.util.List;
 
 public class PublicController {
+    /*
     public static String listWorks(Request req, Response res) {
         Gson gson = new Gson();
         String json = null;
         try {
             QueryHandler handler = new QueryHandler();
-            List<Work> works = handler.getAllWorks();
+            //List<Work> works = handler.getAllWorks();
 
             json = gson.toJson(works);
 
@@ -27,4 +28,5 @@ public class PublicController {
         }
         return json;
     }
+    */
 }

@@ -3,14 +3,8 @@ package database;
 import datamodel.User;
 import datamodel.Work;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class QueryHandler {
+    /*
     private ConnectionHandler con;
 
     public QueryHandler() {
@@ -87,4 +81,5 @@ public class QueryHandler {
             con.closeConnection(connection, ps, rs);
         }
     }
+    */
 }
