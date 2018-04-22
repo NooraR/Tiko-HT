@@ -22,9 +22,7 @@ public class Server {
             return null;
         });
 
-        get("/data/listWorks", (req, res) -> {
-            return PublicController.listWorks(req, res, sessionFactory);
-        });
+        get("/data/listWorks", (req, res) -> PublicController.listWorks(req, res, sessionFactory));
 
         get("*", (req, res) -> {
             res.status(404);
@@ -32,9 +30,9 @@ public class Server {
             return null;
         });
 
-        post("/register", (req, res) -> {
-            return UserController.register(req, res, sessionFactory);
-        });
+        post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
+
+        post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
 
     }
 }
