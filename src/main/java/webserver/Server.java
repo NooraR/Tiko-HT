@@ -14,7 +14,7 @@ public class Server {
 
         //Routes
         get("/", (req, res) -> {
-            res.redirect("/index.js");
+            res.redirect("/index.html");
             return null;
         });
         get("*", (req, res) -> {
