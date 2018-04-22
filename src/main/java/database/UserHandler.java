@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 
 public class UserHandler {
     private SessionFactory sessionFactory;
@@ -32,6 +33,25 @@ public class UserHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new Exception("Failed to get user by id: " + e.getMessage());
+        }
+    }
+
+    public User getUserByEmail(String email) throws Exception {
+        Session session = sessionFactory.getCurrentSession();
+
+        try {
+            session.beginTransaction();
+
+            Query query = session.createQuery("from User where email=:email");
+            query.setParameter("email", email);
+
+            User user = (User) query.uniqueResult();
+            session.getTransaction().commit();
+
+            return user;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new EntityNotFoundException("Could not retrieve user: " + e.getMessage());
         }
     }
 
