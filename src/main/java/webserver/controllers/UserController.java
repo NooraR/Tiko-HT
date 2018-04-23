@@ -1,7 +1,6 @@
-package webserver;
+package webserver.controllers;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import database.UserHandler;
 import datamodel.User;
 import org.hibernate.SessionFactory;

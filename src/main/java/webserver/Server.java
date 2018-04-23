@@ -2,6 +2,8 @@ package webserver;
 
 import database.HibernateConfiguration;
 import org.hibernate.SessionFactory;
+import webserver.controllers.PublicController;
+import webserver.controllers.UserController;
 
 import static spark.Spark.*;
 

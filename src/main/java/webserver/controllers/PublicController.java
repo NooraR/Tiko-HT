@@ -1,4 +1,4 @@
-package webserver;
+package webserver.controllers;
 
 import com.google.gson.Gson;
 import database.WorkHandler;
