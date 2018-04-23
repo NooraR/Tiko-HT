@@ -50,14 +50,14 @@ public class OrderHandler {
                 }
             }
 
-            //Set a timer to free the reservation (after 30 minutes)
-            /*order.setTimer(new Timer());
+            //Set a timer to free the reservation (after 30 minutes) if not confirmed by the user
+            order.setTimer(new Timer());
             order.getTimer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     freeReservation(order);
                 }
-            }, 30 * 1000 *60);*/
+            }, 30 * 1000 *60);
 
             //Send changes
             session.getTransaction().commit();
@@ -93,5 +93,45 @@ public class OrderHandler {
                 System.err.println("Failed to free reservation: " + e.getMessage());
             }
         }
+    }
+
+    public void freeAllReservations() {
+        Session session = sessionFactory.getCurrentSession();
+
+        try {
+            session.beginTransaction();
+
+            Query query = session.createQuery("FROM Order WHERE status='WAITING'");
+            List<Order> orders = (List<Order>) query.list();
+
+            for(Order order : orders) {
+                freeReservation(order);
+            }
+
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new HibernateException("Failed to clear all reservations: " + e.getMessage());
+        }
+    }
+
+    public void confirmOrder(int id) throws HibernateException {
+        Session session = sessionFactory.getCurrentSession();
+            try {
+                session.beginTransaction();
+                Order order = session.get(Order.class, id);
+
+                if(order != null && order.getStatus().equals("WAITING")) {
+                    order.setStatus("PROCESSED");
+                    session.update(order);
+
+                    session.getTransaction().commit();
+                } else {
+                    throw new HibernateException("Order isn't in state WAITING or doesn't exist.");
+                }
+            } catch (HibernateException e) {
+                session.getTransaction().rollback();
+                throw new HibernateException("Could not confirm order: " + e.getMessage());
+            }
     }
 }
