@@ -31,7 +31,7 @@ export default class Login extends Component {
             <div className="Overlay">
                 <div className="Popup">
                     <div className="close">
-                        <a href="#">✖</a>
+                        <a href="#" className="close">✖</a>
                     </div>
                     <div className="Login">
                         <form onSubmit={this.handleSubmit}>

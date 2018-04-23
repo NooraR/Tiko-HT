@@ -7,6 +7,6 @@ import Search from './Search.js';
 import Buttons from './Buttons.js';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<Buttons />, document.getElementById('navbar'));
-ReactDOM.render(<Search />, document.getElementById('root'));
+//ReactDOM.render(<Buttons />, document.getElementById('navbar'));
+ReactDOM.render(<Login />, document.getElementById('root'));
 registerServiceWorker();
