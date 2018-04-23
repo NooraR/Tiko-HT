@@ -8,6 +8,7 @@
     <property name="connection.url">jdbc:postgresql://51.255.172.150:5432/tikoht</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
     <property name="hibernate.default_schema">central</property>
+    <property name="show_sql">true</property>
     <mapping class="datamodel.Antiquarian"/>
     <mapping class="datamodel.Product"/>
     <mapping class="datamodel.User"/>
