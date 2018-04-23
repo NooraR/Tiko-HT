@@ -6,12 +6,12 @@ import database.OrderHandler;
 import datamodel.Order;
 import datamodel.User;
 import datamodel.Work;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import spark.Request;
 import spark.Response;
 import webserver.util.Reply;
 
-import java.util.Date;
 import java.util.List;
 
 public class OrderController {
@@ -28,7 +28,7 @@ public class OrderController {
                 Order order = handler.createReservation(user, works);
 
                 res.status(200);
-                return gson.toJson(new Reply(true, "Products reserved for order", null));
+                return gson.toJson(new Reply(true, "Products reserved for order", order.getId()));
             } catch (Exception e) {
                 System.err.println("Failed to reserve order: " + e.getMessage());
 
@@ -37,6 +37,25 @@ public class OrderController {
             }
         } else {
             res.status(400);
+            return gson.toJson(new Reply(false, "Failed to get session data", null));
+        }
+    }
+
+    public static String confirmOrder(Request req, Response res, SessionFactory sessionFactory) {
+        Gson gson = new Gson();
+        OrderHandler handler = new OrderHandler(sessionFactory);
+
+        if(req.session() != null) {
+            try {
+                Order order = gson.fromJson(req.body(), Order.class);
+                handler.confirmOrder(order.getId());
+
+                res.status(200);
+                return gson.toJson(new Reply(true, "Order confirmed", order.getId()));
+            } catch (HibernateException e) {
+                return gson.toJson(new Reply(false, "Failed to confirm order", null));
+            }
+        } else {
             return gson.toJson(new Reply(false, "Failed to get session data", null));
         }
     }
