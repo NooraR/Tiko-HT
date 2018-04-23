@@ -9,7 +9,7 @@ public class Server {
 
         //Spark config
         port(80);
-        staticFiles.location("../frontend/public");
+        staticFiles.location("/frontend/public");
         staticFiles.expireTime(600L);
 
         //Routes
