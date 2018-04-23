@@ -2,6 +2,7 @@ package webserver;
 
 import database.HibernateConfiguration;
 import org.hibernate.SessionFactory;
+import webserver.controllers.OrderController;
 import webserver.controllers.PublicController;
 import webserver.controllers.UserController;
 
@@ -35,6 +36,8 @@ public class Server {
         post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
 
         post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
+
+        post("/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
 
     }
 }

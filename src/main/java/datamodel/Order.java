@@ -1,9 +1,12 @@
 package datamodel;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 
 
 @Entity
@@ -18,12 +21,11 @@ public class Order {
 
     @Basic
     @Column(name = "orderdate", nullable = false)
-    private Date orderdate;
+    private Date orderDate;
 
     @Basic
-    @Column(name = "status", nullable = false, columnDefinition = "order_status DEFAULT 'WAITING' NOT NULL")
-    @Enumerated(EnumType.STRING)
-    private order_status status;
+    @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'WAITING' NOT NULL")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "userid", referencedColumnName = "id")
@@ -33,16 +35,16 @@ public class Order {
     @JoinColumn(name = "orderid", referencedColumnName = "id")
     private List<Product> products;
 
-    private enum order_status {
-        WAITING, PROCESSED, COMPLETE
-    }
+    @Transient
+    private Timer timer;
 
     public Order(){
 
         this.id = -1;
-        this.orderdate = null;
+        this.orderDate = null;
         this.status = null;
         products = null;
+        timer = null;
     }
 
     public int getId() {
@@ -53,19 +55,19 @@ public class Order {
         this.id = id;
     }
 
-    public Date getOrderdate() {
-        return orderdate;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setOrderdate(Date orderdate) {
-        this.orderdate = orderdate;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public order_status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(order_status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -85,18 +87,26 @@ public class Order {
         this.products = products;
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
         return id == order.id &&
-                Objects.equals(orderdate, order.orderdate);
+                Objects.equals(orderDate, order.orderDate);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, orderdate);
+        return Objects.hash(id, orderDate);
     }
 }

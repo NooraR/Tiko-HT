@@ -58,11 +58,12 @@ public class UserController {
             User userFromDB = handler.getUserByEmail(credentials.email);
 
             if(userFromDB.getPassword().equals(credentials.password)) {
+                //Remove password before doing anything else
+                userFromDB.setPassword(null);
                 //Create a session
                 req.session(true);
                 req.session().attribute("user", userFromDB);
                 res.status(200);
-                userFromDB.setPassword(null);
                 return gson.toJson(new Reply(true, "Logged in successfully", userFromDB));
             } else {
                 //Wrong password

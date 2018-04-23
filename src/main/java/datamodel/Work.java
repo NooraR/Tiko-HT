@@ -45,6 +45,9 @@ public class Work {
     @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = 'FREE')")
     private int balance;
 
+    @Transient
+    private int amount;
+
 
     public Work(){
         this.id = -1;
@@ -128,6 +131,14 @@ public class Work {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override

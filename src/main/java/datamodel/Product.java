@@ -13,9 +13,8 @@ public class Product {
     private int id;
 
     @Basic
-    @Column(name = "status", nullable = false, columnDefinition = "product_status DEFAULT 'FREE' NOT NULL")
-    @Enumerated(EnumType.STRING)
-    private product_status status;
+    @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'FREE' NOT NULL")
+    private String status;
 
     @Basic
     @Column(name = "selling_price", nullable = true, precision = 0)
@@ -33,18 +32,11 @@ public class Product {
     @JoinColumn(name = "orderid", referencedColumnName = "id")
     private Order order;
 
-
-
-
-    public enum product_status {
-        FREE, RESERVED, UNAVAILABLE;
-    }
-
     public Product(){
 
         this.id = -1;
         this.work = null;
-        this.status = product_status.FREE;
+        this.status = null;
         this.sellingPrice = 0;
         this.purchasePrice = 0;
     }
@@ -57,11 +49,11 @@ public class Product {
         this.id = id;
     }
 
-    public product_status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(product_status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
