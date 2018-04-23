@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 
 public class WorkHandler {
@@ -36,4 +37,29 @@ public class WorkHandler {
             throw new Exception("Failed to fetch works: " + e.getMessage());
         }
     }
+
+    public int addWork(Work work) throws Exception {
+        Session session = sessionFactory.getCurrentSession();
+
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("from Work where id=:id");
+            query.setParameter("id", work.getId());
+
+            int workId = -1;
+            if(query.uniqueResult() == null) {
+                workId = (Integer) session.save(work);
+            } else {
+                throw new EntityExistsException("User already exists.");
+            }
+
+            session.getTransaction().commit();
+
+            return workId;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new Exception("Adding new user failed: " + e.getMessage());
+        }
+    }
+
 }
