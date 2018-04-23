@@ -11,7 +11,7 @@ import webserver.util.Reply;
 import java.util.List;
 
 public class PublicController {
-    public static String listWorks(Request req, Response res, SessionFactory sessionFactory) {
+    public static String getWorksAvailable(Request req, Response res, SessionFactory sessionFactory) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String json = null;
         try {
