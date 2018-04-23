@@ -26,7 +26,7 @@ public class Server {
             return null;
         });
 
-        get("/data/listWorks", (req, res) -> PublicController.listWorks(req, res, sessionFactory));
+        get("/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
 
         get("*", (req, res) -> {
             res.status(404);
