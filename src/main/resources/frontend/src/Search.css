@@ -1,0 +1,7 @@
+@media all and (min-width: 480px) {
+    .Search {
+        margin: 2em;
+        width: 50%;
+        max-width: 30em;
+    }
+}

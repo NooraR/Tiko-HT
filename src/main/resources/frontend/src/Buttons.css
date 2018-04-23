@@ -1,0 +1,23 @@
+@media all and (min-width: 480px) {
+
+    button {
+        width: 8em;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 1.5em 0.5em;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+
+    .NavBar {
+        height: 4em;
+        margin-right: 1em;
+    }
+
+    a {
+        color: white;
+    }
+}
