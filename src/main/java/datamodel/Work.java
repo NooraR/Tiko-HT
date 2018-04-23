@@ -1,5 +1,6 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -12,40 +13,50 @@ public class Work {
     @SequenceGenerator(name = "work_id_seq", sequenceName = "work_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "work_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
 
     @Basic
     @Column(name = "author", nullable = false, length = 50)
+    @Expose
     private String author;
 
     @Basic
     @Column(name = "name", nullable = false, length = 50)
+    @Expose
     private String name;
 
     @Basic
     @Column(name = "isbn", nullable = true, length = 20)
+    @Expose
     private String isbn;
 
     @Basic
     @Column(name = "published", nullable = true)
+    @Expose
     private int published;
 
     @Basic
     @Column(name = "genre", nullable = true, length = 50)
+    @Expose
     private String genre;
 
     @Basic
     @Column(name = "type", nullable = true, length = 50)
+    @Expose
     private String type;
 
     @Basic
     @Column(name = "weight", nullable = false, precision = 0)
+    @Expose
     private double weight;
 
     @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = 'FREE')")
+    @Expose
     private int balance;
 
     @Transient
+    @Expose
     private int amount;
 
 

@@ -1,5 +1,6 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -17,14 +18,17 @@ public class Order {
     @SequenceGenerator(name = "order_id_seq", sequenceName = "userorder_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
 
     @Basic
     @Column(name = "orderdate", nullable = false)
+    @Expose
     private Date orderDate;
 
     @Basic
     @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'WAITING' NOT NULL")
+    @Expose
     private String status;
 
     @ManyToOne

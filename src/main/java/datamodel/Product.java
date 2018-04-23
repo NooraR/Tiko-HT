@@ -1,5 +1,7 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,26 +12,32 @@ public class Product {
     @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
 
     @Basic
     @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'FREE' NOT NULL")
+    @Expose(serialize = false)
     private String status;
 
     @Basic
     @Column(name = "selling_price", nullable = true, precision = 0)
+    @Expose
     private double sellingPrice;
 
     @Basic
     @Column(name = "purchase_price", nullable = true, precision = 0)
+    @Expose(serialize = false)
     private double purchasePrice;
 
     @ManyToOne
     @JoinColumn(name = "workid", referencedColumnName = "id")
+    @Expose
     private Work work;
 
     @ManyToOne
     @JoinColumn(name = "orderid", referencedColumnName = "id")
+    @Expose(serialize = false)
     private Order order;
 
     public Product(){

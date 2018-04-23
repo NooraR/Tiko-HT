@@ -1,5 +1,7 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -11,30 +13,37 @@ public class User {
     @SequenceGenerator(name = "user_id_seq", sequenceName = "useraccount_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
 
     @Basic
     @Column(name = "first_name", nullable = false, length = 50)
+    @Expose
     private String firstName;
 
     @Basic
     @Column(name = "last_name", nullable = false, length = 50)
+    @Expose
     private String lastName;
 
     @Basic
     @Column(name = "address", nullable = true, length = 50)
+    @Expose
     private String address;
 
     @Basic
     @Column(name = "email", nullable = false, length = 50)
+    @Expose
     private String email;
 
     @Basic
     @Column(name = "password", nullable = true, length = 300)
+    @Expose(serialize = false)
     private String password;
 
     @Basic
     @Column(name = "phone_number", nullable = true, length = 20)
+    @Expose
     private String phoneNumber;
 
     public User(){
