@@ -1,6 +1,8 @@
 package webserver.controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 import database.UserHandler;
 import datamodel.User;
 import org.hibernate.SessionFactory;
@@ -13,7 +15,10 @@ import javax.persistence.EntityNotFoundException;
 
 public class UserController {
     class Credentials {
+        @Expose
         String email;
+
+        @Expose
         String password;
 
         public Credentials() {
@@ -47,7 +52,7 @@ public class UserController {
     }
 
     public static String login(Request req, Response res, SessionFactory sessionFactory) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
         res.type("application/json");
 

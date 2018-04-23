@@ -1,6 +1,7 @@
 package webserver.controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import database.WorkHandler;
 import org.hibernate.SessionFactory;
 import spark.Request;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class PublicController {
     public static String listWorks(Request req, Response res, SessionFactory sessionFactory) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String json = null;
         try {
             WorkHandler handler = new WorkHandler(sessionFactory);
