@@ -51,7 +51,7 @@ public class Work {
     @Expose
     private double weight;
 
-    @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = 'FREE')")
+    @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = '" + Product.FREE + "')")
     @Expose
     private int balance;
 

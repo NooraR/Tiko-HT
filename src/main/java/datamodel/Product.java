@@ -8,6 +8,10 @@ import java.util.Objects;
 @Entity
 public class Product {
 
+    public static final String FREE = "FREE";
+    public static final String RESERVED = "RESERVED";
+    public static final String UNAVAILABLE = "UNAVAILABLE";
+
     @Id
     @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")

@@ -14,6 +14,10 @@ import java.util.Timer;
 @Table(name = "userorder", schema = "central", catalog = "tikoht")
 public class Order {
 
+    public static final String WAITING = "WAITING";
+    public static final String CONFIRMED = "CONFIRMED";
+    public static final String COMPLETED = "COMPLETED";
+
     @Id
     @SequenceGenerator(name = "order_id_seq", sequenceName = "userorder_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")

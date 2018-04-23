@@ -28,7 +28,8 @@ public class ProductHandler {
             System.out.println("Started retrieving products by status: "+status);
             session.beginTransaction();
 
-            Query query = session.createQuery("FROM Product WHERE status = '"+status+"'");
+            Query query = session.createQuery("FROM Product WHERE status=:status");
+            query.setParameter("status", status);
             List<Product> products = (List<Product>)query.list();
 
             session.getTransaction().commit();
@@ -46,7 +47,8 @@ public class ProductHandler {
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("FROM Product WHERE order ="+id);
+            Query query = session.createQuery("FROM Product WHERE order=:id");
+            query.setParameter("id", id);
             List<Product> products = (List<Product>)query.list();
 
             session.getTransaction().commit();
@@ -63,7 +65,8 @@ public class ProductHandler {
         System.out.println("Started reserving product");
         try {
             session.beginTransaction();
-            Query query = session.createQuery("UPDATE Product SET status = 'RESERVED' WHERE id ="+id);
+            Query query = session.createQuery("UPDATE Product SET status = Product.RESERVED WHERE id=:id");
+            query.setParameter("id", id);
             query.executeUpdate();
             session.getTransaction().commit();
             System.out.println("Product is now reserved.");
@@ -80,7 +83,8 @@ public class ProductHandler {
         System.out.println("Started making product unavailable.");
         try {
             session.beginTransaction();
-            Query query = session.createQuery("UPDATE Product SET status = 'UNAVAILABLE' WHERE id ="+id);
+            Query query = session.createQuery("UPDATE Product SET status = Product.UNAVAILABLE WHERE id=:id");
+            query.setParameter("id", id);
             query.executeUpdate();
             session.getTransaction().commit();
             System.out.println("Product is now unavailable.");
@@ -112,7 +116,7 @@ public class ProductHandler {
             return productId;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            throw new Exception("Adding new user failed: " + e.getMessage());
+            throw new Exception("Adding new product failed: " + e.getMessage());
         }
     }
 

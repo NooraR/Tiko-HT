@@ -42,7 +42,7 @@ public class UserHandler {
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("from User where email=:email");
+            Query query = session.createQuery("FROM User WHERE email=:email");
             query.setParameter("email", email);
 
             User user = (User) query.uniqueResult();
@@ -60,7 +60,7 @@ public class UserHandler {
 
         try {
             session.beginTransaction();
-            Query query = session.createQuery("from User where email=:email");
+            Query query = session.createQuery("FROM User WHERE email=:email");
             query.setParameter("email", user.getEmail());
 
             int userId = -1;

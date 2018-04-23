@@ -48,7 +48,7 @@ public class OrderHandler {
             Order order = new Order();
             order.setOrderer(user);
             order.setOrderDate(new Date());
-            order.setStatus("WAITING");
+            order.setStatus(Order.WAITING);
             order.setProducts(new ArrayList<Product>());
             //Set order to save after changes
             session.persist(order);
@@ -56,13 +56,13 @@ public class OrderHandler {
             for(Work work : works) {
                 for(int i = 0; i < work.getAmount(); i++) {
                     //Get an available product
-                    Query query = session.createQuery("from Product WHERE work=:work AND status='FREE'");
+                    Query query = session.createQuery("from Product WHERE work=:work AND status = :status");
                     query.setParameter("work", work);
-                    //query.setParameter("status", Product.product_status.FREE.name());
+                    query.setParameter("status", Product.FREE);
 
                     Product product = (Product) query.setMaxResults(1).uniqueResult();
                     product.setOrder(order);
-                    product.setStatus("RESERVED");
+                    product.setStatus(Product.RESERVED);
                     //Update that product is reserved for order
                     session.update(product);
 
@@ -91,7 +91,7 @@ public class OrderHandler {
 
     public void freeReservation(Order order) {
         //If order hasn't been confirmed
-        if(!order.getStatus().equals("PROCESSED")) {
+        if(order.getStatus().equals(Order.WAITING)) {
             Session session = sessionFactory.getCurrentSession();
 
             try {
@@ -99,7 +99,7 @@ public class OrderHandler {
 
                 //Free products
                 for(Product product : order.getProducts()) {
-                    product.setStatus("FREE");
+                    product.setStatus(Product.FREE);
                     product.setOrder(null);
 
                     session.update(product);
@@ -121,7 +121,8 @@ public class OrderHandler {
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("FROM Order WHERE status='WAITING'");
+            Query query = session.createQuery("FROM Order WHERE status = :status");
+            query.setParameter("status", Order.WAITING);
             List<Order> orders = (List<Order>) query.list();
 
             for(Order order : orders) {
@@ -141,8 +142,8 @@ public class OrderHandler {
                 session.beginTransaction();
                 Order order = session.get(Order.class, id);
 
-                if(order != null && order.getStatus().equals("WAITING")) {
-                    order.setStatus("PROCESSED");
+                if(order != null && order.getStatus().equals(Order.WAITING)) {
+                    order.setStatus(Order.CONFIRMED);
                     session.update(order);
 
                     session.getTransaction().commit();
