@@ -1,0 +1,13 @@
+ body {
+    font-size: 10px;
+ }
+
+ div {
+     min-height: 100px;
+     min-width: 100px;
+     background-color: blue;
+ }
+
+ a {
+        color: black;
+ }

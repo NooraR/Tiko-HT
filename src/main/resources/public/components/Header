@@ -1,0 +1,16 @@
+import React from "react";
+
+
+const NavItem =
+
+const Header = ({ title }) => (
+    <Container>
+       <h1>{title}</h1>
+
+        <nav>
+            <NavItem to="/shoppinsBasket">Ostoskori</NavItem>
+        </nav>
+    </Container>
+);
+
+export default Header;
