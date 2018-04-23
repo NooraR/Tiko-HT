@@ -16,6 +16,10 @@ public class ProductHandler {
         sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
     }
 
+    public ProductHandler(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public List<Product> getProductsByStatus(String status) throws Exception {
         Session session = sessionFactory.getCurrentSession();
 
