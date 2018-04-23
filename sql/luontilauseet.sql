@@ -17,14 +17,10 @@ CREATE TABLE antiquarian (
     PRIMARY KEY (id)
 );
 
-CREATE TYPE order_status AS ENUM (
-    'WAITING', 'PROCESSED', 'COMPLETE'
-);
-
 CREATE TABLE userorder (
     id          SERIAL,
     orderdate   DATE NOT NULL,
-    status      order_status DEFAULT 'WAITING',
+    status      VARCHAR(15) DEFAULT 'WAITING' NOT NULL,
     userid      INT  NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (userid) REFERENCES useraccount (id)
@@ -42,13 +38,11 @@ CREATE TABLE work (
     PRIMARY KEY (id)
 );
 
-create type product_status as enum ('FREE', 'RESERVED', 'UNAVAILABLE');
-
 CREATE TABLE product (
     id             SERIAL,
     workid         INT NOT NULL,
     orderid        INT,
-    status         product_status DEFAULT 'FREE',
+    status         VARCHAR(15) DEFAULT 'FREE' NOT NULL,
     selling_price  DECIMAL,
     purchase_price DECIMAL,
     PRIMARY KEY (id),
