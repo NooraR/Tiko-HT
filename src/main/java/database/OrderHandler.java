@@ -14,8 +14,28 @@ import java.util.*;
 public class OrderHandler {
     private SessionFactory sessionFactory;
 
+    public OrderHandler() {
+        sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
+    }
+
     public OrderHandler(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    public Order getOrderById(int id) throws Exception {
+        Session session = sessionFactory.getCurrentSession();
+
+        try {
+            session.beginTransaction();
+            Order order = session.get(Order.class, id);
+
+            session.getTransaction().commit();
+
+            return order;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new Exception("Failed to get order by id: " + e.getMessage());
+        }
     }
 
     public Order createReservation(User user, List<Work> works) throws HibernateException {

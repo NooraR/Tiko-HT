@@ -50,7 +50,7 @@ public class WorkHandler {
             if(query.uniqueResult() == null) {
                 workId = (Integer) session.save(work);
             } else {
-                throw new EntityExistsException("User already exists.");
+                throw new EntityExistsException("Work already exists in DB.");
             }
 
             session.getTransaction().commit();
