@@ -1,6 +1,7 @@
 package webserver;
 
 import database.HibernateConfiguration;
+import database.OrderHandler;
 import org.hibernate.SessionFactory;
 import webserver.controllers.OrderController;
 import webserver.controllers.PublicController;
@@ -38,6 +39,19 @@ public class Server {
         post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
 
         post("/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
+
+        post("/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
+
+        //Free up reserved products in DB on shutdown
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Clearing reservations");
+            try {
+                OrderHandler handler = new OrderHandler(sessionFactory);
+                handler.freeAllReservations();
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }));
 
     }
 }
