@@ -12,6 +12,15 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 public class UserController {
+    class Credentials {
+        String email;
+        String password;
+
+        public Credentials() {
+            email = null;
+            password = null;
+        }
+    }
     public static String register(Request req, Response res, SessionFactory sessionFactory) {
         Gson gson = new Gson();
         String json = null;
@@ -68,15 +77,5 @@ public class UserController {
             res.status(400);
             return gson.toJson(new Reply(false, "Something went wrong while attempting login. Please try again.", null));
         }
-    }
-}
-
-class Credentials {
-    String email;
-    String password;
-
-    public Credentials() {
-        email = null;
-        password = null;
     }
 }
