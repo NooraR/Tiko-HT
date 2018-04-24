@@ -43,6 +43,11 @@ public class Product {
     @JoinColumn(name = "orderid", referencedColumnName = "id")
     private Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "antiquary_id", referencedColumnName = "id")
+    @Expose
+    private Antiquarian antiquary;
+
     public Product(){
 
         this.id = -1;
@@ -98,6 +103,14 @@ public class Product {
 
     public void setWork(Work work) {
         this.work = work;
+    }
+
+    public Antiquarian getAntiquary() {
+        return antiquary;
+    }
+
+    public void setAntiquary(Antiquarian antiquary) {
+        this.antiquary = antiquary;
     }
 
     @Override
