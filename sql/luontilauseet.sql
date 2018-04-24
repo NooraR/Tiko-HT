@@ -14,6 +14,7 @@ CREATE TABLE antiquarian (
     name    VARCHAR(50) NOT NULL,
     address VARCHAR(50),
     web     VARCHAR(50),
+    db_schema VARCHAR(40),
     PRIMARY KEY (id)
 );
 
@@ -45,7 +46,9 @@ CREATE TABLE product (
     status         VARCHAR(15) DEFAULT 'FREE' NOT NULL,
     selling_price  DECIMAL,
     purchase_price DECIMAL,
+    antiquary_id   INT,
     PRIMARY KEY (id),
     FOREIGN KEY (workid) REFERENCES work (id),
-    FOREIGN KEY (orderid) REFERENCES userorder (id)
+    FOREIGN KEY (orderid) REFERENCES userorder (id),
+    FOREIGN KEY (antiquary_id) REFERENCES antiquarian (id)
 );
