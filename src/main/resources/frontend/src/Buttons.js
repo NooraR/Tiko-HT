@@ -8,16 +8,14 @@ export default class Buttons extends Component {
         return (
             <div className="NavBar">
                 <h1>Antikvariaatti</h1>
-                <Button
-                >
-                    <a href="#">Ostoskori</a>
+                <Button>
+                    <a href="ShoppingCart.js">Ostoskori</a>
                 </Button>
                 <Button
                 >
-                    <a href="#">Kirjaudu</a>
+                    <a href="Login.js">Kirjaudu</a>
                 </Button>
             </div>
         );
     }
-
 }

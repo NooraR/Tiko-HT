@@ -8,7 +8,7 @@ export default class Search extends Component {
         super(props);
 
         this.state = {
-            search: ""
+            results: []
         };
     }
 
@@ -46,8 +46,10 @@ export default class Search extends Component {
                     </form>
                 </div>
                 <div className="ResultContainer">
-                    <Product />
-                    <Product />
+                    { this.state.results.forEach(result => {
+                        return (<Product name={result.name} auchtor={result.auchtor} />)
+                    })
+                    }
                 </div>
             </div>
         );

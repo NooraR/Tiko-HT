@@ -58,6 +58,14 @@ export default class Login extends Component {
                                 disabled={!this.validateForm()}
                                 type="submit"
                             >
+                                <a href="Registration.js">Rekisteröidy</a>
+                            </Button>
+                            <Button
+                                block
+                                bsSize="large"
+                                disabled={!this.validateForm()}
+                                type="submit"
+                            >
                                 Kirjaudu
                             </Button>
                         </form>
