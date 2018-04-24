@@ -25,8 +25,10 @@ public class ManagementController {
             res.status(200);
             return gson.toJson(new Reply(true, "Added a new product", productId));
         } catch (EntityExistsException e) {
+            res.status(400);
             return gson.toJson(new Reply(false, "Product already exists", null));
         } catch (Exception e) {
+            res.status(400);
             System.err.println("Failed to add a new product" + e.getMessage());
             return gson.toJson(new Reply(false, "Failed to add the product", null));
         }

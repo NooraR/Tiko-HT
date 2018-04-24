@@ -59,12 +59,15 @@ public class OrderController {
                 res.status(200);
                 return gson.toJson(new Reply(true, "Order confirmed", order));
             } catch (EntityNotFoundException e) {
+                res.status(400);
                 return gson.toJson(new Reply(false, "Couldn't find order", null));
             } catch (Exception e) {
                 System.err.println("Failed to confirm an order: " + e.getMessage());
+                res.status(400);
                 return gson.toJson(new Reply(false, "Failed to confirm order", null));
             }
         } else {
+            res.status(400);
             return gson.toJson(new Reply(false, "Failed to get session data", null));
         }
     }
@@ -84,12 +87,15 @@ public class OrderController {
                 res.status(200);
                 return gson.toJson(new Reply(true, "Order cancelled", order));
             } catch (EntityNotFoundException e) {
+                res.status(400);
                 return gson.toJson(new Reply(false, "Couldn't find order", null));
             } catch (Exception e) {
+                res.status(400);
                 System.err.println("Failed to cancel an order: " + e.getMessage());
                 return gson.toJson(new Reply(false, "Failed to cancel order", null));
             }
         } else {
+            res.status(400);
             return gson.toJson(new Reply(false, "Failed to get session data", null));
         }
     }
