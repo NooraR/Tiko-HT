@@ -40,7 +40,9 @@ public class Server {
 
         post("/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
 
-        post("/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
+        get("/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
+
+        get("/order/cancel", (req, res) -> OrderController.cancelOrder(req, res, sessionFactory));
 
         //Free up reserved products in DB on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

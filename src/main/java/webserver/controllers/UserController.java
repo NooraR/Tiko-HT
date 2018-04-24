@@ -27,7 +27,7 @@ public class UserController {
         }
     }
     public static String register(Request req, Response res, SessionFactory sessionFactory) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         String json = null;
 
         res.type("application/json");
