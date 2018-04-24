@@ -71,6 +71,9 @@ public class OrderHandler {
                 }
             }
 
+            //Calculate postage
+            order.setPostage(calculatePostage(order.getProducts()));
+
             //Set a timer to free the reservation (after 30 minutes) if not confirmed by the user
             order.setTimer(new Timer());
             order.getTimer().schedule(new TimerTask() {
@@ -92,6 +95,37 @@ public class OrderHandler {
             session.getTransaction().rollback();
             throw new HibernateException("Failed to create reservation: " + e.getMessage());
         }
+    }
+
+    private double calculatePostage(List<Product> products) {
+        double totalWeight = 0;
+        for(Product product : products) {
+            totalWeight += product.getWork().getWeight();
+        }
+        //Set up fees, first column is weight, second is fee
+        double postageFees[][] = {
+                {0.05, 1.40},
+                {0.1, 2.10},
+                {0.25, 2.80},
+                {0.5, 5.60},
+                {1.0, 8.40},
+                {2.0, 14.00}
+        };
+
+        double totalFee = 0;
+
+        while(totalWeight > 0) {
+            //Get appropriate fee
+            int i = 0;
+            while(i + 1 < postageFees.length && postageFees[i][0] <= totalWeight) {
+                i++;
+            }
+            //Change weight and total fee accordingly
+            totalFee += postageFees[i][1];
+            totalWeight -= postageFees[i][0];
+        }
+
+        return totalFee;
     }
 
     public void freeReservation(int id) throws HibernateException {

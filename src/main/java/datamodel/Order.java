@@ -47,6 +47,10 @@ public class Order {
     @Transient
     private Timer timer;
 
+    @Transient
+    @Expose
+    private double postage;
+
     public Order(){
 
         this.id = -1;
@@ -102,6 +106,14 @@ public class Order {
 
     public void setTimer(Timer timer) {
         this.timer = timer;
+    }
+
+    public double getPostage() {
+        return postage;
+    }
+
+    public void setPostage(double postage) {
+        this.postage = postage;
     }
 
     @Override
