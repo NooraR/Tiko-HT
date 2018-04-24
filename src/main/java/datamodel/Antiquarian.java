@@ -1,28 +1,39 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "antiquarian", schema = "central", catalog = "tikoht")
 public class Antiquarian {
 
     @Id
     @SequenceGenerator(name = "antiquarian_id_seq", sequenceName = "antiquarian_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "antiquarian_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
 
     @Basic
     @Column(name = "name", nullable = false, length = 50)
+    @Expose
     private String name;
 
     @Basic
     @Column(name = "address", nullable = true, length = 50)
+    @Expose
     private String address;
 
     @Basic
     @Column(name = "web", nullable = true, length = 50)
+    @Expose
     private String web;
+
+    @Basic
+    @Column(name = "db_schema", nullable = true, length = 40)
+    private String dbIdentifier;
 
     public Antiquarian() {
     }
@@ -57,6 +68,14 @@ public class Antiquarian {
 
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    public String getDbIdentifier() {
+        return dbIdentifier;
+    }
+
+    public void setDbIdentifier(String dbIdentifier) {
+        this.dbIdentifier = dbIdentifier;
     }
 
     @Override
