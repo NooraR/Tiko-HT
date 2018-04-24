@@ -1,5 +1,6 @@
 package database;
 
+import datamodel.Antiquarian;
 import datamodel.Work;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -21,7 +22,7 @@ public class WorkHandler {
     }
 
     public List<Work> getWorksAvailable() throws Exception {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -35,31 +36,29 @@ public class WorkHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new Exception("Failed to fetch works: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
-    public int addWork(Work work) throws HibernateException {
-        Session session = sessionFactory.getCurrentSession();
-
+    public int addWork(Work work, Session session) throws HibernateException {
         try {
-            session.beginTransaction();
-            Query query = session.createQuery("from Work where id=:id");
+            //Try to find with different attributes in case it's a new work
+            Query query = session.createQuery("FROM Work WHERE id=:id OR isbn=:isbn OR (author=:author AND name=:name)");
             query.setParameter("id", work.getId());
+            query.setParameter("isbn", work.getIsbn());
+            query.setParameter("author", work.getAuthor());
+            query.setParameter("name", work.getName());
 
-            int workId = -1;
+            int id;
             if(query.uniqueResult() == null) {
-                workId = (Integer) session.save(work);
+                id = (Integer) session.save(work);
             } else {
                 throw new EntityExistsException("Work already exists in DB.");
             }
-
-            session.getTransaction().commit();
-
-            return workId;
+            return id;
         } catch (HibernateException e) {
-            session.getTransaction().rollback();
             throw new HibernateException("Adding new work failed: " + e.getMessage());
         }
     }
-
 }
