@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 
 public class OrderHandler {
@@ -75,7 +76,11 @@ public class OrderHandler {
             order.getTimer().schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    freeReservation(order);
+                    try {
+                        freeReservation(order.getId());
+                    } catch (Exception e) {
+                        //Order was most likely either confirmed or freed already
+                    }
                 }
             }, 30 * 1000 *60);
 
@@ -89,16 +94,16 @@ public class OrderHandler {
         }
     }
 
-    public void freeReservation(Order order) {
-        //If order hasn't been confirmed
-        if(order.getStatus().equals(Order.WAITING)) {
-            Session session = sessionFactory.getCurrentSession();
+    public void freeReservation(int id) throws HibernateException {
+        Session session = sessionFactory.getCurrentSession();
 
-            try {
-                session.beginTransaction();
+        try {
+            session.beginTransaction();
+            Order order = session.get(Order.class, id);
 
+            if(order != null && order.getStatus().equals(Order.WAITING)) {
                 //Free products
-                for(Product product : order.getProducts()) {
+                for (Product product : order.getProducts()) {
                     product.setStatus(Product.FREE);
                     product.setOrder(null);
 
@@ -108,10 +113,12 @@ public class OrderHandler {
                 //Remove order
                 session.delete(order);
                 session.getTransaction().commit();
-            } catch (HibernateException e) {
-                session.getTransaction().rollback();
-                System.err.println("Failed to free reservation: " + e.getMessage());
+            } else {
+                throw new EntityNotFoundException("Order doesn't exist or isn't in waiting state.");
             }
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new HibernateException("Failed to free order: " + e.getMessage());
         }
     }
 
@@ -126,7 +133,7 @@ public class OrderHandler {
             List<Order> orders = (List<Order>) query.list();
 
             for(Order order : orders) {
-                freeReservation(order);
+                freeReservation(order.getId());
             }
 
             session.getTransaction().commit();
@@ -136,7 +143,7 @@ public class OrderHandler {
         }
     }
 
-    public void confirmOrder(int id) throws HibernateException {
+    public Order confirmOrder(int id) throws HibernateException {
         Session session = sessionFactory.getCurrentSession();
             try {
                 session.beginTransaction();
@@ -147,8 +154,10 @@ public class OrderHandler {
                     session.update(order);
 
                     session.getTransaction().commit();
+
+                    return order;
                 } else {
-                    throw new HibernateException("Order isn't in state WAITING or doesn't exist.");
+                    throw new EntityNotFoundException("Order isn't in state WAITING or doesn't exist.");
                 }
             } catch (HibernateException e) {
                 session.getTransaction().rollback();
