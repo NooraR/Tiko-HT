@@ -38,7 +38,7 @@ public class WorkHandler {
         }
     }
 
-    public int addWork(Work work) throws Exception {
+    public int addWork(Work work) throws HibernateException {
         Session session = sessionFactory.getCurrentSession();
 
         try {
@@ -58,7 +58,7 @@ public class WorkHandler {
             return workId;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            throw new Exception("Adding new user failed: " + e.getMessage());
+            throw new HibernateException("Adding new work failed: " + e.getMessage());
         }
     }
 
