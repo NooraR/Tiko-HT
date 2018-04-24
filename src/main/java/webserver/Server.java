@@ -3,6 +3,7 @@ package webserver;
 import database.HibernateConfiguration;
 import database.OrderHandler;
 import org.hibernate.SessionFactory;
+import webserver.controllers.ManagementController;
 import webserver.controllers.OrderController;
 import webserver.controllers.PublicController;
 import webserver.controllers.UserController;
@@ -26,20 +27,27 @@ public class Server {
             return null;
         });
 
+        //Public data
         get("/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
 
+        //User handling
         post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
 
         post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
 
+        //Order handling
         post("/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
 
         get("/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
 
         get("/order/cancel", (req, res) -> OrderController.cancelOrder(req, res, sessionFactory));
 
+        //"Management" handling
+        post("/management/product/add", (req, res) -> ManagementController.addProduct(req, res, sessionFactory));
 
-        //Set 404
+
+
+        //Set 404 routes
         get("*", (req, res) -> {
             res.status(404);
             res.redirect("/notfound.html");

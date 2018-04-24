@@ -101,6 +101,16 @@ public class ProductHandler {
 
         try {
             session.beginTransaction();
+
+            //Try to add the work to the db
+            try {
+                WorkHandler workHandler = new WorkHandler();
+                workHandler.addWork(product.getWork());
+            } catch (EntityExistsException e) {
+                //Work already exists
+            }
+
+            //Add product to the db
             Query query = session.createQuery("from Product where id=:id");
             query.setParameter("id", product.getId());
 
