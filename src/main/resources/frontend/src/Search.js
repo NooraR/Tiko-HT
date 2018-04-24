@@ -47,7 +47,7 @@ export default class Search extends Component {
                 </div>
                 <div className="ResultContainer">
                     { this.state.results.forEach(result => {
-                        return (<Product name={result.name} auchtor={result.auchtor} />)
+                        return (<Product name={result.name} auchtor={result.auchtor} isbn={result.isbn}  />)
                     })
                     }
                 </div>
