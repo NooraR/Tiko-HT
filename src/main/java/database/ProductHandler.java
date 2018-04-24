@@ -104,7 +104,7 @@ public class ProductHandler {
 
             //Try to add the work to the db
             try {
-                WorkHandler workHandler = new WorkHandler();
+                WorkHandler workHandler = new WorkHandler(sessionFactory);
                 workHandler.addWork(product.getWork());
             } catch (EntityExistsException e) {
                 //Work already exists
