@@ -3,13 +3,11 @@ import { Button } from "react-bootstrap";
 import './Buttons.css';
 
 export default class Buttons extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
             <div className="NavBar">
+                <h1>Antikvariaatti</h1>
                 <Button
                 >
                     <a href="#">Ostoskori</a>

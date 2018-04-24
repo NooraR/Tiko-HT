@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl } from "react-bootstrap";
+import Product from './Product.js';
 import "./Search.css";
 
 export default class Search extends Component {
@@ -23,18 +24,31 @@ export default class Search extends Component {
 
     render() {
         return (
-            <div className="Search">
-                <form onSubmit={this.handleSubmit}>
-                    <FormGroup bsSize="large">
-                        <FormControl
-                            autoFocus
-                            placeholder="Search.."
-                            type="text"
-                            value={this.state.search}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                </form>
+            <div className="SearchContainer">
+                <div className="Search">
+                    <form onSubmit={this.handleSubmit}>
+                        <FormGroup className="FormGroup" bsSize="large">
+                            <FormControl
+                                autoFocus
+                                placeholder="Search.."
+                                type="text"
+                                value={this.state.search}
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <Button
+                            block
+                            bsSize="large"
+                            type="submit"
+                        >
+                            Hae
+                        </Button>
+                    </form>
+                </div>
+                <div className="ResultContainer">
+                    <Product />
+                    <Product />
+                </div>
             </div>
         );
     }
