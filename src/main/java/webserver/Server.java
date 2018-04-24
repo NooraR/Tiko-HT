@@ -30,6 +30,8 @@ public class Server {
         //Public data
         get("/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
 
+        get("/data/products", (req, res) -> PublicController.getProductsAvailable(req, res, sessionFactory));
+
         //User handling
         post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
 

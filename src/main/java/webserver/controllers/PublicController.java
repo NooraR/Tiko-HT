@@ -2,7 +2,10 @@ package webserver.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import database.ProductHandler;
 import database.WorkHandler;
+import datamodel.Product;
+import datamodel.Work;
 import org.hibernate.SessionFactory;
 import spark.Request;
 import spark.Response;
@@ -16,7 +19,7 @@ public class PublicController {
         String json = null;
         try {
             WorkHandler handler = new WorkHandler(sessionFactory);
-            List works = handler.getWorksAvailable();
+            List<Work> works = handler.getWorksAvailable();
 
             json = gson.toJson(new Reply(true, "Successfully fetched works", works));
 
@@ -26,5 +29,21 @@ public class PublicController {
             json = gson.toJson(new Reply(false, "Failed to fetch works", null));
         }
         return json;
+    }
+
+    public static String getProductsAvailable(Request req, Response res, SessionFactory sessionFactory) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        ProductHandler handler = new ProductHandler(sessionFactory);
+
+        res.type("application/json");
+        try {
+            List<Product> products = handler.getProductsByStatus("FREE");
+
+            res.status(200);
+            return gson.toJson(new Reply(true, "Retrieved products", products));
+        } catch (Exception e) {
+            res.status(400);
+            return gson.toJson(new Reply(false, "Failed to retrieve products", null));
+        }
     }
 }
