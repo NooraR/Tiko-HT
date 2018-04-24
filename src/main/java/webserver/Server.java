@@ -28,12 +28,6 @@ public class Server {
 
         get("/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
 
-        get("*", (req, res) -> {
-            res.status(404);
-            res.redirect("/notfound.html");
-            return null;
-        });
-
         post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
 
         post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
@@ -43,6 +37,14 @@ public class Server {
         get("/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
 
         get("/order/cancel", (req, res) -> OrderController.cancelOrder(req, res, sessionFactory));
+
+
+        //Set 404
+        get("*", (req, res) -> {
+            res.status(404);
+            res.redirect("/notfound.html");
+            return null;
+        });
 
         //Free up reserved products in DB on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
