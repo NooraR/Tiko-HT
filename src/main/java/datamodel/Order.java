@@ -41,6 +41,7 @@ public class Order {
 
     @OneToMany
     @JoinColumn(name = "orderid", referencedColumnName = "id")
+    @Expose
     private List<Product> products;
 
     @Transient

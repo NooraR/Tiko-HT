@@ -41,7 +41,6 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "orderid", referencedColumnName = "id")
-    @Expose(serialize = false)
     private Order order;
 
     public Product(){
