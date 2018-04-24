@@ -7,13 +7,13 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-            username: "",
+            email: "",
             password: ""
         };
     }
 
     validateForm() {
-        return this.state.username.length > 0 && this.state.password.length > 0;
+        return this.state.email.length > 0 && this.state.password.length > 0;
     }
 
     handleChange = event => {
@@ -35,12 +35,12 @@ export default class Login extends Component {
                     </div>
                     <div className="Login">
                         <form onSubmit={this.handleSubmit}>
-                            <FormGroup controlId="username" bsSize="large">
-                                <ControlLabel>Käyttäjätunnus</ControlLabel>
+                            <FormGroup controlId="email" bsSize="large">
+                                <ControlLabel>Sähköpostiosoite</ControlLabel>
                                 <FormControl
                                     autoFocus
-                                    type="text"
-                                    value={this.state.username}
+                                    type="email"
+                                    value={this.state.email}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
