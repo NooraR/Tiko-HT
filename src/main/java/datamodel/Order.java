@@ -11,7 +11,7 @@ import java.util.Timer;
 
 
 @Entity
-@Table(name = "userorder", schema = "central", catalog = "tikoht")
+@Table(name = "userorder", catalog = "tikoht")
 public class Order {
 
     public static final String WAITING = "WAITING";

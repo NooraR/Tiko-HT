@@ -24,7 +24,7 @@ public class OrderHandler {
     }
 
     public Order getOrderById(int id) throws Exception {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -36,11 +36,13 @@ public class OrderHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new Exception("Failed to get order by id: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
     public Order createReservation(User user, List<Work> works) throws HibernateException {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
         try {
             session.beginTransaction();
 
@@ -94,6 +96,8 @@ public class OrderHandler {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw new HibernateException("Failed to create reservation: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
@@ -129,7 +133,7 @@ public class OrderHandler {
     }
 
     public void freeReservation(int id) throws HibernateException {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -153,11 +157,13 @@ public class OrderHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new HibernateException("Failed to free order: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
     public void freeAllReservations() {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -174,11 +180,13 @@ public class OrderHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new HibernateException("Failed to clear all reservations: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
     public Order confirmOrder(int id) throws HibernateException {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
             try {
                 session.beginTransaction();
                 Order order = session.get(Order.class, id);
@@ -196,6 +204,8 @@ public class OrderHandler {
             } catch (HibernateException e) {
                 session.getTransaction().rollback();
                 throw new HibernateException("Could not confirm order: " + e.getMessage());
+            } finally {
+                session.close();
             }
     }
 }

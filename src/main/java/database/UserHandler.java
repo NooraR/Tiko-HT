@@ -21,7 +21,7 @@ public class UserHandler {
     }
 
     public User getUserById(int id) throws Exception {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -33,11 +33,13 @@ public class UserHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new Exception("Failed to get user by id: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
     public User getUserByEmail(String email) throws Exception {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -52,11 +54,13 @@ public class UserHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new EntityNotFoundException("Could not retrieve user: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 
     public int addUser(User user) throws Exception {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
         try {
             session.beginTransaction();
@@ -76,6 +80,8 @@ public class UserHandler {
         } catch (HibernateException e) {
             session.getTransaction().rollback();
             throw new Exception("Adding new user failed: " + e.getMessage());
+        } finally {
+            session.close();
         }
     }
 }
