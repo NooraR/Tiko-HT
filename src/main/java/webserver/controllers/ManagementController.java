@@ -55,7 +55,7 @@ public class ManagementController {
                     halt();
                 }
 
-                System.out.println("Permission checked succesfully, result = "+user.isAdmin());
+                System.out.println("Permission checked successfully, result = "+user.isAdmin());
                 return "";
             }
             else {
