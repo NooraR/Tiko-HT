@@ -7,8 +7,8 @@ SET search_path TO x;
 CREATE OR REPLACE FUNCTION update_work() RETURNS TRIGGER AS
 $BODY$
 BEGIN
-  INSERT INTO central.work(author, name, isbn, published, genre, type, weight)
-    SELECT new.author, new.name, new.isbn, new.published, new.genre, new.type, new.weight
+  INSERT INTO central.work(id, author, name, isbn, published, genre, type, weight)
+    SELECT new.id, new.author, new.name, new.isbn, new.published, new.genre, new.type, new.weight
     WHERE NOT EXISTS
     (SELECT * FROM central.work AS central
         WHERE central.author = new.author
