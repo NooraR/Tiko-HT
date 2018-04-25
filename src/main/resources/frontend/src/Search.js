@@ -4,12 +4,21 @@ import Product from './Product.js';
 import "./Search.css";
 
 export default class Search extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
-            results: []
+            works: [],
         };
+    }
+
+    componentDidMount() {
+        fetch('http://localhost/data/works')
+            .then(results => {
+                return results.json()
+            }).then(data => {
+            let works = data.results
+        })
     }
 
     handleChange = event => {
@@ -46,7 +55,7 @@ export default class Search extends Component {
                     </form>
                 </div>
                 <div className="ResultContainer">
-                    { this.state.results.forEach(result => {
+                    { this.state.works.forEach(result => {
                         return (<Product name={result.name} auchtor={result.auchtor} isbn={result.isbn} published={result.published} genre={result.genre} weight={result.weight} />)
                     })
                     }
@@ -54,6 +63,4 @@ export default class Search extends Component {
             </div>
         );
     }
-
-
 }
