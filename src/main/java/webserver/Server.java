@@ -45,7 +45,12 @@ public class Server {
         get("/order/cancel", (req, res) -> OrderController.cancelOrder(req, res, sessionFactory));
 
         //"Management" handling
+        before("/management/*", (req, res) -> ManagementController.checkUserPermissions(req, res));
         post("/management/product/add", (req, res) -> ManagementController.addProduct(req, res, sessionFactory));
+
+        get("/management/reports/works", (req, res) -> new ManagementController().getWorkReport(req, res, sessionFactory));
+
+        get("/management/reports/users", (req, res) -> new ManagementController().getUserSalesReport(req, res, sessionFactory));
 
 
 

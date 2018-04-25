@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "useraccount", catalog = "tikoht")
+@Table(name = "useraccount")
 public class User {
 
     @Id
@@ -45,6 +45,10 @@ public class User {
     @Column(name = "phone_number", nullable = true, length = 20)
     @Expose
     private String phoneNumber;
+
+    @Basic
+    @Column(name = "isadmin", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL" )
+    private boolean isAdmin;
 
     public User(){
         this.id = -1;
@@ -129,5 +133,13 @@ public class User {
     public int hashCode() {
 
         return Objects.hash(id, firstName, lastName, address, email, password, phoneNumber);
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
