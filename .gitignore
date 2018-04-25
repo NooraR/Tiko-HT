@@ -42,3 +42,4 @@ tasks.xml
 out/
 build/
 settings
+/node_modules/

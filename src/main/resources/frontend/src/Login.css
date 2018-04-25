@@ -28,14 +28,14 @@
 }
 
 button[type=submit] {
-    width: 50%;
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: 10em;
+    margin: 1em;
 }
 
 input[type=submit]:hover {
@@ -67,11 +67,7 @@ input[type=submit]:hover {
     font-size: 1.3em;
 }
 
-a.close {
+.link {
     text-decoration: none;
-    color: black;
-}
-
-a {
-    text-decoration: none;
+    color: white;
 }

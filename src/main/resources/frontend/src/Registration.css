@@ -1,12 +1,3 @@
-.Registration {
-    padding: 60px 0;
-}
-
-.Registration form {
-    margin: 0 auto;
-    max-width: 320px;
-}
-
 [type=text], select {
     width: 100%;
     padding: 12px 20px;
@@ -52,32 +43,15 @@ input[type=submit]:hover {
     background-color: #45a049;
 }
 
-.Overlay {
-    position: fixed;
-    background: rgba(0,0, 0, 0.4);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.Popup {
-    position: absolute;
+.Registration {
     top: 50%;
     left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
     transform: translate(-50%, -50%);
-    background: white;
-    padding: 2rem;
-    border-radius: 4px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .close {
     float: right;
-    font-size: 1.3em;
-}
-
-a.close {
-    text-decoration: none;
-    color: black;
 }

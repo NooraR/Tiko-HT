@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import Modal from 'react-modal';
+import { HashRouter, Route } from 'react-router-dom';
+import Registration from './Registration';
+import { Link } from 'react-router-dom';
 import "./Login.css";
 
 export default class Login extends Component {
@@ -7,9 +11,21 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
+            modalIsOpen: true,
             email: "",
             password: ""
         };
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
     }
 
     validateForm() {
@@ -28,50 +44,56 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="Overlay">
-                <div className="Popup">
-                    <div className="close">
-                        <a href="#" className="close">✖</a>
-                    </div>
-                    <div className="Login">
-                        <form onSubmit={this.handleSubmit}>
-                            <FormGroup controlId="email" bsSize="large">
-                                <ControlLabel>Sähköpostiosoite</ControlLabel>
-                                <FormControl
-                                    autoFocus
-                                    type="email"
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                />
-                            </FormGroup>
-                            <FormGroup controlId="password" bsSize="large">
-                                <ControlLabel>Salasana</ControlLabel>
-                                <FormControl
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                    type="password"
-                                />
-                            </FormGroup>
-                            <Button
-                                block
-                                bsSize="large"
-                                disabled={!this.validateForm()}
-                                type="submit"
-                            >
-                                <a href="Registration.js">Rekisteröidy</a>
-                            </Button>
-                            <Button
-                                block
-                                bsSize="large"
-                                disabled={!this.validateForm()}
-                                type="submit"
-                            >
-                                Kirjaudu
-                            </Button>
-                        </form>
-                    </div>
+            <HashRouter>
+            <div className="login">
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    contentLabel="Example Modal"
+                >
+                    <button className="close" onClick={this.closeModal}>close</button>
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Sisäänkirjautuminen</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <FormGroup controlId="email" bsSize="large">
+                            <ControlLabel>Sähköpostiosoite</ControlLabel>
+                            <FormControl
+                                autoFocus
+                                type="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                        </FormGroup>
+                        <FormGroup controlId="password" bsSize="large">
+                            <ControlLabel>Salasana</ControlLabel>
+                            <FormControl
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                type="password"
+                            />
+                        </FormGroup>
+                        <Button
+                            block
+                            bsSize="large"
+                            disabled={!this.validateForm()}
+                            type="submit"
+                        >
+                            <Link className="link" to="/registration">Rekisteröidy</Link>
+                        </Button>
+                        <Button
+                            block
+                            bsSize="large"
+                            disabled={!this.validateForm()}
+                            type="submit"
+                        >
+                            Kirjaudu
+                        </Button>
+                    </form>
+                </Modal>
+                <div>
+                    <Route path="/registration" component={Registration}/>
                 </div>
             </div>
+            </HashRouter>
         );
     }
 }

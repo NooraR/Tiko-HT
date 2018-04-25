@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import Modal from 'react-modal';
 import "./Registration.css";
 
 export default class Registration extends Component {
@@ -7,6 +8,7 @@ export default class Registration extends Component {
         super(props);
 
         this.state = {
+            modalIsOpen: true,
             firstName: "",
             lastName: "",
             address: "",
@@ -14,6 +16,17 @@ export default class Registration extends Component {
             email: "",
             password: ""
         };
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
     }
 
     validateForm() {
@@ -37,12 +50,14 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <div className="Overlay">
-                <div className="Popup">
-                    <div className="close">
-                        <a href="#" className="close">✖</a>
-                    </div>
-                    <div className="Registration">
+            <div className="Registration">
+                    <Modal
+                        isOpen={this.state.modalIsOpen}
+                        onRequestClose={this.closeModal}
+                    >
+                        <button className="close" onClick={this.closeModal}>close</button>
+                        <h2 ref={subtitle => this.subtitle = subtitle}>Rekisteröityminen</h2>
+
                         <form onSubmit={this.handleSubmit}>
                             <FormGroup controlId="firstName" bsSize="large">
                                 <ControlLabel>Etunimi*</ControlLabel>
@@ -107,8 +122,7 @@ export default class Registration extends Component {
                                 Rekisteröidy
                             </Button>
                         </form>
-                    </div>
-                </div>
+                    </Modal>
             </div>
         );
     }
