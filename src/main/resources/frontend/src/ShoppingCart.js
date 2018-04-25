@@ -7,7 +7,7 @@ export default class ShoppingCart extends Component {
 
     render() {
         return (
-            <div>
+            <div className="content">
                 <div className="ShoppingCart">
                     <h2>Ostokset:</h2>
                     <Product />

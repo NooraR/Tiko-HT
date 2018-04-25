@@ -42,6 +42,19 @@ export default class Login extends Component {
         event.preventDefault();
     }
 
+    emailValidation() {
+        const length = this.state.email.length;
+        if (length > 5) return 'success';
+        return 'error';
+    }
+
+    passwordValidation() {
+        const length = this.state.email.length;
+        if (length > 10) return 'success';
+        else if (length > 5) return 'warning';
+        return 'error';
+    }
+
     render() {
         return (
             <HashRouter>
@@ -54,7 +67,7 @@ export default class Login extends Component {
                     <button className="close" onClick={this.closeModal}>close</button>
                     <h2 ref={subtitle => this.subtitle = subtitle}>Sisäänkirjautuminen</h2>
                     <form onSubmit={this.handleSubmit}>
-                        <FormGroup controlId="email" bsSize="large">
+                        <FormGroup controlId="email" bsSize="large" validationState={this.emailValidation()}>
                             <ControlLabel>Sähköpostiosoite</ControlLabel>
                             <FormControl
                                 autoFocus
@@ -63,7 +76,7 @@ export default class Login extends Component {
                                 onChange={this.handleChange}
                             />
                         </FormGroup>
-                        <FormGroup controlId="password" bsSize="large">
+                        <FormGroup controlId="password" bsSize="large" validationState={this.passwordValidation()}>
                             <ControlLabel>Salasana</ControlLabel>
                             <FormControl
                                 value={this.state.password}

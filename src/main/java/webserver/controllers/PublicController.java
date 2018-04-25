@@ -26,6 +26,7 @@ public class PublicController {
             res.type("application/json");
             res.status(200);
         } catch (Exception e) {
+            System.out.println(e);
             json = gson.toJson(new Reply(false, "Failed to fetch works", null));
         }
         return json;
