@@ -25,19 +25,23 @@ public class OrderController {
 
         if(user != null && req.session().attribute("order") == null) {
             try {
-                List<Work> works = gson.fromJson(req.body(), new TypeToken<List<Work>>(){}.getType());
+                List<Work> works = gson.fromJson(req.body(), new TypeToken<List<Work>>() {
+                }.getType());
 
                 Order order = handler.createReservation(user, works);
                 req.session().attribute("order", order);
 
                 res.status(200);
                 return gson.toJson(new Reply(true, "Products reserved for order", order));
-            } catch (Exception e) {
-                System.err.println("Failed to reserve order: " + e.getMessage());
-
+            } catch (EntityNotFoundException e) {
                 res.status(400);
-                return gson.toJson(new Reply(false, "Failed to create reservation", null));
-            }
+                return gson.toJson(new Reply(false, "No products available for this work", null));
+            } catch (Exception e) {
+                    System.err.println("Failed to reserve order: " + e.getMessage());
+
+                    res.status(400);
+                    return gson.toJson(new Reply(false, "Failed to create reservation", null));
+                }
         } else {
             res.status(400);
             return gson.toJson(new Reply(false, "Failed to get session data", null));

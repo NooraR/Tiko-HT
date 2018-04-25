@@ -39,3 +39,12 @@ INSERT INTO work (author, name, isbn, published, genre, type, weight) VALUES
 
 INSERT INTO work (author, name, isbn, published, genre, type, weight) VALUES
   ('Dale Carnegien', 'Miten saan ystäviä, menestystä, vaikutusvaltaa', 9789510396230, 1939, 'opas', 'tietokirja', 1.9);
+
+-- Postituskulut
+
+INSERT INTO postage VALUES (0.05, 1.40);
+INSERT INTO postage VALUES (0.1, 2.10);
+INSERT INTO postage VALUES (0.25, 2.80);
+INSERT INTO postage VALUES (0.5, 5.60);
+INSERT INTO postage VALUES (1.0, 8.40);
+INSERT INTO postage VALUES (2.0, 14.00);

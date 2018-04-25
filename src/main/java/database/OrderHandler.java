@@ -1,9 +1,6 @@
 package database;
 
-import datamodel.Order;
-import datamodel.Product;
-import datamodel.User;
-import datamodel.Work;
+import datamodel.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,7 +43,6 @@ public class OrderHandler {
         try {
             session.beginTransaction();
 
-
             //Init Order
             Order order = new Order();
             order.setOrderer(user);
@@ -56,14 +52,17 @@ public class OrderHandler {
             //Set order to save after changes
             session.persist(order);
 
-            for(Work work : works) {
-                for(int i = 0; i < work.getAmount(); i++) {
+            for (Work work : works) {
+                for (int i = 0; i < work.getAmount(); i++) {
                     //Get an available product
                     Query query = session.createQuery("from Product WHERE work=:work AND status = :status");
                     query.setParameter("work", work);
                     query.setParameter("status", Product.FREE);
 
                     Product product = (Product) query.setMaxResults(1).uniqueResult();
+                    if (product == null) {
+                        throw new EntityNotFoundException("No products available for work");
+                    }
                     product.setOrder(order);
                     product.setStatus(Product.RESERVED);
                     //Update that product is reserved for order
@@ -87,12 +86,15 @@ public class OrderHandler {
                         //Order was most likely either confirmed or freed already
                     }
                 }
-            }, 30 * 1000 *60);
+            }, 30 * 1000 * 60);
 
             //Send changes
             session.getTransaction().commit();
 
             return order;
+        }catch (EntityNotFoundException e) {
+            session.getTransaction().rollback();
+            throw e;
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw new HibernateException("Failed to create reservation: " + e.getMessage());
@@ -102,34 +104,38 @@ public class OrderHandler {
     }
 
     private double calculatePostage(List<Product> products) {
-        double totalWeight = 0;
-        for(Product product : products) {
-            totalWeight += product.getWork().getWeight();
-        }
-        //Set up fees, first column is weight, second is fee
-        double postageFees[][] = {
-                {0.05, 1.40},
-                {0.1, 2.10},
-                {0.25, 2.80},
-                {0.5, 5.60},
-                {1.0, 8.40},
-                {2.0, 14.00}
-        };
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
-        double totalFee = 0;
+        try {
+            session.beginTransaction();
 
-        while(totalWeight > 0) {
-            //Get appropriate fee
-            int i = 0;
-            while(i + 1 < postageFees.length && postageFees[i][0] <= totalWeight) {
-                i++;
+            Query query = session.createQuery("FROM Postage ORDER BY weight ASC");
+            List<Postage> postageFees = (List<Postage>) query.list();
+
+            session.getTransaction().commit();
+
+            double totalWeight = 0;
+            for (Product product : products) {
+                totalWeight += product.getWork().getWeight();
             }
-            //Change weight and total fee accordingly
-            totalFee += postageFees[i][1];
-            totalWeight -= postageFees[i][0];
-        }
+            double totalFee = 0;
 
-        return totalFee;
+            while (totalWeight > 0) {
+                //Get appropriate fee
+                int i = 0;
+                while (i + 1 < postageFees.size() && postageFees.get(i).getWeight() <= totalWeight) {
+                    i++;
+                }
+                //Change weight and total fee accordingly
+                totalFee += postageFees.get(i).getFee();
+                totalWeight -= postageFees.get(i).getWeight();
+            }
+
+            return totalFee;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new HibernateException("Failed to get postage data");
+        }
     }
 
     public void freeReservation(int id) throws HibernateException {
@@ -193,6 +199,12 @@ public class OrderHandler {
 
                 if(order != null && order.getStatus().equals(Order.WAITING)) {
                     order.setStatus(Order.CONFIRMED);
+
+                    for(Product product : order.getProducts()) {
+                        product.setStatus("UNAVAILABLE");
+                        session.update(product);
+                    }
+
                     session.update(order);
 
                     session.getTransaction().commit();
