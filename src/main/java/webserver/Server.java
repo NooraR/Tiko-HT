@@ -37,6 +37,8 @@ public class Server {
 
         post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
 
+        get("/logout", (req, res) -> UserController.logout(req, res));
+
         //Order handling
         post("/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
 

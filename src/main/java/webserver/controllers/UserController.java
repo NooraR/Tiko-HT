@@ -84,4 +84,23 @@ public class UserController {
             return gson.toJson(new Reply(false, "Something went wrong while attempting login. Please try again.", null));
         }
     }
+
+    public static String logout(Request req, Response res){
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        try{
+            System.out.println("Attempting logout");
+            if (req.session().attribute("user") != null) {
+                req.session().attribute("user", null);
+                res.cookie("JSESSIONID", null, 0);
+            }
+            else
+                return gson.toJson(new Reply(false, "You were not even signed in!", null));
+            System.out.println("Logged out successfully");
+        } catch (Exception e){
+            System.out.println("Error! "+e);
+            return gson.toJson(new Reply(false, "Error while logging out. "+ e, null));
+        }
+        return gson.toJson(new Reply(true, "Logged out successfully", null));
+
+    }
 }
