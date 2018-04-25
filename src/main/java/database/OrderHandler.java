@@ -199,6 +199,12 @@ public class OrderHandler {
 
                 if(order != null && order.getStatus().equals(Order.WAITING)) {
                     order.setStatus(Order.CONFIRMED);
+
+                    for(Product product : order.getProducts()) {
+                        product.setStatus("UNAVAILABLE");
+                        session.update(product);
+                    }
+
                     session.update(order);
 
                     session.getTransaction().commit();

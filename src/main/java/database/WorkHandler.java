@@ -28,7 +28,7 @@ public class WorkHandler {
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("from Work where balance > 0");
+            Query query = session.createQuery("FROM Work");
             List<Work> list = (List<Work>) query.list();
 
             session.getTransaction().commit();
