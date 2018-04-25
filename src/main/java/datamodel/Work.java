@@ -2,8 +2,10 @@ package datamodel;
 
 import com.google.gson.annotations.Expose;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -51,12 +53,14 @@ public class Work {
     @Expose
     private double weight;
 
-    @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = '" + Product.FREE + "')")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "workid", referencedColumnName = "id")
+    @Where(clause = "status = 'FREE'")
     @Expose
-    private int balance;
+    private List<Product> products;
 
     @Transient
-    @Expose
+    @Expose(serialize = false)
     private int amount;
 
 
@@ -69,7 +73,6 @@ public class Work {
         this.genre = null;
         this.type = null;
         this.weight = 0;
-        this.balance = 0;
     }
 
     public int getId() {
@@ -136,12 +139,12 @@ public class Work {
         this.weight = weight;
     }
 
-    public int getBalance() {
-        return balance;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public int getAmount() {
