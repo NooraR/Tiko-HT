@@ -50,6 +50,8 @@ public class Server {
 
         get("/management/reports/works", (req, res) -> new ManagementController().getWorkReport(req, res, sessionFactory));
 
+        get("/management/reports/users", (req, res) -> new ManagementController().getUserSalesReport(req, res, sessionFactory));
+
 
 
         //Set 404 routes
