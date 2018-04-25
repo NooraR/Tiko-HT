@@ -52,3 +52,9 @@ CREATE TABLE product (
     FOREIGN KEY (orderid) REFERENCES userorder (id),
     FOREIGN KEY (antiquary_id) REFERENCES antiquarian (id)
 );
+
+CREATE TABLE postage (
+    weight  DECIMAL NOT NULL,
+    fee     DECIMAL NOT NULL,
+    PRIMARY KEY (weight)
+);
