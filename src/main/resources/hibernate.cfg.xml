@@ -16,6 +16,7 @@
     <mapping class="datamodel.User"/>
     <mapping class="datamodel.Order"/>
     <mapping class="datamodel.Work"/>
+    <mapping class="datamodel.Postage"/>
 
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
