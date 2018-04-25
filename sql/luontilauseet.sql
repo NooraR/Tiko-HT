@@ -31,7 +31,7 @@ CREATE TABLE work (
     id        SERIAL,
     author   VARCHAR(50) NOT NULL,
     name      VARCHAR(50) NOT NULL,
-    isbn      VARCHAR(20),
+    isbn      VARCHAR(20) UNIQUE,
     published INT,
     genre     VARCHAR(50),
     type      VARCHAR(50),
