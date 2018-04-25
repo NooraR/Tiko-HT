@@ -1,6 +1,21 @@
+import database.OrderHandler;
+import database.ProductHandler;
+import database.UserHandler;
+import database.WorkHandler;
+import datamodel.Product;
+import datamodel.User;
+import datamodel.Work;
+
+import java.util.List;
+
 public class Main {
 
     public static void main(String args[]) {
-        System.out.println("Hello World!");
+        try {
+            System.out.println("Ready for testing");
+
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

@@ -1,33 +1,67 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "useraccount", catalog = "tikoht")
 public class User {
 
+    @Id
+    @SequenceGenerator(name = "user_id_seq", schema = "central", sequenceName = "useraccount_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String email;
-    private String phoneNumber;
 
-    public User(int Id, String Firstname, String Lastname, String Address, String Email, String Phonenumber){
-        id = Id;
-        firstName = Firstname;
-        lastName = Lastname;
-        address = Address;
-        email = Email;
-        phoneNumber = Phonenumber;
-    }
+    @Basic
+    @Column(name = "first_name", nullable = false, length = 50)
+    @Expose
+    private String firstName;
+
+    @Basic
+    @Column(name = "last_name", nullable = false, length = 50)
+    @Expose
+    private String lastName;
+
+    @Basic
+    @Column(name = "address", nullable = true, length = 50)
+    @Expose
+    private String address;
+
+    @Basic
+    @Column(name = "email", nullable = false, length = 50)
+    @Expose
+    private String email;
+
+    @Basic
+    @Column(name = "password", nullable = true, length = 300)
+    @Expose(serialize = false)
+    private String password;
+
+    @Basic
+    @Column(name = "phone_number", nullable = true, length = 20)
+    @Expose
+    private String phoneNumber;
 
     public User(){
         this.id = -1;
-        this.firstName = "";
-        this.lastName = "";
-        this.address = "";
-        this.email = "";
-        this.phoneNumber = "";
-
+        this.firstName = null;
+        this.lastName = null;
+        this.address = null;
+        this.email = null;
+        this.phoneNumber = null;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -61,6 +95,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -69,11 +111,23 @@ public class User {
         this.phoneNumber = phone_number;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(address, user.address) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(phoneNumber, user.phoneNumber);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, firstName, lastName, address, email, password, phoneNumber);
     }
 }

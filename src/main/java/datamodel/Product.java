@@ -1,27 +1,60 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
 public class Product {
 
-    private int id;
-    private String isbn;
-    private String order;
+    public static final String FREE = "FREE";
+    public static final String RESERVED = "RESERVED";
+    public static final String UNAVAILABLE = "UNAVAILABLE";
 
-    private product_status status;
+    @Id
+    @SequenceGenerator(name = "product_id_seq", schema = "central", sequenceName = "product_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Expose
+    private int id;
+
+    @Basic
+    @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'FREE' NOT NULL")
+    @Expose(serialize = false)
+    private String status;
+
+    @Basic
+    @Column(name = "selling_price", nullable = true, precision = 0)
+    @Expose
     private double sellingPrice;
+
+    @Basic
+    @Column(name = "purchase_price", nullable = true, precision = 0)
+    @Expose(serialize = false)
     private double purchasePrice;
 
-    public Product(int id, String isbn, String order, product_status status, double sellingPrice, double purchasePrice){
+    @ManyToOne
+    @JoinColumn(name = "workid", referencedColumnName = "id")
+    @Expose
+    private Work work;
 
-        this.id = id;
-        this.isbn = isbn;
-        this.order = order;
-        this.status = status;
-        this.sellingPrice = sellingPrice;
-        this.purchasePrice = purchasePrice;
-    }
+    @ManyToOne
+    @JoinColumn(name = "orderid", referencedColumnName = "id")
+    private Order order;
 
-    private enum product_status {
-        free, taken, removed;
+    @ManyToOne
+    @JoinColumn(name = "antiquary_id", referencedColumnName = "id")
+    @Expose
+    private Antiquarian antiquary;
+
+    public Product(){
+
+        this.id = -1;
+        this.work = null;
+        this.status = null;
+        this.sellingPrice = 0;
+        this.purchasePrice = 0;
     }
 
     public int getId() {
@@ -32,27 +65,11 @@ public class Product {
         this.id = id;
     }
 
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
-    }
-
-    public product_status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(product_status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -72,4 +89,45 @@ public class Product {
         this.purchasePrice = purchasePrice;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Work getWork() {
+        return work;
+    }
+
+    public void setWork(Work work) {
+        this.work = work;
+    }
+
+    public Antiquarian getAntiquary() {
+        return antiquary;
+    }
+
+    public void setAntiquary(Antiquarian antiquary) {
+        this.antiquary = antiquary;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id &&
+                Double.compare(product.sellingPrice, sellingPrice) == 0 &&
+                Double.compare(product.purchasePrice, purchasePrice) == 0;
+    }
+
+
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, sellingPrice, purchasePrice);
+    }
 }

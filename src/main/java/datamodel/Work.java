@@ -1,30 +1,75 @@
 package datamodel;
 
+import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Formula;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
 public class Work {
 
+    @Id
+    @SequenceGenerator(name = "work_id_seq", schema = "central", sequenceName = "work_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "work_id_seq")
+    @Column(name = "id", updatable = false, nullable = false)
+    @Expose
     private int id;
+
+    @Basic
+    @Column(name = "author", nullable = false, length = 50)
+    @Expose
     private String author;
+
+    @Basic
+    @Column(name = "name", nullable = false, length = 50)
+    @Expose
     private String name;
+
+    @Basic
+    @Column(name = "isbn", nullable = true, length = 20)
+    @Expose
     private String isbn;
+
+    @Basic
+    @Column(name = "published", nullable = true)
+    @Expose
     private int published;
+
+    @Basic
+    @Column(name = "genre", nullable = true, length = 50)
+    @Expose
     private String genre;
+
+    @Basic
+    @Column(name = "type", nullable = true, length = 50)
+    @Expose
     private String type;
+
+    @Basic
+    @Column(name = "weight", nullable = false, precision = 0)
+    @Expose
     private double weight;
 
-    public Work(int id, String author, String name, String isbn, int published, String genre, String type, double weight){
+    @Formula("(SELECT COUNT(product.id) FROM central.product WHERE product.workid = id AND product.status = '" + Product.FREE + "')")
+    @Expose
+    private int balance;
 
-        this.id = id;
-        this.author = author;
-        this.name = name;
-        this.isbn = isbn;
-        this.published = published;
-        this.genre = genre;
-        this.type = type;
-        this.weight = weight;
-    }
+    @Transient
+    @Expose
+    private int amount;
 
-    public Work() {
 
+    public Work(){
+        this.id = -1;
+        this.author = null;
+        this.name = null;
+        this.isbn = null;
+        this.published = 0;
+        this.genre = null;
+        this.type = null;
+        this.weight = 0;
+        this.balance = 0;
     }
 
     public int getId() {
@@ -91,4 +136,40 @@ public class Work {
         this.weight = weight;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Work work = (Work) o;
+        return id == work.id &&
+                published == work.published &&
+                Double.compare(work.weight, weight) == 0 &&
+                Objects.equals(author, work.author) &&
+                Objects.equals(name, work.name) &&
+                Objects.equals(isbn, work.isbn) &&
+                Objects.equals(genre, work.genre) &&
+                Objects.equals(type, work.type);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, author, name, isbn, published, genre, type, weight);
+    }
 }
