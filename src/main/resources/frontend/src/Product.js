@@ -5,16 +5,15 @@ export default class Product extends Component {
     constructor(props) {
         super(props);
 
-        this.name = this.props.name;
+        this.id = this.props.id;
         this.auchtor = this.props.auchtor;
+        this.name = this.props.name;
         this.isbn = this.props.isbn;
         this.published = this.props.published;
         this.genre = this.props.genre;
+        this.type = this.props.type;
         this.weight = this.props.weight;
-    }
-
-    getProduct() {
-
+        this.products = this.props.products;
     }
 
     render() {

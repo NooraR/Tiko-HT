@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Product from './Product';
 import "./ShoppingCart.css";
 
 export default class ShoppingCart extends Component {
+
+
 
     render() {
         return (
@@ -16,8 +19,10 @@ export default class ShoppingCart extends Component {
                 <div className="Overall">
                     <h3>Yhteensä:</h3>
                 </div>
-                <Button>
-                    <a href="#">Siirry maksamaan</a>
+                <Button
+                    onclick=""
+                >
+                    <Link to="/">Siirry maksamaan</Link>
                 </Button>
             </div>
         );
