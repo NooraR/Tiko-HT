@@ -11,13 +11,14 @@ BEGIN
     SELECT new.id, new.author, new.name, new.isbn, new.published, new.genre, new.type, new.weight
     WHERE NOT EXISTS
     (SELECT * FROM central.work AS central
-        WHERE central.author = new.author
-              AND central.name = new.name
-              AND central.isbn = new.isbn
-              AND central.published = new.published
-              AND central.genre = new.genre
-              AND central.type = new.type
-              AND central.weight = new.weight
+        WHERE central.id = new.id
+          OR (central.author = new.author
+          AND central.name = new.name
+          AND central.isbn = new.isbn
+          AND central.published = new.published
+          AND central.genre = new.genre
+          AND central.type = new.type
+          AND central.weight = new.weight)
     );
   RETURN new;
 END;
