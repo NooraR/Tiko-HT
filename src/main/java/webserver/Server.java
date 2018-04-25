@@ -47,6 +47,8 @@ public class Server {
         //"Management" handling
         post("/management/product/add", (req, res) -> ManagementController.addProduct(req, res, sessionFactory));
 
+        get("/management/reports/works", (req, res) -> new ManagementController().getWorkReport(req, res, sessionFactory));
+
 
 
         //Set 404 routes
