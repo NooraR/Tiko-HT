@@ -1,0 +1,30 @@
+.SearchContainer {
+    float: left;
+}
+
+.Search {
+    margin: 2em;
+    overflow: auto;
+}
+
+.FormGroup {
+    float: left;
+    width: 25em;
+    margin-right: 1.5em;
+}
+
+button[type=submit].Search {
+    width: 5em;
+    height: 3.2em;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ResultContainer {
+    margin-top: 2em;
+    overflow: auto;
+}
