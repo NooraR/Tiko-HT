@@ -122,12 +122,13 @@ public class ProductHandler {
                 session.beginTransaction();
 
                 //Try to add the work to the db
+                WorkHandler workHandler = new WorkHandler(sessionFactory);
                 try {
-                    WorkHandler workHandler = new WorkHandler(sessionFactory);
                     Work work = workHandler.addWork(product.getWork(), session);
                     product.setWork(work);
                 } catch (EntityExistsException e) {
-                    //Work already exists
+                    //Work already exists, update from central
+                    product.setWork(workHandler.getWorkFromCentral(product.getWork()));
                 }
 
                 //Add product to the db
