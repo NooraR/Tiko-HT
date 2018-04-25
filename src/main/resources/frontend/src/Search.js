@@ -13,16 +13,20 @@ export default class Search extends Component {
 
     componentDidMount() {
         console.log("Hei");
-        fetch('http://localhost/data/works', {mode:'no-cors'})
+        fetch('http://localhost/data/works', {mode: 'no-cors', headers: {
+                'Access-Control-Allow-Origin': '*'
+            }})
             .then(function(results) {
-                console.log(results);
-                return results.json();
+                return results.text().then(function(text) {
+                    return text ? JSON.parse(text) : {}
+                })
             }).then(function(data) {
             console.log("Mitä dataa tulee", data);
             //let works = data.json();
             //this.setState({works: works});
             //console.log("state", this.state.works);
-        })
+        }
+        )
     }
 
     handleChange = event => {
