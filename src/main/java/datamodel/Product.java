@@ -13,7 +13,7 @@ public class Product {
     public static final String UNAVAILABLE = "UNAVAILABLE";
 
     @Id
-    @SequenceGenerator(name = "product_id_seq", sequenceName = "product_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "product_id_seq", schema = "central", sequenceName = "product_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     @Expose

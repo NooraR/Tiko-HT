@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Antiquarian {
 
     @Id
-    @SequenceGenerator(name = "antiquarian_id_seq", sequenceName = "antiquarian_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "antiquarian_id_seq", schema = "central",sequenceName = "antiquarian_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "antiquarian_id_seq")
     @Column(name = "id", updatable = false, nullable = false)
     @Expose
