@@ -1,5 +1,5 @@
 CREATE TABLE useraccount (
-  id SERIAL,
+  id INT,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   address VARCHAR(50),
@@ -10,7 +10,7 @@ CREATE TABLE useraccount (
 );
 
 CREATE TABLE userorder (
-  id          SERIAL,
+  id          INT,
   orderdate   DATE NOT NULL,
   status      VARCHAR(15) DEFAULT 'WAITING' NOT NULL,
   userid      INT  NOT NULL,
@@ -19,8 +19,8 @@ CREATE TABLE userorder (
 );
 
 CREATE TABLE work (
-  id        SERIAL,
-  author   VARCHAR(50) NOT NULL,
+  id        INT,
+  author    VARCHAR(50) NOT NULL,
   name      VARCHAR(50) NOT NULL,
   isbn      VARCHAR(20),
   published INT,
@@ -31,7 +31,7 @@ CREATE TABLE work (
 );
 
 CREATE TABLE product (
-  id             SERIAL,
+  id             INT,
   workid         INT NOT NULL,
   orderid        INT,
   status         VARCHAR(15) DEFAULT 'FREE' NOT NULL,
