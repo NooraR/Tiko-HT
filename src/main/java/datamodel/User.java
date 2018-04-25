@@ -48,7 +48,6 @@ public class User {
 
     @Basic
     @Column(name = "isadmin", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE NOT NULL" )
-    @Expose
     private boolean isAdmin;
 
     public User(){
