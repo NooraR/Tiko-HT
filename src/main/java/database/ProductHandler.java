@@ -1,6 +1,7 @@
 package database;
 
 import datamodel.Product;
+import datamodel.Work;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -103,7 +104,7 @@ public class ProductHandler {
         }
     }
 
-    public int addProduct(Product product) throws Exception {
+    public Product addProduct(Product product) throws Exception {
         //Fetch antiquary info from db
         try {
             AntiquarianHandler antiquaryHandler = new AntiquarianHandler(sessionFactory);
@@ -123,26 +124,19 @@ public class ProductHandler {
                 //Try to add the work to the db
                 try {
                     WorkHandler workHandler = new WorkHandler(sessionFactory);
-                    int id = workHandler.addWork(product.getWork(), session);
-                    product.getWork().setId(id);
+                    Work work = workHandler.addWork(product.getWork(), session);
+                    product.setWork(work);
                 } catch (EntityExistsException e) {
                     //Work already exists
                 }
 
                 //Add product to the db
-                Query query = session.createQuery("from Product where id=:id");
-                query.setParameter("id", product.getId());
-
-                int productId = -1;
-                if(query.uniqueResult() == null) {
-                    productId = (Integer) session.save(product);
-                } else {
-                    throw new EntityExistsException("Product already exists.");
-                }
+                product.setId((Integer) session.save(product));
 
                 session.getTransaction().commit();
+                session.refresh(product);
 
-                return productId;
+                return product;
             } catch (HibernateException e) {
                 session.getTransaction().rollback();
                 throw new Exception("Adding new product failed: " + e.getMessage());

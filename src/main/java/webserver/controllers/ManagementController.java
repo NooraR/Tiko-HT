@@ -20,10 +20,10 @@ public class ManagementController {
         try {
             Product product = gson.fromJson(req.body(), Product.class);
 
-            int productId = handler.addProduct(product);
+            product = handler.addProduct(product);
 
             res.status(200);
-            return gson.toJson(new Reply(true, "Added a new product", productId));
+            return gson.toJson(new Reply(true, "Added a new product", product));
         } catch (EntityExistsException e) {
             res.status(400);
             return gson.toJson(new Reply(false, "Product already exists", null));

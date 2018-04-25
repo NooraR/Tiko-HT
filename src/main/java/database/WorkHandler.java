@@ -41,7 +41,7 @@ public class WorkHandler {
         }
     }
 
-    public int addWork(Work work, Session session) throws HibernateException {
+    public Work addWork(Work work, Session session) throws HibernateException {
         try {
             //Try to find with different attributes in case it's a new work
             Query query = session.createQuery("FROM Work WHERE id=:id OR isbn=:isbn OR (author=:author AND name=:name)");
@@ -50,13 +50,14 @@ public class WorkHandler {
             query.setParameter("author", work.getAuthor());
             query.setParameter("name", work.getName());
 
-            int id;
             if(query.uniqueResult() == null) {
-                id = (Integer) session.save(work);
+                work.setId((Integer) session.save(work));
+                session.flush();
+                session.refresh(work);
             } else {
                 throw new EntityExistsException("Work already exists in DB.");
             }
-            return id;
+            return work;
         } catch (HibernateException e) {
             throw new HibernateException("Adding new work failed: " + e.getMessage());
         }
