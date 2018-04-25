@@ -63,8 +63,6 @@ public class UserController {
             User userFromDB = handler.getUserByEmail(credentials.email);
 
             if(userFromDB.getPassword().equals(credentials.password)) {
-                //Remove password before doing anything else
-                userFromDB.setPassword(null);
                 //Create a session
                 req.session(true);
                 req.session().attribute("user", userFromDB);
