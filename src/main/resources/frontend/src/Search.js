@@ -6,18 +6,22 @@ import "./Search.css";
 export default class Search extends Component {
     constructor() {
         super();
-
         this.state = {
             works: [],
         };
     }
 
     componentDidMount() {
-        fetch('http://localhost/data/works')
-            .then(results => {
-                return results.json()
-            }).then(data => {
-            let works = data.results
+        console.log("Hei");
+        fetch('http://localhost/data/works', {mode:'no-cors'})
+            .then(function(results) {
+                console.log(results);
+                return results.json();
+            }).then(function(data) {
+            console.log("Mitä dataa tulee", data);
+            //let works = data.json();
+            //this.setState({works: works});
+            //console.log("state", this.state.works);
         })
     }
 
@@ -56,7 +60,7 @@ export default class Search extends Component {
                 </div>
                 <div className="ResultContainer">
                     { this.state.works.forEach(result => {
-                        return (<Product name={result.name} auchtor={result.auchtor} isbn={result.isbn} published={result.published} genre={result.genre} weight={result.weight} />)
+                        return (<Product id={result.id} auchtor={result.auchtor} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products}/>)
                     })
                     }
                 </div>

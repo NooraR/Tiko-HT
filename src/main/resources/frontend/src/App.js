@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Login from './Login'
 import Search from './Search';
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { HashRouter, NavLink, Route } from 'react-router-dom';
 import './App.css';
 import Registration from "./Registration";
@@ -20,11 +20,11 @@ class App extends Component {
                         </Navbar.Brand>
                     </Navbar.Header>
                     <Nav>
-                        <NavLink className="NavLink" to="">Haku</NavLink>
-                        <NavLink className="NavLink" to="/login">Kirjautuminen</NavLink>
-                        <NavLink className="NavLink" to="/registration">Rekisteröityminen</NavLink>
-                        <NavLink className="NavLink" to="/shoppingCart">Ostoskori</NavLink>
-                        <NavLink className="NavLink" to="/maintenance">Ylläpito</NavLink>
+                        <NavItem componentClass="span"><NavLink className="NavLink" to="">Haku</NavLink></NavItem>
+                        <NavItem componentClass="span"><NavLink className="NavLink" to="/login">Kirjautuminen</NavLink></NavItem>
+                        <NavItem componentClass="span"><NavLink className="NavLink" to="/registration">Rekisteröityminen</NavLink></NavItem>
+                        <NavItem componentClass="span"><NavLink className="NavLink" to="/shoppingCart">Ostoskori</NavLink></NavItem>
+                        <NavItem componentClass="span"><NavLink className="NavLink" to="/maintenance">Ylläpito</NavLink></NavItem>
                     </Nav>
                 </Navbar>
                 <div className="content">
