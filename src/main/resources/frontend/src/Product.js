@@ -4,30 +4,30 @@ import "./Product.css";
 export default class Product extends Component {
     constructor(props) {
         super(props);
-
-        console.log({name: this.props.name});
-
-        this.id = this.props.id;
-        this.author = this.props.author;
-        this.name = this.props.name;
-        this.isbn = this.props.isbn;
-        this.published = this.props.published;
-        this.genre = this.props.genre;
-        this.type = this.props.type;
-        this.weight = this.props.weight;
-        this.products = this.props.products;
     }
 
     render() {
+        let { id,
+            author,
+            name,
+            isbn,
+            published,
+            genre,
+            type,
+            weight,
+            products
+        } = this.props
+
         return (
             <div className="Product">
-                <p>Nimi: {this.name}</p>
-                <p>Tekijä: {this.author}</p>
-                <p>ISBN: {this.isbn}</p>
-                <p>Julkaisuvuosi: {this.published}</p>
-                <p>Genre: {this.genre}</p>
-                <p>Tyyppi: {this.type}</p>
-                <p>Paino: {this.weight}</p>
+                <p>Id: {id}</p>
+                <p>Nimi: {name}</p>
+                <p>Tekijä: {author}</p>
+                <p>ISBN: {isbn}</p>
+                <p>Julkaisuvuosi: {published}</p>
+                <p>Genre: {genre}</p>
+                <p>Tyyppi: {type}</p>
+                <p>Paino: {weight}</p>
             </div>
         );
     }

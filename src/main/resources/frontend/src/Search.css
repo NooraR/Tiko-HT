@@ -27,5 +27,4 @@ button[type=submit].Search {
 .ResultContainer {
     margin-top: 2em;
     overflow: auto;
-    background-color: yellow;
 }

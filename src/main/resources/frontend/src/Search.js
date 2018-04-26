@@ -18,7 +18,6 @@ export default class Search extends Component {
             }).then(data => {
             let works = data.data;
             this.setState({works: works});
-            console.log("state", this.state.works);
         }
         )
     }
@@ -64,12 +63,11 @@ export default class Search extends Component {
                 </div>
                 <div className="ResultContainer">
                     {
-                        this.state.works.forEach(result => {
-                            console.log({name: result.name}, {id: result.id}, {author: result.author});
-                            return(
-                                <Product id={result.id} author={result.author} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products}/>
-                            )
-                        })
+                     this.state.works.map((result, i) => {
+                         return (
+                             <Product key={i} id={result.id} author={result.author} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products} />
+                         )
+                     })
                     }
                 </div>
             </div>
