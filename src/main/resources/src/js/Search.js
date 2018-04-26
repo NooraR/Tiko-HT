@@ -17,7 +17,7 @@ export default class Search extends Component {
             .then(results => {
                 return results.json()
             }).then(data => {
-            let works = data.results
+                console.log("Mitä dataa tulee", data.data);
         })
     }
 

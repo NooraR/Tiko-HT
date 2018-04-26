@@ -5,6 +5,8 @@ export default class Product extends Component {
     constructor(props) {
         super(props);
 
+        console.log({name: this.props.name});
+
         this.id = this.props.id;
         this.auchtor = this.props.auchtor;
         this.name = this.props.name;
@@ -23,9 +25,9 @@ export default class Product extends Component {
                 <p>Tekijä: {this.auchtor}</p>
                 <p>ISBN: {this.isbn}</p>
                 <p>Julkaisuvuosi: {this.published}</p>
-                <p>Genre: {this.props.genre}</p>
-                <p>Tyyppi: {this.props.type}</p>
-                <p>Paino: {this.props.weight}</p>
+                <p>Genre: {this.genre}</p>
+                <p>Tyyppi: {this.type}</p>
+                <p>Paino: {this.weight}</p>
             </div>
         );
     }

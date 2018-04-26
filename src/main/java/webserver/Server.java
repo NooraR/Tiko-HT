@@ -18,38 +18,38 @@ public class Server {
 
         //Spark config
         port(80);
-        staticFiles.location("/public");
+        //staticFiles.location("/frontend/src");
 
         //Routes
-        get("/", (req, res) -> {
+        get("/api", (req, res) -> {
             res.redirect("/index.html");
             return null;
         });
 
         //Public data
-        get("/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
+        get("/api/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
 
-        get("/data/products", (req, res) -> PublicController.getProductsAvailable(req, res, sessionFactory));
+        get("/api/data/products", (req, res) -> PublicController.getProductsAvailable(req, res, sessionFactory));
 
         //User handling
-        post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
+        post("/api/register", (req, res) -> UserController.register(req, res, sessionFactory));
 
-        post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
+        post("/api/login", (req, res) -> UserController.login(req, res, sessionFactory));
 
         //Order handling
-        post("/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
+        post("/api/order", (req, res) -> OrderController.createOrder(req, res, sessionFactory));
 
-        get("/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
+        get("/api/order/confirm", (req, res) -> OrderController.confirmOrder(req, res, sessionFactory));
 
-        get("/order/cancel", (req, res) -> OrderController.cancelOrder(req, res, sessionFactory));
+        get("/api/order/cancel", (req, res) -> OrderController.cancelOrder(req, res, sessionFactory));
 
         //"Management" handling
-        before("/management/*", (req, res) -> ManagementController.checkUserPermissions(req, res));
-        post("/management/product/add", (req, res) -> ManagementController.addProduct(req, res, sessionFactory));
+        before("/api/management/*", (req, res) -> ManagementController.checkUserPermissions(req, res));
+        post("/api/management/product/add", (req, res) -> ManagementController.addProduct(req, res, sessionFactory));
 
-        get("/management/reports/works", (req, res) -> new ManagementController().getWorkReport(req, res, sessionFactory));
+        get("/api/management/reports/works", (req, res) -> new ManagementController().getWorkReport(req, res, sessionFactory));
 
-        get("/management/reports/users", (req, res) -> new ManagementController().getUserSalesReport(req, res, sessionFactory));
+        get("/api/management/reports/users", (req, res) -> new ManagementController().getUserSalesReport(req, res, sessionFactory));
 
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import Product from './Product.js';
+import Product from './Product';
 import "./Search.css";
 
 export default class Search extends Component {
@@ -12,21 +12,21 @@ export default class Search extends Component {
     }
 
     componentDidMount() {
-        console.log("Hei");
-        fetch('http://localhost/data/works', {mode: 'no-cors', headers: {
-                'Access-Control-Allow-Origin': '*'
-            }})
-            .then(function(results) {
-                return results.text().then(function(text) {
-                    return text ? JSON.parse(text) : {}
-                })
-            }).then(function(data) {
-            console.log("Mitä dataa tulee", data);
-            //let works = data.json();
-            //this.setState({works: works});
-            //console.log("state", this.state.works);
+        fetch('/api/data/works')
+            .then(results => {
+                return results.json();
+            }).then(data => {
+            let works = data.data;
+            this.setState({works: works});
+            console.log("state", this.state.works);
         }
         )
+    }
+
+    handleClick(id) {
+        //this.state.works.forEach(result => {
+
+        //}
     }
 
     handleChange = event => {
@@ -63,9 +63,13 @@ export default class Search extends Component {
                     </form>
                 </div>
                 <div className="ResultContainer">
-                    { this.state.works.forEach(result => {
-                        return (<Product id={result.id} auchtor={result.auchtor} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products}/>)
-                    })
+                    {
+                        this.state.works.forEach(result => {
+                            console.log({name: result.name}, {id: result.id}, {auchtor: result.auchtor});
+                            return(
+                                <Product id={result.id} auchtor={result.auchtor} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products}/>
+                            )
+                        })
                     }
                 </div>
             </div>
