@@ -8,7 +8,7 @@ export default class Product extends Component {
         console.log({name: this.props.name});
 
         this.id = this.props.id;
-        this.auchtor = this.props.auchtor;
+        this.author = this.props.author;
         this.name = this.props.name;
         this.isbn = this.props.isbn;
         this.published = this.props.published;
@@ -22,7 +22,7 @@ export default class Product extends Component {
         return (
             <div className="Product">
                 <p>Nimi: {this.name}</p>
-                <p>Tekijä: {this.auchtor}</p>
+                <p>Tekijä: {this.author}</p>
                 <p>ISBN: {this.isbn}</p>
                 <p>Julkaisuvuosi: {this.published}</p>
                 <p>Genre: {this.genre}</p>
