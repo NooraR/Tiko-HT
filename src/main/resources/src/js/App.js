@@ -34,18 +34,6 @@ class App extends Component {
         });
     }
 
-    addToCart(e, index) {
-        let onCart = this.onCart;
-        onCart.add(index, 1);
-        this.setState({onCart})
-    }
-
-    removeFromCart(e, index) {
-        let onCart = this.onCart;
-        onCart.slice(index, 1);
-        this.setState({onCart})
-    }
-
     toggleLogin = () => {
         this.setState({
             showLogin: !this.state.showLogin,
@@ -81,6 +69,19 @@ class App extends Component {
             }
         });
     };
+
+    addToCart(e, index) {
+        let onCart = this.onCart;
+        onCart.add(index, 1);
+        this.props.alert.show('Lisätty ostoskoriin');
+        this.setState({onCart})
+    }
+
+    removeFromCart(e, index) {
+        let onCart = this.onCart;
+        onCart.slice(index, 1);
+        this.setState({onCart})
+    }
 
     render() {
         return (

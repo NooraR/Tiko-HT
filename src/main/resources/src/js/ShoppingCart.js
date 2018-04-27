@@ -12,6 +12,8 @@ export default class ShoppingCart extends Component {
             onCart: []
         };
 
+        this.onCart = props.onCart;
+
     }
 
     render() {
@@ -19,8 +21,13 @@ export default class ShoppingCart extends Component {
             <div className="content">
                 <div className="ShoppingCart">
                     <h2>Ostokset:</h2>
-                    <Product name="Hyvä kirja" />
-                    <Product />
+                    {
+                        this.onCart.map((result, i) => {
+                            return (
+                                <Product key={i} id={result.id} author={result.author} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products} />
+                            )
+                        })
+                    }
                 </div>
                 <div className="Overall">
                     <h3>Yhteensä:</h3>

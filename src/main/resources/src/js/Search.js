@@ -29,10 +29,6 @@ export default class Search extends Component {
         this.setState({ search: e.target.value });
     };
 
-    handleClick(e) {
-
-    }
-
     render() {
         let search = this.state.search;
         let works = this.state.works;
