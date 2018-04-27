@@ -143,18 +143,16 @@ class App extends Component {
                         </NavItem>
                     </Nav>
                 </Navbar>
-                <div className="content">
-                    <ShoppingCart
-                        show={this.state.showShoppingCart}
-                        shoppingCart={this.state.shoppingCart}
-                        addToCart={this.addToCart}
-                        removeFromCart={this.removeFromCart}
-                    />
-                    <Search
-                        show={!this.state.showShoppingCart}
-                        addToCart={this.addToCart}
-                    />
-                </div>
+                <ShoppingCart
+                    show={this.state.showShoppingCart}
+                    shoppingCart={this.state.shoppingCart}
+                    addToCart={this.addToCart}
+                    removeFromCart={this.removeFromCart}
+                />
+                <Search
+                    show={!this.state.showShoppingCart}
+                    addToCart={this.addToCart}
+                />
             </div>
         )
     }
