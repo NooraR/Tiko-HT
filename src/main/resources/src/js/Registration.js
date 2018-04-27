@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import Modal from 'react-modal';
-import "./Registration.css";
 
 export default class Registration extends Component {
     constructor(props) {
