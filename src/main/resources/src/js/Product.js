@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import "./Product.css";
 
 export default class Product extends Component {
@@ -22,40 +22,27 @@ export default class Product extends Component {
             } = this.props.work;
 
             return (
-                <div>
-                    <div className="product">
-                        <p>Nimi: {name}</p>
-                        <p>Tekijä: {author}</p>
-                        <p>ISBN: {isbn}</p>
-                        <p>Julkaisuvuosi: {published}</p>
-                        <p>Genre: {genre}</p>
-                        <p>Tyyppi: {type}</p>
-                        <p>Paino: {weight} kg</p>
-                        <p>Varastossa: {products.length}</p>
-                        {this.props.isInShoppingCart
-                            && <p>Määrä: {amount}
-                                <Button
-                                    className="addToCart"
-                                    onClick={this.props.addToCart}
-                                >+</Button>
-                            </p>
-                        }
-                        {this.props.isInShoppingCart ?
-                            <Button
-                                bsStyle="danger"
-                                onClick={this.props.removeFromCart}
-                            >
-                                Poista
-                            </Button>
-                            :
-                            <Button
-                                bsStyle="primary"
-                                onClick={this.props.addToCart}
-                            >
-                                Lisää koriin
-                            </Button>
-                        }
-                    </div>
+                <div className="product">
+                    <h1>{name}</h1>
+                    <h2>{author}</h2>
+                    <Table responsive>
+                        <tbody>
+                            <tr><td>Julkaisuvuosi</td><td>{published}</td></tr>
+                            <tr><td>Genre</td><td>{genre}</td></tr>
+                            <tr><td>Tyyppi</td><td>{type}</td></tr>
+                            <tr><td>Paino</td><td>{weight} kg</td></tr>
+                            {isbn && <tr><td>ISBN</td><td>{isbn}</td></tr>}
+                            <tr><td>Saatavilla</td><td>{products.length}</td></tr>
+                            <tr><td>Ostoskorissa</td><td>{(amount) ? amount : 0}</td></tr>
+                        </tbody>
+                    </Table>
+                    <Button
+                        bsStyle="primary"
+                        className="add-button"
+                        onClick={this.props.addToCart}
+                    >
+                        Lisää koriin
+                    </Button>
                 </div>
             );
         } else {
