@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import Product from './Product';
 import "./ShoppingCart.css";
 
@@ -18,7 +17,7 @@ export default class ShoppingCart extends Component {
                     <h3>Yhteensä:</h3>
                 </div>
                 <Button>
-                    <Link to="/">Siirry maksamaan</Link>
+                    Siirry maksamaan
                 </Button>
             </div>
         );
