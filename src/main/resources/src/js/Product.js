@@ -8,34 +8,58 @@ export default class Product extends Component {
     }
 
     render() {
-        let { id,
-            author,
-            name,
-            isbn,
-            published,
-            genre,
-            type,
-            weight,
-            products
-        } = this.props;
+        if(this.props.work) {
+            let {
+                author,
+                name,
+                isbn,
+                published,
+                genre,
+                type,
+                weight,
+                products,
+                amount
+            } = this.props.work;
 
-        return (
-            <div>
-                <div className="product">
-                    <p>Nimi: {name}</p>
-                    <p>Tekijä: {author}</p>
-                    <p>ISBN: {isbn}</p>
-                    <p>Julkaisuvuosi: {published}</p>
-                    <p>Genre: {genre}</p>
-                    <p>Tyyppi: {type}</p>
-                    <p>Paino: {weight} kg</p>
-                    <p>Saldo: {products.length}</p>
-                    <Button
-                        className="addToCart"
-                        onClick="addToCart(id)"
-                    >Lisää ostoskoriin</Button>
+            return (
+                <div>
+                    <div className="product">
+                        <p>Nimi: {name}</p>
+                        <p>Tekijä: {author}</p>
+                        <p>ISBN: {isbn}</p>
+                        <p>Julkaisuvuosi: {published}</p>
+                        <p>Genre: {genre}</p>
+                        <p>Tyyppi: {type}</p>
+                        <p>Paino: {weight} kg</p>
+                        <p>Varastossa: {products.length}</p>
+                        {this.props.isInShoppingCart
+                            && <p>Määrä: {amount}
+                                <Button
+                                    className="addToCart"
+                                    onClick={this.props.addToCart}
+                                >+</Button>
+                            </p>
+                        }
+                        {this.props.isInShoppingCart ?
+                            <Button
+                                bsStyle="danger"
+                                onClick={this.props.removeFromCart}
+                            >
+                                Poista
+                            </Button>
+                            :
+                            <Button
+                                bsStyle="primary"
+                                onClick={this.props.addToCart}
+                            >
+                                Lisää koriin
+                            </Button>
+                        }
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return '';
+        }
     }
 }

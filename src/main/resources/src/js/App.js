@@ -18,13 +18,15 @@ class App extends Component {
             showShoppingCart: false,
             isLoggedIn: false,
             user: null,
-            onCart: []
+            shoppingCart: []
         };
 
         this.setUser = this.setUser.bind(this);
         this.toggleLogin = this.toggleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.toggleShoppingCart = this.toggleShoppingCart.bind(this);
+        this.addToCart = this.addToCart.bind(this);
+        this.removeFromCart = this.removeFromCart.bind(this);
     }
 
     setUser(state, user) {
@@ -34,16 +36,33 @@ class App extends Component {
         });
     }
 
-    addToCart(e, index) {
-        let onCart = this.onCart;
-        onCart.add(index, 1);
-        this.setState({onCart})
+    addToCart(work) {
+        let shoppingCart = this.state.shoppingCart;
+        let existingIndex = shoppingCart.findIndex((item) => {
+            return item.id === work.id;
+        });
+
+        if(existingIndex !== -1) {
+            work.amount = shoppingCart[existingIndex].amount + 1;
+            shoppingCart.splice(existingIndex, 1, work);
+            this.setState({
+                shoppingCart: shoppingCart
+            });
+        } else {
+            work.amount = 1;
+            shoppingCart.push(work);
+            this.setState({
+                shoppingCart: shoppingCart
+            });
+        }
     }
 
-    removeFromCart(e, index) {
-        let onCart = this.onCart;
-        onCart.slice(index, 1);
-        this.setState({onCart})
+    removeFromCart(id) {
+        let cart = this.state.shoppingCart;
+        cart.splice(id, 1);
+        this.setState({
+            shoppingCart: cart
+        });
     }
 
     toggleLogin = () => {
@@ -100,7 +119,7 @@ class App extends Component {
                                 bsStyle="info"
                                 onClick={this.toggleShoppingCart}
                             >
-                                Ostoskori
+                                {!this.state.showShoppingCart ? "Ostoskoriin" : "Hakuun"}
                             </Button>
                         </NavItem>
                         <NavItem className="nav-button">
@@ -125,11 +144,16 @@ class App extends Component {
                     </Nav>
                 </Navbar>
                 <div className="content">
-                    {this.state.showShoppingCart ?
-                        <ShoppingCart/>
-                    :
-                        <Search/>
-                    }
+                    <ShoppingCart
+                        show={this.state.showShoppingCart}
+                        shoppingCart={this.state.shoppingCart}
+                        addToCart={this.addToCart}
+                        removeFromCart={this.removeFromCart}
+                    />
+                    <Search
+                        show={!this.state.showShoppingCart}
+                        addToCart={this.addToCart}
+                    />
                 </div>
             </div>
         )
