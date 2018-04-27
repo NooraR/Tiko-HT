@@ -7,6 +7,7 @@ import Registration from "./Registration";
 import Login from './Login'
 import Search from './Search';
 import ShoppingCart from "./ShoppingCart";
+import Maintenance from "./Maintenance";
 
 class App extends Component {
     constructor(props) {
@@ -14,8 +15,7 @@ class App extends Component {
 
         this.state = {
             showLogin: false,
-            showRegistration: false,
-            showShoppingCart: false,
+            currentSite: "search",
             isLoggedIn: false,
             user: null,
             shoppingCart: []
@@ -23,10 +23,11 @@ class App extends Component {
 
         this.setUser = this.setUser.bind(this);
         this.toggleLogin = this.toggleLogin.bind(this);
+        this.toggleRegistration = this.toggleRegistration.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-        this.toggleShoppingCart = this.toggleShoppingCart.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);
+        this.switchSite = this.switchSite.bind(this);
     }
 
     setUser(state, user) {
@@ -79,11 +80,12 @@ class App extends Component {
         });
     };
 
-    toggleShoppingCart = () => {
+
+    switchSite(e) {
         this.setState({
-            showShoppingCart: !this.state.showShoppingCart
+            currentSite: e.target.name
         });
-    };
+    }
 
     handleLogout = () => {
         fetch("/logout", {
@@ -117,9 +119,10 @@ class App extends Component {
                             <Button
                                 bsSize="small"
                                 bsStyle="info"
-                                onClick={this.toggleShoppingCart}
+                                name={this.state.currentSite === "search" ? "shoppingCart" : "search"}
+                                onClick={this.switchSite}
                             >
-                                {!this.state.showShoppingCart ? "Ostoskoriin" : "Hakuun"}
+                                {!this.state.currentSite === "shoppingCart" ? "Hakuun" : "Ostoskoriin"}
                             </Button>
                         </NavItem>
                         <NavItem className="nav-button">
@@ -131,7 +134,7 @@ class App extends Component {
                         :
                             (this.state.user && this.state.user.isAdmin ?
                                 <ButtonGroup>
-                                    <Button bsSize="small" bsStyle="danger">Ylläpito</Button>
+                                    <Button bsSize="small" name="management" onClick={this.switchSite} bsStyle="danger">Ylläpito</Button>
                                     <Button onClick={this.handleLogout} bsSize="small" bsStyle="primary">Kirjaudu ulos</Button>
                                 </ButtonGroup>
 
@@ -144,15 +147,19 @@ class App extends Component {
                     </Nav>
                 </Navbar>
                 <ShoppingCart
-                    show={this.state.showShoppingCart}
+                    show={this.state.currentSite === "shoppingCart"}
                     shoppingCart={this.state.shoppingCart}
                     addToCart={this.addToCart}
                     removeFromCart={this.removeFromCart}
                 />
                 <Search
-                    show={!this.state.showShoppingCart}
+                    show={this.state.currentSite === "search"}
                     addToCart={this.addToCart}
                 />
+                {
+                    this.state.currentSite === "management" && this.state.user && this.state.user.isAdmin
+                    && <Maintenance />
+                }
             </div>
         )
     }
