@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import Modal from 'react-modal';
+import { Modal, Button, ButtonToolbar, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 
 export default class Registration extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            modalIsOpen: true,
+            showAlert: false,
+            showConfirmation: false,
             firstName: "",
             lastName: "",
             address: "",
@@ -15,26 +15,19 @@ export default class Registration extends Component {
             email: "",
             password: ""
         };
-
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-    }
-
-    openModal() {
-        this.setState({modalIsOpen: true});
-    }
-
-    closeModal() {
-        this.setState({modalIsOpen: false});
+        this.toggleConfirmation = this.toggleConfirmation.bind(this);
     }
 
     validateForm() {
         return this.state.firstName.length > 0
             && this.state.lastName.length > 0
             && this.state.address.length > 0
-            && this.state.phoneNumber.length > 0
             && this.state.email.length > 0
             && this.state.password.length > 0;
+    }
+
+    validateField = value => {
+        return value.length > 0;
     }
 
     handleChange = event => {
@@ -43,22 +36,85 @@ export default class Registration extends Component {
         });
     }
 
+    toggleConfirmation() {
+        this.setState({
+            showConfirmation: !this.state.showConfirmation
+        });
+    }
+
     handleSubmit = event => {
         event.preventDefault();
+        fetch("/register", {
+            method: 'POST',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify(this.state),
+            credentials: "same-origin"
+        })
+            .then(result => {
+                console.log(result);
+                return result.json();
+            })
+            .then(json => {
+                if(json.success) {
+                    this.props.toggleModal();
+                    this.toggleConfirmation();
+                } else {
+                    this.setState({
+                        showAlert: true
+                    });
+                    setTimeout(() => {
+                        this.setState({
+                            showAlert: false
+                        });
+                    }, 5000)
+                }
+            });
     }
 
     render() {
         return (
             <div className="Registration">
-                    <Modal
-                        isOpen={this.state.modalIsOpen}
-                        onRequestClose={this.closeModal}
-                    >
-                        <button className="close" onClick={this.closeModal}>close</button>
-                        <h2 ref={subtitle => this.subtitle = subtitle}>Rekisteröityminen</h2>
-
-                        <form onSubmit={this.handleSubmit}>
-                            <FormGroup controlId="firstName" bsSize="large">
+                <Modal
+                    show={this.state.showConfirmation}
+                    onHide={this.toggleConfirmation}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Kiitos rekisteröitymisestäsi</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Rekisteröidyit onnistuneesti, voit nyt kirjautua sisään käyttäjälläsi.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <ButtonToolbar>
+                            <Button
+                                onClick={this.toggleConfirmation}
+                                bsStyle="primary"
+                            >
+                                OK
+                            </Button>
+                        </ButtonToolbar>
+                    </Modal.Footer>
+                </Modal>
+                <Modal
+                    show={this.props.showModal}
+                    onHide={this.props.toggleModal}
+                >
+                    <form onSubmit={this.handleSubmit}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Rekisteröidy</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            {this.state.showAlert &&
+                                <Alert bsStyle="danger">
+                                    <strong>
+                                        Failed to register, please try again
+                                    </strong>
+                                </Alert>}
+                            <FormGroup
+                                controlId="firstName"
+                                bsSize="large"
+                                validationState={this.validateField(this.state.firstName) ? null : 'error'}
+                            >
                                 <ControlLabel>Etunimi*</ControlLabel>
                                 <FormControl
                                     autoFocus
@@ -67,7 +123,11 @@ export default class Registration extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="lastName" bsSize="large">
+                            <FormGroup
+                                controlId="lastName"
+                                bsSize="large"
+                                validationState={this.validateField(this.state.lastName) ? null : 'error'}
+                            >
                                 <ControlLabel>Sukunimi*</ControlLabel>
                                 <FormControl
                                     autoFocus
@@ -76,7 +136,11 @@ export default class Registration extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="address" bsSize="large">
+                            <FormGroup
+                                controlId="address"
+                                bsSize="large"
+                                validationState={this.validateField(this.state.address) ? null : 'error'}
+                            >
                                 <ControlLabel>Osoite*</ControlLabel>
                                 <FormControl
                                     autoFocus
@@ -85,8 +149,11 @@ export default class Registration extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="phoneNumber" bsSize="large">
-                                <ControlLabel>Puhelinnumero*</ControlLabel>
+                            <FormGroup
+                                controlId="phoneNumber"
+                                bsSize="large"
+                            >
+                                <ControlLabel>Puhelinnumero</ControlLabel>
                                 <FormControl
                                     autoFocus
                                     type="text"
@@ -94,7 +161,11 @@ export default class Registration extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="email" bsSize="large">
+                            <FormGroup
+                                controlId="email"
+                                bsSize="large"
+                                validationState={this.validateField(this.state.email) ? null : 'error'}
+                            >
                                 <ControlLabel>Sähköpostiosoite*</ControlLabel>
                                 <FormControl
                                     autoFocus
@@ -103,7 +174,11 @@ export default class Registration extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="password" bsSize="large">
+                            <FormGroup
+                                controlId="password"
+                                bsSize="large"
+                                validationState={this.validateField(this.state.password) ? null : 'error'}
+                            >
                                 <ControlLabel>Salasana*</ControlLabel>
                                 <FormControl
                                     value={this.state.password}
@@ -112,16 +187,26 @@ export default class Registration extends Component {
                                 />
                             </FormGroup>
                             <p>*:llä merkityt kohdat ovat pakollisia</p>
-                            <Button
-                                block
-                                bsSize="large"
-                                disabled={!this.validateForm()}
-                                type="submit"
-                            >
-                                Rekisteröidy
-                            </Button>
-                        </form>
-                    </Modal>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <ButtonToolbar>
+                                <Button
+                                    disabled={!this.validateForm()}
+                                    type="submit"
+                                    bsStyle="success"
+                                >
+                                    Rekisteröidy
+                                </Button>
+                                <Button
+                                    bsStyle="danger"
+                                    onClick={this.props.toggleModal}
+                                >
+                                    Peruuta
+                                </Button>
+                            </ButtonToolbar>
+                        </Modal.Footer>
+                    </form>
+                </Modal>
             </div>
         );
     }

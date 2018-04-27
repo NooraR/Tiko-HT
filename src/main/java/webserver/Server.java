@@ -35,7 +35,7 @@ public class Server {
         get("/api/data/products", (req, res) -> PublicController.getProductsAvailable(req, res, sessionFactory));
 
         //User handling
-        post("/api/register", (req, res) -> UserController.register(req, res, sessionFactory));
+        post("/register", (req, res) -> UserController.register(req, res, sessionFactory));
 
         post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
 

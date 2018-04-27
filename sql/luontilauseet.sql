@@ -2,9 +2,9 @@ CREATE TABLE useraccount (
     id SERIAL,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    address VARCHAR(50),
+    address VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(300),
+    password VARCHAR(300) NOT NULL,
     phone_number VARCHAR(20),
     PRIMARY KEY(id)
 );
