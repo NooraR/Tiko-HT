@@ -83,6 +83,7 @@ export default class AddProduct extends Component {
                 return results.json();
             }).then(data => {
                 let antiquaries = data.data;
+                console.log(antiquaries);
                 this.setState({antiquaries: antiquaries});
             }
         )
@@ -168,11 +169,12 @@ export default class AddProduct extends Component {
                         <ControlLabel>Antikvariaatti</ControlLabel>
                         <FormControl>
                             <select value={this.state.antiquary} onChange={this.handleChange}>
-                                {this.antiquaries.map(result => {
-                                    return(
-                                        <option value={result.id}>{result.name}</option>
-                                    )
-                                })
+                                {
+                                    this.antiquaries.map((result, i) => {
+                                        return(
+                                            <option key={i} value={result.id}>{result.name}</option>
+                                        )
+                                    })
                                 }
                             </select>
                         </FormControl>
