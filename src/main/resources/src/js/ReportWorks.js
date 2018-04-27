@@ -21,10 +21,10 @@ export default class ReportUser extends Component {
 
 
     render() {
-
+        let works = this.state.works;
 
         return (
-            let works =
+
             <div>
                 <div className="product">
                     <p>Genre: {genre}</p>
