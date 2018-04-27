@@ -8,22 +8,12 @@ export default class Login extends Component {
         super(props);
 
         this.state = {
-            modalIsOpen: true,
             email: "",
-            password: "",
-            redirect: false
+            password: ""
         };
 
-        this.toggleModal = this.toggleModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    toggleModal() {
-        this.setState({
-            modalIsOpen: !this.state.modalIsOpen,
-            redirect: !this.state.redirect
-        });
     }
 
     validateForm() {
@@ -38,16 +28,23 @@ export default class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch("/login", {
-            method: 'post',
+        fetch("/api/login", {
+            method: 'POST',
             headers: {"Content-type": "application/json; charset=UTF-8"},
-            body: {
+            body: JSON.stringify({
                 "email": this.state.email,
                 "password": this.state.password
-            }
+            }),
+            credentials: "same-origin"
         })
-        .then((data) => {
-            console.log(data);
+        .then(result => {
+            return result.json();
+        })
+        .then(json => {
+            console.log(json);
+            if(json.success) {
+                this.props.setUser(json.data);
+            }
         });
     }
 
@@ -62,17 +59,16 @@ export default class Login extends Component {
     render() {
         return (
             <div className="login">
-                {this.state.redirect && <Redirect to="/" />}
                 <Modal
-                    show={this.state.modalIsOpen}
-                    onHide={this.toggleModal}
+                    show={this.props.showModal}
+                    onHide={this.props.toggleLogin}
                 >
                     <form onSubmit={this.handleSubmit}>
                         <Modal.Header closeButton>
                             <Modal.Title>Kirjaudu sisään</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <FormGroup controlId="email" bsSize="large" validationState={this.emailValidation() ? 'success' : 'error'}>
+                            <FormGroup controlId="email" bsSize="large" validationState={this.emailValidation() ? null : 'error'}>
                                 <ControlLabel>Sähköpostiosoite</ControlLabel>
                                 <FormControl
                                     autoFocus
@@ -81,7 +77,7 @@ export default class Login extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="password" bsSize="large" validationState={this.passwordValidation() ? 'success' : 'error'}>
+                            <FormGroup controlId="password" bsSize="large" validationState={this.passwordValidation() ? null : 'error'}>
                                 <ControlLabel>Salasana</ControlLabel>
                                 <FormControl
                                     value={this.state.password}
@@ -93,6 +89,7 @@ export default class Login extends Component {
                         <Modal.Footer>
                             <Button
                                 disabled={!this.validateForm()}
+                                bsStyle="primary default"
                                 type="submit"
                             >
                                 Kirjaudu
