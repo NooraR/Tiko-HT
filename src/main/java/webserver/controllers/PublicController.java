@@ -2,8 +2,10 @@ package webserver.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import database.AntiquarianHandler;
 import database.ProductHandler;
 import database.WorkHandler;
+import datamodel.Antiquarian;
 import datamodel.Product;
 import datamodel.Work;
 import org.hibernate.SessionFactory;
@@ -45,6 +47,23 @@ public class PublicController {
         } catch (Exception e) {
             res.status(400);
             return gson.toJson(new Reply(false, "Failed to retrieve products", null));
+        }
+    }
+
+    public static String getAntiquaries(Request req, Response res, SessionFactory sessionFactory) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        AntiquarianHandler handler = new AntiquarianHandler(sessionFactory);
+
+        res.type("application/json");
+
+        try {
+            List<Antiquarian> antiquaries = handler.getAntiquaries();
+            res.status(200);
+
+            return gson.toJson(new Reply(true, "Retrieved antiquaries", antiquaries));
+        } catch (Exception e) {
+            res.status(400);
+            return gson.toJson(new Reply(false, "Failed to retrieve antiquaries", null));
         }
     }
 }
