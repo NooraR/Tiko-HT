@@ -80,15 +80,19 @@ export default class AddProduct extends Component {
     componentDidMount() {
         fetch('/data/antiquaries')
             .then(results => {
+                console.log({results: results});
                 return results.json();
             }).then(data => {
                 let antiquaries = data.data;
+                console.log(antiquaries);
                 this.setState({antiquaries: antiquaries});
             }
         )
     }
 
     render() {
+        let antiquaries = this.state.antiquaries;
+
         return (
             <div className="container">
                 <h2>Uuden teoksen lisääminen</h2>
@@ -168,11 +172,12 @@ export default class AddProduct extends Component {
                         <ControlLabel>Antikvariaatti</ControlLabel>
                         <FormControl>
                             <select value={this.state.antiquary} onChange={this.handleChange}>
-                                {this.antiquaries.map(result => {
-                                    return(
-                                        <option value={result.id}>{result.name}</option>
-                                    )
-                                })
+                                {
+                                    antiquaries.map((result, i) => {
+                                        return(
+                                            <option key={i} value={result.id}>{result.name}</option>
+                                        )
+                                    })
                                 }
                             </select>
                         </FormControl>
