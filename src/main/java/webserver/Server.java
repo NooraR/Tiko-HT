@@ -19,9 +19,12 @@ public class Server {
         //Spark config
         port(80);
         //staticFiles.location("/frontend/src");
+        String directory = System.getProperty("user.dir") + "/src/main/resources/public";
+        staticFiles.externalLocation(directory);
+        System.out.println("Reading files from " + directory);
 
         //Routes
-        get("/api", (req, res) -> {
+        get("/", (req, res) -> {
             res.redirect("/index.html");
             return null;
         });
