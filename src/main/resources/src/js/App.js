@@ -27,6 +27,7 @@ class App extends Component {
         this.handleLogout = this.handleLogout.bind(this);
         this.addToCart = this.addToCart.bind(this);
         this.removeFromCart = this.removeFromCart.bind(this);
+        this.changeCartAmount = this.changeCartAmount.bind(this);
         this.switchSite = this.switchSite.bind(this);
     }
 
@@ -43,13 +44,7 @@ class App extends Component {
             return item.id === work.id;
         });
 
-        if(existingIndex !== -1) {
-            work.amount = shoppingCart[existingIndex].amount + 1;
-            shoppingCart.splice(existingIndex, 1, work);
-            this.setState({
-                shoppingCart: shoppingCart
-            });
-        } else {
+        if(existingIndex === -1) {
             work.amount = 1;
             shoppingCart.push(work);
             this.setState({
@@ -58,9 +53,31 @@ class App extends Component {
         }
     }
 
+    changeCartAmount(increase, id) {
+        let cart = this.state.shoppingCart;
+        let index = cart.findIndex((item) => {
+            return item.id === id;
+        });
+        let work = cart[index];
+        if(increase) {
+            work.amount++;
+        } else {
+            work.amount--;
+        }
+
+        cart.splice(index, 1, work);
+
+        this.setState({
+            shoppingCart: cart
+        });
+    }
+
     removeFromCart(id) {
         let cart = this.state.shoppingCart;
-        cart.splice(id, 1);
+        let index = cart.findIndex((item) => {
+            return item.id === id;
+        });
+        cart.splice(index, 1);
         this.setState({
             shoppingCart: cart
         });
@@ -122,7 +139,7 @@ class App extends Component {
                                 name={this.state.currentSite === "search" ? "shoppingCart" : "search"}
                                 onClick={this.switchSite}
                             >
-                                {!this.state.currentSite === "shoppingCart" ? "Hakuun" : "Ostoskoriin"}
+                                {this.state.currentSite === "shoppingCart" ? "Hakuun" : "Ostoskoriin"}
                             </Button>
                         </NavItem>
                         <NavItem className="nav-button">
@@ -151,6 +168,7 @@ class App extends Component {
                     shoppingCart={this.state.shoppingCart}
                     addToCart={this.addToCart}
                     removeFromCart={this.removeFromCart}
+                    changeCartAmount={this.changeCartAmount}
                 />
                 <Search
                     show={this.state.currentSite === "search"}
