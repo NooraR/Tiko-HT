@@ -1,8 +1,8 @@
-.SearchContainer {
+.searchContainer {
     float: left;
 }
 
-.Search {
+.search {
     margin: 2em;
     overflow: auto;
 }
@@ -24,7 +24,7 @@ button[type=submit].Search {
     cursor: pointer;
 }
 
-.ResultContainer {
+.resultContainer {
     margin-top: 2em;
     overflow: auto;
 }

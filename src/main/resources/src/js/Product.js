@@ -16,7 +16,7 @@ export default class Product extends Component {
             type,
             weight,
             products
-        } = this.props
+        } = this.props;
 
         return (
             <div className="Product">

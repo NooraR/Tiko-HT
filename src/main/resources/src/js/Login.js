@@ -89,7 +89,7 @@ export default class Login extends Component {
                         <Modal.Footer>
                             <Button
                                 disabled={!this.validateForm()}
-                                bsStyle="primary default"
+                                bsStyle="primary"
                                 type="submit"
                             >
                                 Kirjaudu
