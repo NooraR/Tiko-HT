@@ -20,7 +20,7 @@ class App extends Component {
             showRegistration: false,
             isLoggedIn: false,
             user: null
-        }
+        };
 
         this.setUser = this.setUser.bind(this);
         this.toggleLogin = this.toggleLogin.bind(this);
