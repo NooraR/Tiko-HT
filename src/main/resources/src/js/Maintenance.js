@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AddProduct from './AddProduct';
+import Reports from './Reports';
 import "./Maintenance.css";
 
 export default class Maintenance extends Component {
@@ -8,6 +9,7 @@ export default class Maintenance extends Component {
             <div className="container">
                 <AddProduct />
                 <hr />
+                <Reports />
             </div>
         );
     }

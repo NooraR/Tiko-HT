@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import "./Product.css";
 
-export default class ReportUser extends Component {
+export default class ReportWorks extends Component {
     constructor(props) {
         super(props);
 
-        let works = this.props;
+        this.state = {
+            works: []
+        };
     }
 
     componentDidMount() {
-        fetch('/management/reports/works')
+        fetch('/management/reports/works', {
+            credentials: "same-origin"
+        })
             .then(results => {
                 return results.json();
             }).then(data => {
@@ -24,12 +28,20 @@ export default class ReportUser extends Component {
         let works = this.state.works;
 
         return (
-
             <div>
+                <h1>Myyntihinnat</h1>
                 <div className="product">
-                    <p>Genre: {genre}</p>
-                    <p>Yhteenlaskettu myyntihinta: {totalSellingPrice}</p>
-                    <p>Keskiarvoinen myyntihinta: {averagePrice}</p>
+                    {
+                        works.map((result, i) => {
+                            return(
+                                <div key={i}>
+                                    <p>Genre: {result.genre}</p>
+                                    <p>Yhteenlaskettu myyntihinta: {result.totalSellingPrice}</p>
+                                    <p>Keskiarvoinen myyntihinta: {result.averagePrice}</p>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         );

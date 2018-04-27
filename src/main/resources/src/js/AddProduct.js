@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, Dropdown, MenuItem, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./AddProduct.css";
 
 export default class AddProduct extends Component {
@@ -14,6 +14,7 @@ export default class AddProduct extends Component {
             isbn: "",
             published: "",
             genre: "",
+            type: "",
             weight: 0,
             antiquaries: [],
             antiquary: ""
@@ -50,6 +51,7 @@ export default class AddProduct extends Component {
                         "isbn": this.state.isbn,
                         "published": this.state.published,
                         "genre": this.state.genre,
+                        "type": this.state.type,
                         "weight": this.state.weight
                     },
                     "antiquary": this.state.antiquary
@@ -97,7 +99,7 @@ export default class AddProduct extends Component {
             <div className="container">
                 <h2>Uuden teoksen lisääminen</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="sellingPrize" bsSize="large">
+                    <FormGroup controlId="sellingPrice" bsSize="large">
                         <ControlLabel>Myyntihinta*</ControlLabel>
                         <FormControl
                             autoFocus
@@ -155,8 +157,17 @@ export default class AddProduct extends Component {
                         <ControlLabel>Genre</ControlLabel>
                         <FormControl
                             autoFocus
-                            type="email"
+                            type="text"
                             value={this.state.genre}
+                            onChange={this.handleChange}
+                        />
+                    </FormGroup>
+                    <FormGroup controlId="type" bsSize="large">
+                        <ControlLabel>Tyyppi</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.type}
                             onChange={this.handleChange}
                         />
                     </FormGroup>
@@ -165,22 +176,25 @@ export default class AddProduct extends Component {
                         <FormControl
                             value={this.state.weight}
                             onChange={this.handleChange}
-                            type="text"
+                            type="number"
                         />
                     </FormGroup>
                     <FormGroup>
-                        <ControlLabel>Antikvariaatti</ControlLabel>
-                        <FormControl>
-                            <select value={this.state.antiquary} onChange={this.handleChange}>
+                        <ControlLabel>Antikvariaatti*</ControlLabel>
+                        <Dropdown id="dropdown">
+                            <Dropdown.Toggle glyph="choose">
+                                Valitse..
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
                                 {
                                     antiquaries.map((result, i) => {
                                         return(
-                                            <option key={i} value={result.id}>{result.name}</option>
+                                            <MenuItem key={i} value={result.id}>{result.name}</MenuItem>
                                         )
                                     })
                                 }
-                            </select>
-                        </FormControl>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </FormGroup>
                     <p>*:llä merkityt kohdat ovat pakollisia</p>
                     <Button
