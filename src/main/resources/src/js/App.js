@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Navbar, Nav, Button, ButtonToolbar } from "react-bootstrap";
-import { BrowserRouter, NavLink, Route } from 'react-router-dom';
-
+import { Navbar, Nav, NavItem, Button, ButtonGroup } from "react-bootstrap";
 import './App.css';
 
 import Registration from "./Registration";
-import ShoppingCart from "./ShoppingCart";
-import Maintenance from './Maintenance';
 import Login from './Login'
 import Search from './Search';
+import ShoppingCart from "./ShoppingCart";
 
 class App extends Component {
     constructor(props) {
@@ -18,6 +15,7 @@ class App extends Component {
         this.state = {
             showLogin: false,
             showRegistration: false,
+            showShoppingCart: false,
             isLoggedIn: false,
             user: null
         };
@@ -25,6 +23,7 @@ class App extends Component {
         this.setUser = this.setUser.bind(this);
         this.toggleLogin = this.toggleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
+        this.toggleShoppingCart = this.toggleShoppingCart.bind(this);
     }
 
     setUser(state, user) {
@@ -48,6 +47,12 @@ class App extends Component {
         });
     };
 
+    toggleShoppingCart = () => {
+        this.setState({
+            showShoppingCart: !this.state.showShoppingCart
+        });
+    };
+
     handleLogout = () => {
         fetch("/logout", {
             method: 'GET',
@@ -66,36 +71,54 @@ class App extends Component {
 
     render() {
         return (
-            <BrowserRouter>
-                <div>
-                    <Login showModal={this.state.showLogin} toggleModal={this.toggleLogin} setUser={this.setUser} />
-                    <Registration showModal={this.state.showRegistration} toggleModal={this.toggleRegistration} />
-                    <Navbar>
-                        <Navbar.Header>
-                            <Navbar.Brand>
-                                <h1>Antikvariaatti</h1>
-                            </Navbar.Brand>
-                        </Navbar.Header>
-                        <Nav>
-                            <ButtonToolbar>
-                            {!this.state.isLoggedIn ?
-                                <Button onClick={this.toggleLogin}>Kirjaudu sisään</Button>
-                                : <Button onClick={this.handleLogout}>Kirjaudu ulos</Button>
-                            }
-                            {!this.state.isLoggedIn
-                                && <Button onClick={this.toggleRegistration}>Rekisteröidy</Button>}
-                            </ButtonToolbar>
-                            <NavLink className="NavLink" to="/shoppingCart">Ostoskori</NavLink>
-                            <NavLink className="NavLink" to="/maintenance">Ylläpito</NavLink>
-                        </Nav>
-                    </Navbar>
-                    <div className="content">
-                        <Route path="" component={Search}/>
-                        <Route path="/shoppingCart" component={ShoppingCart}/>
-                        <Route path="/maintenance" component={Maintenance}/>
-                    </div>
+            <div>
+                <Login showModal={this.state.showLogin} toggleModal={this.toggleLogin} setUser={this.setUser} />
+                <Registration showModal={this.state.showRegistration} toggleModal={this.toggleRegistration} />
+                <Navbar>
+                    <Navbar.Header>
+                        <Navbar.Brand>
+                            <h1>Antikvariaatti</h1>
+                        </Navbar.Brand>
+                    </Navbar.Header>
+                    <Nav>
+                        <NavItem className="nav-button">
+                            <Button
+                                bsSize="small"
+                                bsStyle="info"
+                                onClick={this.toggleShoppingCart}
+                            >
+                                Ostoskori
+                            </Button>
+                        </NavItem>
+                        <NavItem className="nav-button">
+                        {!this.state.isLoggedIn ?
+                            <ButtonGroup>
+                                <Button onClick={this.toggleLogin} bsSize="small" bsStyle="success">Kirjaudu sisään</Button>
+                                <Button onClick={this.toggleRegistration} bsSize="small" bsStyle="primary">Rekisteröidy</Button>
+                            </ButtonGroup>
+                        :
+                            (this.state.user && this.state.user.isAdmin ?
+                                <ButtonGroup>
+                                    <Button bsSize="small" bsStyle="danger">Ylläpito</Button>
+                                    <Button onClick={this.handleLogout} bsSize="small" bsStyle="primary">Kirjaudu ulos</Button>
+                                </ButtonGroup>
+
+                            :
+                                <Button onClick={this.handleLogout} bsSize="small" bsStyle="primary">Kirjaudu ulos</Button>
+                            )
+                        }
+
+                        </NavItem>
+                    </Nav>
+                </Navbar>
+                <div className="content">
+                    {this.state.showShoppingCart ?
+                        <ShoppingCart/>
+                    :
+                        <Search/>
+                    }
                 </div>
-            </BrowserRouter>
+            </div>
         )
     }
 }

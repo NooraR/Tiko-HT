@@ -22,12 +22,17 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .NavLink {
   margin: 1em;
   text-decoration: none;
+}
+
+.navbar-nav>.nav-button>a {
+  padding: 10px 2px;
+}
+
+.nav.navbar-nav {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  float: right;
 }
