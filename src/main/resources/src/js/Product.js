@@ -20,14 +20,14 @@ export default class Product extends Component {
 
         return (
             <div className="Product">
-                <p>Id: {id}</p>
                 <p>Nimi: {name}</p>
                 <p>Tekijä: {author}</p>
                 <p>ISBN: {isbn}</p>
                 <p>Julkaisuvuosi: {published}</p>
                 <p>Genre: {genre}</p>
                 <p>Tyyppi: {type}</p>
-                <p>Paino: {weight}</p>
+                <p>Paino: {weight} kg</p>
+                <p>Saldo: {products.length}</p>
             </div>
         );
     }
