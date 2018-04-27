@@ -38,13 +38,13 @@ export default class Registration extends Component {
             && this.state.password.length > 0;
     }
 
-    handleChange(event) {
+    handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
     }
 
-    handleSubmit (event) {
+    handleSubmit = event => {
         event.preventDefault();
     }
 

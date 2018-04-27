@@ -8,7 +8,7 @@ export default class AddProduct extends Component {
 
         this.state = {
             name: "",
-            author: "",
+            auchtor: "",
             isbn: "",
             published: "",
             genre: "",
@@ -25,13 +25,13 @@ export default class AddProduct extends Component {
             && this.state.weight > 0;
     }
 
-    handleChange(event) {
+    handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
     }
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault();
     }
 

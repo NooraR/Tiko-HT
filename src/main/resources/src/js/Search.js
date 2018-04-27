@@ -1,33 +1,40 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import Product from './Product.js';
+import Product from './Product';
 import "./Search.css";
 
 export default class Search extends Component {
     constructor() {
         super();
-
         this.state = {
             works: [],
         };
     }
 
     componentDidMount() {
-        fetch('http://localhost/data/works')
+        fetch('/api/data/works')
             .then(results => {
-                return results.json()
+                return results.json();
             }).then(data => {
-                console.log("Mitä dataa tulee", data.data);
-        })
+            let works = data.data;
+            this.setState({works: works});
+        }
+        )
     }
 
-    handleChange(event) {
+    handleClick(id) {
+        //this.state.works.forEach(result => {
+
+        //}
+    }
+
+    handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
     }
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault();
     }
 
@@ -55,9 +62,12 @@ export default class Search extends Component {
                     </form>
                 </div>
                 <div className="ResultContainer">
-                    { this.state.works.forEach(result => {
-                        return (<Product name={result.name} auchtor={result.auchtor} isbn={result.isbn} published={result.published} genre={result.genre} weight={result.weight} />)
-                    })
+                    {
+                     this.state.works.map((result, i) => {
+                         return (
+                             <Product key={i} id={result.id} author={result.author} name={result.name} isbn={result.isbn} published={result.published} genre={result.genre} type={result.type} weight={result.weight} products={result.products} />
+                         )
+                     })
                     }
                 </div>
             </div>
