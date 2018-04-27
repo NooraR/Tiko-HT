@@ -1,23 +1,42 @@
 .product {
-    width: 45em;
-    height: auto;
-    border-radius: 20px;
-    margin: 1em;
-    border: 2px solid lightblue;
-    float: left;
+    width: 30%;
+    min-height: 400px;
+    display: inline-block;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin: 1%;
+    vertical-align: top;
+    padding: 1%;
+    position: relative;
 }
 
-.addToCart {
-    margin-right: 1.5em;
-    margin-bottom: 1.5em;
+.product h1 {
+    font-size: 28px;
+    margin: 0;
+    display: block;
 }
 
-Button {
-    float: right;
+.product h2 {
+    font-size: 22px;
+    margin: 5px;
 }
 
-
-p {
-    margin: 1em;
+.product h2, .product h1 {
+    display: block;
+    width: 100%;
 }
 
+.SearchContainer, .ResultContainer {
+    width: 100%;
+}
+
+.product table, .product tbody {
+    width: 80%;
+    margin: 15px auto;
+}
+
+.product .add-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}

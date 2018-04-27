@@ -17,7 +17,10 @@ import spark.Response;
 import webserver.util.Reply;
 
 import javax.persistence.EntityExistsException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static spark.Spark.halt;
@@ -26,6 +29,9 @@ public class ManagementController {
     public static String addProduct(Request req, Response res, SessionFactory sessionFactory) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         ProductHandler handler = new ProductHandler(sessionFactory);
+
+        res.type("application/json");
+
 
         try {
             Product product = gson.fromJson(req.body(), Product.class);
@@ -47,6 +53,9 @@ public class ManagementController {
     public static String checkUserPermissions(Request req, Response res){
         System.out.println("Checking if user is an admin...");
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+        res.type("application/json");
+
         try{
             if (req.session() != null && req.session().attribute("user") != null){
                 User user = req.session().attribute("user");
@@ -71,6 +80,8 @@ public class ManagementController {
     public String getWorkReport(Request req, Response res, SessionFactory sessionFactory) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
+
+        res.type("application/json");
 
         try {
             session.beginTransaction();
@@ -142,6 +153,7 @@ public class ManagementController {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
 
+        res.type("application/json");
         try {
             session.beginTransaction();
 
@@ -149,10 +161,14 @@ public class ManagementController {
             List<User> allUsers = (List<User>) query.list();
             List<UserReportListObject> report = new ArrayList<>();
 
+            int year = new GregorianCalendar().get(GregorianCalendar.YEAR) - 1;
+            DateFormat format = new SimpleDateFormat("yyyy-mmm-ddd");
             for(User user : allUsers) {
                 //Get orders for user
-                query = session.createQuery("FROM Order WHERE orderer = :orderer");
+                query = session.createQuery("FROM Order WHERE orderer = :orderer AND (orderDate BETWEEN :startYear AND :endYear)");
                 query.setParameter("orderer", user);
+                query.setParameter("startYear", format.parse(year + "-01-01"));
+                query.setParameter("endYear", format.parse(year + "-12-31"));
 
                 int numberOfProducts = 0;
                 List<Order> usersOrders = (List<Order>) query.list();
@@ -164,6 +180,7 @@ public class ManagementController {
                 UserReportListObject listObject = new UserReportListObject();
                 listObject.user = user;
                 listObject.numberOfProducts = numberOfProducts;
+                listObject.year = year;
                 report.add(listObject);
             }
 
@@ -188,9 +205,13 @@ public class ManagementController {
         @Expose
         public int numberOfProducts;
 
+        @Expose
+        public int year;
+
         public UserReportListObject() {
             user = null;
             numberOfProducts = 0;
+            year = 0;
         }
     }
 }

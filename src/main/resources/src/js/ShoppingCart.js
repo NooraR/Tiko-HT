@@ -22,6 +22,7 @@ export default class ShoppingCart extends Component {
                                 isInShoppingCart={true}
                                 addToCart={() => this.props.addToCart(item)}
                                 removeFromCart={() => this.props.removeFromCart(item.id)}
+                                changeCartAmount={this.props.changeCartAmount}
                             />;
                         })}
                     </div>

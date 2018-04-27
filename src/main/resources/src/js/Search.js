@@ -49,7 +49,7 @@ export default class Search extends Component {
                 <div className="SearchContainer">
                     <div className="Search">
                         <input type="text" value={this.state.search} onChange={this.handleChange}
-                               placeholder="Haku..."/>
+                               placeholder="Hae"/>
                     </div>
                     <div className="ResultContainer">
                         {
