@@ -61,11 +61,11 @@ public class Server {
 
 
         //Set 404 routes
-        get("*", (req, res) -> {
+        /*get("*", (req, res) -> {
             res.status(404);
             res.redirect("/notfound.html");
             return null;
-        });
+        });*/
 
         //Free up reserved products in DB on shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
