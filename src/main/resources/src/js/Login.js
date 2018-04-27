@@ -42,7 +42,7 @@ export default class Login extends Component {
         .then(json => {
             if(json.success) {
                 this.props.setUser(true, json.data);
-                this.props.toggleLogin();
+                this.props.toggleModal();
             } else {
                 this.setState({
                     showAlert: true
@@ -69,7 +69,7 @@ export default class Login extends Component {
             <div className="login">
                 <Modal
                     show={this.props.showModal}
-                    onHide={this.props.toggleLogin}
+                    onHide={this.props.toggleModal}
                 >
                     <form onSubmit={this.handleSubmit}>
                         <Modal.Header closeButton>
@@ -111,7 +111,7 @@ export default class Login extends Component {
                                 </Button>
                                 <Button
                                     bsStyle="danger"
-                                    onClick={this.props.toggleLogin}
+                                    onClick={this.props.toggleModal}
                                 >
                                     Peruuta
                                 </Button>

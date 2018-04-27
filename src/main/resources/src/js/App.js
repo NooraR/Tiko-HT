@@ -68,8 +68,8 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <div>
-                    <Login showModal={this.state.showLogin} toggleLogin={this.toggleLogin} setUser={this.setUser} />
-                    <Registration showModal={this.state.showRegistration} toggleRegistration={this.toggleRegistration} />
+                    <Login showModal={this.state.showLogin} toggleModal={this.toggleLogin} setUser={this.setUser} />
+                    <Registration showModal={this.state.showRegistration} toggleModal={this.toggleRegistration} />
                     <Navbar>
                         <Navbar.Header>
                             <Navbar.Brand>
