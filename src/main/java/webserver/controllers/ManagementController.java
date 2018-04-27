@@ -45,6 +45,7 @@ public class ManagementController {
     }
 
     public static String checkUserPermissions(Request req, Response res){
+        System.out.println("Checking if user is an admin...");
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         try{
             if (req.session() != null && req.session().attribute("user") != null){
@@ -54,7 +55,7 @@ public class ManagementController {
                     halt();
                 }
 
-                System.out.println("Permission checked succesfully, result = "+user.isAdmin());
+                System.out.println("Permission checked successfully, result = "+user.isAdmin());
                 return "";
             }
             else {

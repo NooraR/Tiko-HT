@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Login from './Login'
-import Search from './Search';
-import { Navbar, Nav, Button } from "react-bootstrap";
+import { Navbar, Nav, Button, ButtonToolbar } from "react-bootstrap";
 import { BrowserRouter, NavLink, Route } from 'react-router-dom';
+
 import './App.css';
+
 import Registration from "./Registration";
 import ShoppingCart from "./ShoppingCart";
 import Maintenance from './Maintenance';
+import Login from './Login'
+import Search from './Search';
 
 class App extends Component {
     constructor(props) {
@@ -25,9 +27,9 @@ class App extends Component {
         this.handleLogout = this.handleLogout.bind(this);
     }
 
-    setUser(user) {
+    setUser(state, user) {
         this.setState({
-            isLoggedIn: true,
+            isLoggedIn: state,
             user: user
         });
     }
@@ -47,7 +49,19 @@ class App extends Component {
     };
 
     handleLogout = () => {
-
+        fetch("/logout", {
+            method: 'GET',
+            credentials: "same-origin"
+        })
+        .then(result => {
+            return result.json();
+        })
+        .then(json => {
+            console.log(json);
+            if(json.success) {
+                this.setUser(false, null);
+            }
+        });
     };
 
     render() {
@@ -55,6 +69,7 @@ class App extends Component {
             <BrowserRouter>
                 <div>
                     <Login showModal={this.state.showLogin} toggleLogin={this.toggleLogin} setUser={this.setUser} />
+                    <Registration showModal={this.state.showRegistration} toggleRegistration={this.toggleRegistration} />
                     <Navbar>
                         <Navbar.Header>
                             <Navbar.Brand>
@@ -62,18 +77,20 @@ class App extends Component {
                             </Navbar.Brand>
                         </Navbar.Header>
                         <Nav>
+                            <ButtonToolbar>
                             {!this.state.isLoggedIn ?
                                 <Button onClick={this.toggleLogin}>Kirjaudu sisään</Button>
                                 : <Button onClick={this.handleLogout}>Kirjaudu ulos</Button>
                             }
-                            <NavLink className="NavLink" to="/registration">Rekisteröityminen</NavLink>
+                            {!this.state.isLoggedIn
+                                && <Button onClick={this.toggleRegistration}>Rekisteröidy</Button>}
+                            </ButtonToolbar>
                             <NavLink className="NavLink" to="/shoppingCart">Ostoskori</NavLink>
                             <NavLink className="NavLink" to="/maintenance">Ylläpito</NavLink>
                         </Nav>
                     </Navbar>
                     <div className="content">
                         <Route path="" component={Search}/>
-                        <Route path="/registration" component={Registration}/>
                         <Route path="/shoppingCart" component={ShoppingCart}/>
                         <Route path="/maintenance" component={Maintenance}/>
                     </div>

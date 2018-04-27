@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Modal, Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { Link, Redirect } from 'react-router-dom';
-import "./Login.css";
+import { Modal, Button, ButtonToolbar, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 
 export default class Login extends Component {
     constructor(props) {
@@ -9,7 +7,8 @@ export default class Login extends Component {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            showAlert: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -28,7 +27,7 @@ export default class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch("/api/login", {
+        fetch("/login", {
             method: 'POST',
             headers: {"Content-type": "application/json; charset=UTF-8"},
             body: JSON.stringify({
@@ -41,9 +40,18 @@ export default class Login extends Component {
             return result.json();
         })
         .then(json => {
-            console.log(json);
             if(json.success) {
-                this.props.setUser(json.data);
+                this.props.setUser(true, json.data);
+                this.props.toggleLogin();
+            } else {
+                this.setState({
+                    showAlert: true
+                });
+                setTimeout(() => {
+                    this.setState({
+                        showAlert: false
+                    });
+                }, 5000)
             }
         });
     }
@@ -85,15 +93,29 @@ export default class Login extends Component {
                                     type="password"
                                 />
                             </FormGroup>
+                            {this.state.showAlert &&
+                            <Alert bsStyle="danger">
+                                <strong>
+                                    Wrong username or password
+                                </strong>
+                            </Alert>}
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button
-                                disabled={!this.validateForm()}
-                                bsStyle="primary"
-                                type="submit"
-                            >
-                                Kirjaudu
-                            </Button>
+                            <ButtonToolbar>
+                                <Button
+                                    disabled={!this.validateForm()}
+                                    bsStyle="success"
+                                    type="submit"
+                                >
+                                    Kirjaudu
+                                </Button>
+                                <Button
+                                    bsStyle="danger"
+                                    onClick={this.props.toggleLogin}
+                                >
+                                    Peruuta
+                                </Button>
+                            </ButtonToolbar>
                         </Modal.Footer>
                     </form>
                 </Modal>
