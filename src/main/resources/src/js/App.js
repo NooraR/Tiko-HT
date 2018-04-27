@@ -17,7 +17,8 @@ class App extends Component {
             showRegistration: false,
             showShoppingCart: false,
             isLoggedIn: false,
-            user: null
+            user: null,
+            onCart: []
         };
 
         this.setUser = this.setUser.bind(this);
@@ -31,6 +32,18 @@ class App extends Component {
             isLoggedIn: state,
             user: user
         });
+    }
+
+    addToCart(e, index) {
+        let onCart = this.onCart;
+        onCart.add(index, 1);
+        this.setState({onCart})
+    }
+
+    removeFromCart(e, index) {
+        let onCart = this.onCart;
+        onCart.slice(index, 1);
+        this.setState({onCart})
     }
 
     toggleLogin = () => {

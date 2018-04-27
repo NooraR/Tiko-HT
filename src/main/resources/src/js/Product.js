@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 import "./Product.css";
 
 export default class Product extends Component {
@@ -19,15 +20,21 @@ export default class Product extends Component {
         } = this.props;
 
         return (
-            <div className="Product">
-                <p>Nimi: {name}</p>
-                <p>Tekijä: {author}</p>
-                <p>ISBN: {isbn}</p>
-                <p>Julkaisuvuosi: {published}</p>
-                <p>Genre: {genre}</p>
-                <p>Tyyppi: {type}</p>
-                <p>Paino: {weight} kg</p>
-                <p>Saldo: {products.length}</p>
+            <div>
+                <div className="product">
+                    <p>Nimi: {name}</p>
+                    <p>Tekijä: {author}</p>
+                    <p>ISBN: {isbn}</p>
+                    <p>Julkaisuvuosi: {published}</p>
+                    <p>Genre: {genre}</p>
+                    <p>Tyyppi: {type}</p>
+                    <p>Paino: {weight} kg</p>
+                    <p>Saldo: {products.length}</p>
+                    <Button
+                        className="addToCart"
+                        onClick="addToCart(id)"
+                    >Lisää ostoskoriin</Button>
+                </div>
             </div>
         );
     }
