@@ -89,7 +89,7 @@ public class UserController {
             System.out.println("Attempting logout");
             if (req.session().attribute("user") != null) {
                 req.session().attribute("user", null);
-                res.cookie("JSESSIONID", null, 0);
+                res.removeCookie("JSESSIONID");
             }
             else
                 return gson.toJson(new Reply(false, "You were not even signed in!", null));

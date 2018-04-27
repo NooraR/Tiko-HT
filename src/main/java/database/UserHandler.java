@@ -50,10 +50,14 @@ public class UserHandler {
             User user = (User) query.uniqueResult();
             session.getTransaction().commit();
 
+            if(user == null) {
+                throw new EntityNotFoundException("User doesn't exist.");
+            }
+
             return user;
         } catch (HibernateException e) {
             session.getTransaction().rollback();
-            throw new EntityNotFoundException("Could not retrieve user: " + e.getMessage());
+            throw new HibernateException("Could not retrieve user: " + e.getMessage());
         } finally {
             session.close();
         }

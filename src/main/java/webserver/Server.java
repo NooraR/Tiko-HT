@@ -37,7 +37,7 @@ public class Server {
         //User handling
         post("/api/register", (req, res) -> UserController.register(req, res, sessionFactory));
 
-        post("/api/login", (req, res) -> UserController.login(req, res, sessionFactory));
+        post("/login", (req, res) -> UserController.login(req, res, sessionFactory));
 
         get("/logout", (req, res) -> UserController.logout(req, res));
 
