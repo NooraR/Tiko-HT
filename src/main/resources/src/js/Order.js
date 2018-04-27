@@ -11,7 +11,8 @@ export default class Order extends Component {
         this.state = {
             postage: 0,
             totalWeight: 0,
-            shoppingCart: []
+            shoppingCart: [],
+            price: 0
         }
     }
 
@@ -57,6 +58,7 @@ export default class Order extends Component {
                     </div>
                     <div className="Overall">
                         <h3>Yhteensä:</h3>
+                        <p>{this.price}</p>
                     </div>
                     <Button>
                         Siirry maksamaan
