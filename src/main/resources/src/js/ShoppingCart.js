@@ -6,6 +6,15 @@ import "./ShoppingCart.css";
 
 export default class ShoppingCart extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            onCart: []
+        };
+
+    }
+
     render() {
         return (
             <div className="content">

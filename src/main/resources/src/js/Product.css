@@ -1,11 +1,23 @@
-.Product {
+.product {
     width: 45em;
     height: auto;
     border-radius: 20px;
-    margin: 1.5em;
+    margin: 1em;
     border: 2px solid lightblue;
+    float: left;
 }
+
+.addToCart {
+    margin-right: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+Button {
+    float: right;
+}
+
 
 p {
     margin: 1em;
 }
+
