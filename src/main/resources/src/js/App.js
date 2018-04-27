@@ -46,6 +46,10 @@ class App extends Component {
         });
     };
 
+    handleLogout = () => {
+
+    };
+
     render() {
         return (
             <BrowserRouter>
