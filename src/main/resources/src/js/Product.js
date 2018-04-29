@@ -1,10 +1,24 @@
 import React, { Component } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button, ButtonGroup, Table } from "react-bootstrap";
 import "./Product.css";
+import AvailabilityInfo from './AvailabilityInfo.js';
+
 
 export default class Product extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showAvailability: false
+        };
+
+        this.toggleAvailability = this.toggleAvailability.bind(this);
+    }
+
+    toggleAvailability() {
+        this.setState({
+            showAvailability: !this.state.showAvailability
+        });
     }
 
     render() {
@@ -35,13 +49,27 @@ export default class Product extends Component {
                             <tr><td>Saatavilla</td><td>{products.length}</td></tr>
                         </tbody>
                     </Table>
-                    <Button
-                        bsStyle="primary"
+                    <ButtonGroup
                         className="add-button"
-                        onClick={this.props.addToCart}
                     >
-                        Lisää koriin
-                    </Button>
+                        <Button
+                            bsStyle="warning"
+                            onClick={this.toggleAvailability}
+                        >
+                            Katso hinnat
+                        </Button>
+                        <Button
+                            bsStyle="primary"
+                            onClick={this.props.addToCart}
+                        >
+                            Lisää koriin
+                        </Button>
+                    </ButtonGroup>
+                    <AvailabilityInfo
+                        work={this.props.work}
+                        visible={this.state.showAvailability}
+                        toggleVisibility={this.toggleAvailability}
+                    />
                 </div>
             );
         } else {

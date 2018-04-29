@@ -46,3 +46,10 @@
 .navbar-header .navbar-brand {
   font-size: 26px;
 }
+
+.no-products {
+  margin-top: 1em;
+  font-size: 20px;
+  text-align: center;
+  color: #777;
+}
