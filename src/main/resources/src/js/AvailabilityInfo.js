@@ -37,8 +37,8 @@ export default class Product extends Component {
                             return(
                                 <dl>
                                     <dt>{seller.name}, {seller.address}</dt>
-                                    {seller.prices.map((price) => {
-                                        return <dd>{price} €</dd>;
+                                    {seller.prices.map((price, i) => {
+                                        return <dd key={i}>{price} €</dd>;
                                     })}
                                 </dl>
                             );

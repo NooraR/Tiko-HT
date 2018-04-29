@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Button } from 'react-bootstrap';
-import Product from './Product';
+import { Button, Modal, Table, Panel } from 'react-bootstrap';
 import "./Order.css";
 
 export default class Order extends Component {
@@ -8,62 +7,112 @@ export default class Order extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            postage: 0,
-            totalWeight: 0,
-            shoppingCart: [],
-            price: 0
-        }
+        this.cancelOrder = this.cancelOrder.bind(this);
+        this.confirmOrder = this.confirmOrder.bind(this);
     }
 
-    addPostage() {
-        if (this.totalWeight >= 2) {
-            this.state.postage = 14;
-        }
-        else if (this.totalWeight >= 1) {
-            this.state.postage = 8.4;
-        }
-        else if (this.totalWeight >= 0.5) {
-            this.state.postage = 5.6;
-        }
-        else if (this.totalWeight >= 0.25) {
-            this.state.postage = 2.8;
-        }
-        else if (this.totalWeight >= 0.1) {
-            this.state.postage = 2.1;
-        }
-        else if (this.totalWeight >= 0.05) {
-            this.state.postage = 1.4;
-        }
-        else {
-            console.log("Error! Postikuluja ei pystytty määrittämään.");
-        }
+    cancelOrder() {
+        fetch("/order/cancel", {
+            method: 'GET',
+            credentials: "same-origin"
+        }).then(results => {
+            return results.json();
+        })
+        .then(json => {
+            console.log(json);
+            this.props.toggleVisibility();
+        });
+    }
+
+    confirmOrder() {
+        fetch("/order/confirm", {
+            method: 'GET',
+            credentials: "same-origin"
+        }).then(results => {
+            return results.json();
+        })
+        .then(json => {
+            console.log(json);
+            this.props.toggleVisibility();
+        });
     }
 
     render() {
-        if(this.props.show) {
+        if(this.props.visible && this.props.data) {
+            let data = this.props.data;
+            let totalPrice = 0;
+            data.products = data.products.map((item) => {
+                totalPrice += item.sellingPrice;
+
+                item.work = data.works.find(work => {
+                    return item.workid === work.id;
+                });
+
+                return item;
+            });
+
             return (
-                <div className="content">
-                    <div className="order">
-                        <h2>Ostokset:</h2>
-                        {this.props.shoppingCart.map((item, i) => {
-                            return <Product
-                                key={i}
-                                work={item}
-                                isInShoppingCart={true}
-                                addToCart={() => this.props.addToCart(item)}
-                                removeFromCart={() => this.props.removeFromCart(item.id)}
-                            />;
+                <Modal
+                    show={this.props.visible}
+                    onHide={() => this.cancelOrder()}
+                    className="Order"
+                >
+                    <Modal.Header>
+                        <Modal.Title>Tuotteet varattu tilaukselle #{data.id}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Table responsive striped bordered>
+                            <tbody>
+                                <tr><td>Tilausnumero</td><td>#{data.id}</td></tr>
+                                <tr><td>Tilauspäivämäärä</td><td>{data.orderDate}</td></tr>
+                                <tr><td>Tila</td><td>Odottaa vahvistusta</td></tr>
+                                <tr><td>Postituskulut</td><td>{data.postage.toFixed(2)} €</td></tr>
+                                <tr><td>Kokonaissumma</td><td>{(totalPrice + data.postage).toFixed(2)} €</td></tr>
+                            </tbody>
+                        </Table>
+                        <h2>Tuotteet</h2>
+                        {data.products.map((item, i) => {
+                            return (
+                                <Panel key={i}>
+                                    <Panel.Heading>
+                                        <Panel.Title toggle>{item.work.name}, {item.work.author}</Panel.Title>
+                                    </Panel.Heading>
+                                    <Panel.Collapse>
+                                        <Panel.Body>
+                                            <ul>
+                                                {item.work.published && <li>{item.work.published}</li>}
+                                                {item.work.genre && <li>{item.work.genre}</li>}
+                                                {item.work.type && <li> {item.work.type}</li>}
+                                                <li>paino {item.work.weight} kg</li>
+                                            </ul>
+                                            <h3>Myyjä</h3>
+                                            <ul>
+                                                <li>{item.antiquary.name}</li>
+                                                <li>{item.antiquary.address}</li>
+                                                <li>{item.antiquary.web}</li>
+                                            </ul>
+                                        </Panel.Body>
+                                    </Panel.Collapse>
+                                    <Panel.Footer>Hinta {item.sellingPrice} €</Panel.Footer>
+                                </Panel>
+                            );
                         })}
-                    </div>
-                    <div className="Overall">
-                        <h3>Yhteensä:</h3>
-                        <p>{this.price}</p>
-                    </div>
-                    <Button>
-                        Siirry maksamaan
-                    </Button>
-                </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            bsStyle="danger"
+                            onClick={() => this.cancelOrder()}
+                        >
+                            Peruuta
+                        </Button>
+                        <Button
+                            bsStyle="primary"
+                            onClick={() => this.confirmOrder()}
+                        >
+                            Vahvista
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             );
         } else {
             return '';

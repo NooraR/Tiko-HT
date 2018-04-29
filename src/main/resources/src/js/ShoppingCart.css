@@ -46,6 +46,8 @@
     margin: 0 10px;
 }
 
-.AmountSelection .btn .btn-danger {
+.AmountSelection .btn-danger,
+.AmountSelection .btn-warning,
+.AmountSelection .btn-primary {
     margin-right: 0;
 }
