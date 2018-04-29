@@ -23,8 +23,15 @@ public class OrderController {
         //Get user from session data attributes
         User user = req.session().attribute("user");
 
-        if(user != null && req.session().attribute("order") == null) {
+        if(user != null) {
             try {
+                //Clear earlier order first if exists
+                if(req.session().attribute("order") != null) {
+                    Order old = req.session().attribute("order");
+                    handler.freeReservation(old.getId());
+                    req.session().attribute("order", null);
+                }
+
                 List<Work> works = gson.fromJson(req.body(), new TypeToken<List<Work>>() {
                 }.getType());
 
