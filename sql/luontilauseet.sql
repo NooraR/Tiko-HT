@@ -46,7 +46,7 @@ CREATE TABLE product (
     status         VARCHAR(15) DEFAULT 'FREE' NOT NULL,
     selling_price  DECIMAL,
     purchase_price DECIMAL,
-    antiquary_id   INT,
+    antiquary_id   INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (workid) REFERENCES work (id),
     FOREIGN KEY (orderid) REFERENCES userorder (id),
