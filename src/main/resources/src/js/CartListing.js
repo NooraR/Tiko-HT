@@ -41,13 +41,13 @@ export default class CartListing extends Component {
                         Määrä
                         <Button
                             onClick={this.props.decreaseAmount}
-                            disabled={item.amount === item.products.length}
+                            disabled={item.amount === 1}
                         >-</Button>
                         {item.amount}
                         <Button
                             bsStyle="primary"
                             onClick={this.props.increaseAmount}
-                            disabled={item.amount === 1}
+                            disabled={item.amount === item.products.length}
                         >+</Button>
                         <Button
                             bsStyle="danger"
