@@ -49,6 +49,7 @@ public class OrderHandler {
             order.setOrderDate(new Date());
             order.setStatus(Order.WAITING);
             order.setProducts(new ArrayList<Product>());
+            order.setWorks(works);
             //Set order to save after changes
             session.persist(order);
 
@@ -65,6 +66,7 @@ public class OrderHandler {
                     }
                     product.setOrder(order);
                     product.setStatus(Product.RESERVED);
+                    product.setWorkId(work.getId());
                     //Update that product is reserved for order
                     session.update(product);
 
@@ -75,7 +77,7 @@ public class OrderHandler {
             //Calculate postage
             order.setPostage(calculatePostage(order.getProducts()));
 
-            //Set a timer to free the reservation (after 30 minutes) if not confirmed by the user
+            //Set a timer to free the reservation (after 5 minutes) if not confirmed by the user
             order.setTimer(new Timer());
             order.getTimer().schedule(new TimerTask() {
                 @Override
@@ -86,7 +88,7 @@ public class OrderHandler {
                         //Order was most likely either confirmed or freed already
                     }
                 }
-            }, 30 * 1000 * 60);
+            }, 5 * 1000 * 60);
 
             //Send changes
             session.getTransaction().commit();
@@ -157,8 +159,6 @@ public class OrderHandler {
                 //Remove order
                 session.delete(order);
                 session.getTransaction().commit();
-            } else {
-                throw new EntityNotFoundException("Order doesn't exist or isn't in waiting state.");
             }
         } catch (HibernateException e) {
             session.getTransaction().rollback();
