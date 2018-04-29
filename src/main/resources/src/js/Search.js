@@ -52,7 +52,7 @@ export default class Search extends Component {
                                placeholder="Hae"/>
                     </div>
                     <div className="ResultContainer">
-                        {
+                        { works.length !== 0 ?
                             works.map((work, i) => {
                                 return (
                                     <Product
@@ -63,6 +63,8 @@ export default class Search extends Component {
                                     />
                                 )
                             })
+                        :
+                            <p className="no-products">Ei tuotteita saatavilla</p>
                         }
                     </div>
                 </div>
