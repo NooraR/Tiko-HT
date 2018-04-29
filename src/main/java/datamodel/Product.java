@@ -48,6 +48,10 @@ public class Product {
     @Expose
     private Antiquarian antiquary;
 
+    @Transient
+    @Expose
+    private int workid;
+
     public Product(){
 
         this.id = -1;
@@ -111,6 +115,14 @@ public class Product {
 
     public void setAntiquary(Antiquarian antiquary) {
         this.antiquary = antiquary;
+    }
+
+    public int getWorkId() {
+        return workid;
+    }
+
+    public void setWorkId(int workid) {
+        this.workid = workid;
     }
 
     @Override

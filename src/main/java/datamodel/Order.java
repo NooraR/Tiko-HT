@@ -51,6 +51,10 @@ public class Order {
     @Expose
     private double postage;
 
+    @Transient
+    @Expose
+    private List<Work> works;
+
     public Order(){
 
         this.id = -1;
@@ -114,6 +118,14 @@ public class Order {
 
     public void setPostage(double postage) {
         this.postage = postage;
+    }
+
+    public List<Work> getWorks() {
+        return works;
+    }
+
+    public void setWorks(List<Work> works) {
+        this.works = works;
     }
 
     @Override
