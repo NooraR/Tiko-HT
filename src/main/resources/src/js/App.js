@@ -59,9 +59,9 @@ class App extends Component {
             return item.id === id;
         });
         let work = cart[index];
-        if(increase) {
+        if(increase && work.amount < work.products.length) {
             work.amount++;
-        } else {
+        } else if(!increase && work.amount - 1 > 0) {
             work.amount--;
         }
 
@@ -166,7 +166,6 @@ class App extends Component {
                 <ShoppingCart
                     show={this.state.currentSite === "shoppingCart"}
                     shoppingCart={this.state.shoppingCart}
-                    addToCart={this.addToCart}
                     removeFromCart={this.removeFromCart}
                     changeCartAmount={this.changeCartAmount}
                 />

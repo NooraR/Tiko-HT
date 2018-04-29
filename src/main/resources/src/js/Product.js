@@ -33,7 +33,6 @@ export default class Product extends Component {
                             <tr><td>Paino</td><td>{weight} kg</td></tr>
                             {isbn && <tr><td>ISBN</td><td>{isbn}</td></tr>}
                             <tr><td>Saatavilla</td><td>{products.length}</td></tr>
-                            <tr><td>Ostoskorissa</td><td>{(amount) ? amount : 0}</td></tr>
                         </tbody>
                     </Table>
                     <Button
