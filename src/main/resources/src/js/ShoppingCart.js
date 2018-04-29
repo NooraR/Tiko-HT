@@ -39,7 +39,7 @@ export default class ShoppingCart extends Component {
                             <p className="no-products">Ostoskori on tyhjä</p>
                         }
                     <div className="Overall">
-                        <h3>Yhteensä {totalPrice} euroa</h3>
+                        <h3>Yhteensä {totalPrice.toFixed(2)} euroa</h3>
                         <Button
                             bsStyle="primary"
                         >
