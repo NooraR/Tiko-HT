@@ -47,7 +47,7 @@
   font-size: 26px;
 }
 
-.no-products {
+.no-products, .no-login {
   margin-top: 1em;
   font-size: 20px;
   text-align: center;

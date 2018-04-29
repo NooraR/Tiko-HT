@@ -168,6 +168,7 @@ class App extends Component {
                     shoppingCart={this.state.shoppingCart}
                     removeFromCart={this.removeFromCart}
                     changeCartAmount={this.changeCartAmount}
+                    loggedIn={this.state.isLoggedIn}
                 />
                 <Search
                     show={this.state.currentSite === "search"}
