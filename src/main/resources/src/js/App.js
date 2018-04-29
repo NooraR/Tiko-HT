@@ -139,7 +139,7 @@ class App extends Component {
                                 name={this.state.currentSite === "search" ? "shoppingCart" : "search"}
                                 onClick={this.switchSite}
                             >
-                                {this.state.currentSite === "shoppingCart" ? "Hakuun" : "Ostoskoriin"}
+                                {this.state.currentSite !== "search" ? "Hakuun" : "Ostoskoriin"}
                             </Button>
                         </NavItem>
                         <NavItem className="nav-button">
