@@ -1,24 +1,51 @@
 .ShoppingCart {
-    overflow: auto;
+    overflow: hidden;
+    width: 75%;
+    margin: 0 auto;
 }
 
 .Overall {
-    border-top: 2px solid green;
+    border-top: 2px solid #e1e1e1;
     margin: 1.5em;
+    text-align: right;
 }
 
-.content {
-    float: left;
+.Overall button {
+    float: right;
+    margin-top: 18px;
 }
 
-h2 {
-    margin-left: 1em;
+.Overall h3 {
+    display: inline-block;
+    margin-right: 1em;
 }
 
-h3 {
-    margin-left: 1em;
+.ShoppingCart h2 {
+    text-align: center;
 }
 
-a {
-    text-decoration: none;
+.ShoppingCart ul {
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+}
+
+.ShoppingCart ul>li {
+    display: inline-block;
+}
+
+.ShoppingCart li + li:before {
+    content: ", ";
+}
+
+.AmountSelection {
+    float: right;
+}
+
+.AmountSelection .btn {
+    margin: 0 10px;
+}
+
+.AmountSelection .btn .btn-danger {
+    margin-right: 0;
 }

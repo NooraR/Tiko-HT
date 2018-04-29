@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from 'react-bootstrap';
-import Product from './Product';
 import "./ShoppingCart.css";
+import CartListing from "./CartListing";
 
 export default class ShoppingCart extends Component {
 
@@ -11,27 +11,37 @@ export default class ShoppingCart extends Component {
 
     render() {
         if(this.props.show) {
+            let totalPrice = 0;
+            this.props.shoppingCart.forEach((item) => {
+                item.products.sort((a, b) => {
+                    return a.sellingPrice <= b.sellingPrice;
+                });
+                for(let i = 0; i < item.amount; i++) {
+                    totalPrice += item.products[i].sellingPrice;
+                }
+            });
+            
             return (
-                <div className="content">
                     <div className="ShoppingCart">
-                        <h2>Ostokset:</h2>
+                        <h2>Ostoskori</h2>
                         {this.props.shoppingCart.map((item, i) => {
-                            return <Product
-                                key={i}
-                                work={item}
-                                isInShoppingCart={true}
-                                addToCart={() => this.props.addToCart(item)}
-                                removeFromCart={() => this.props.removeFromCart(item.id)}
-                                changeCartAmount={this.props.changeCartAmount}
-                            />;
+                            return (
+                                <CartListing key={i}
+                                    item={item}
+                                    decreaseAmount={() => this.props.changeCartAmount(false, item.id)}
+                                    increaseAmount={() => this.props.changeCartAmount(true, item.id)}
+                                    removeFromCart={() => this.props.removeFromCart(item.id)}
+                                />
+                            );
                         })}
-                    </div>
                     <div className="Overall">
-                        <h3>Yhteensä:</h3>
+                        <h3>Yhteensä arviolta {totalPrice} euroa</h3>
+                        <Button
+                            bsStyle="primary"
+                        >
+                            Tilaa
+                        </Button>
                     </div>
-                    <Button>
-                        Siirry maksamaan
-                    </Button>
                 </div>
             );
         } else {
