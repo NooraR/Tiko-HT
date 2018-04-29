@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./Product.css";
+import { Table } from 'react-bootstrap';
+import "./ReportWorks.css";
 
 export default class ReportWorks extends Component {
     constructor(props) {
@@ -30,14 +31,18 @@ export default class ReportWorks extends Component {
         return (
             <div>
                 <h1>Myyntihinnat</h1>
-                <div className="product">
+                <div>
                     {
                         works.map((result, i) => {
                             return(
-                                <div key={i}>
-                                    <p>Genre: {result.genre}</p>
-                                    <p>Yhteenlaskettu myyntihinta: {result.totalSellingPrice}</p>
-                                    <p>Keskiarvoinen myyntihinta: {result.averagePrice}</p>
+                                <div className="works" key={i}>
+                                    <h2>{result.genre}</h2>
+                                    <Table responsive>
+                                        <tbody>
+                                        <tr><td>Yhteenlaskettu myyntihinta: {result.totalSellingPrice}</td></tr>
+                                        <tr><td>Keskiarvoinen myyntihinta: {result.averagePrice}</td></tr>
+                                        </tbody>
+                                    </Table>
                                 </div>
                             )
                         })
