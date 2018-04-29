@@ -36,7 +36,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "workid", referencedColumnName = "id")
-    @Expose(deserialize = true)
+    @Expose(deserialize = true, serialize = false)
     private Work work;
 
     @ManyToOne
