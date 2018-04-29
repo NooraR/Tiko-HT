@@ -1,0 +1,26 @@
+.works {
+    width: 15%;
+    display: inline-block;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin: 1%;
+    vertical-align: top;
+    padding: 1%;
+    position: relative;
+}
+
+.works table, .works tbody {
+    width: 100%;
+}
+
+.works h2 {
+    font-size: 24px;
+    margin-bottom: 2%;
+    display: block;
+}
+
+h1 {
+    display: block;
+    margin: 2% 0;
+    width: 100%;
+}

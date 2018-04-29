@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "./Product.css";
+import { Table } from 'react-bootstrap';
+import "./ReportUsers.css";
 
 export default class ReportUsers extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ export default class ReportUsers extends Component {
                 return results.json();
             }).then(data => {
                 let users = data.data;
+                console.log({users: users});
                 this.setState({users: users});
             }
         )
@@ -29,17 +31,23 @@ export default class ReportUsers extends Component {
         return (
             <div>
                 <h1>Käyttäjäraportit</h1>
-                <div className="product">
+                <div>
                     {
                         users.map((result, i) => {
                             return(
-                                <div key={i}>
-                                    <p>Id: {result.id}</p>
-                                    <p>Etunimi: {result.firstName}</p>
-                                    <p>Sukunimi: {result.lastName}</p>
-                                    <p>Osoite: {result.address}</p>
-                                    <p>Sähköposti: {result.email}</p>
-                                    <p>Puhelinnumero: {result.phoneNumber}</p>
+                                <div className="users" key={i}>
+                                    <h2>{result.user.firstName} {result.user.lastName}</h2>
+                                    <Table responsive>
+                                        <tbody>
+                                            <tr><td>Id: {result.user.id}</td></tr>
+                                            <tr><td>Etunimi: {result.user.firstName}</td></tr>
+                                            <tr><td>Sukunimi: {result.user.lastName}</td></tr>
+                                            <tr><td>Osoite: {result.user.address}</td></tr>
+                                            <tr><td>Sähköposti: {result.user.email}</td></tr>
+                                            <tr><td>Puhelinnumero: {result.user.phoneNumber}</td></tr>
+                                            <tr><td>Vuonna {result.year} ostettujen tuotteiden määrä: {result.numberOfProducts}</td></tr>
+                                        </tbody>
+                                    </Table>
                                 </div>
                             )
                         })
