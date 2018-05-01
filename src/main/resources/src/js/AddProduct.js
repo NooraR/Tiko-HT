@@ -116,7 +116,7 @@ export default class AddProduct extends Component {
                 this.props.showConfirmation(true, "Tuote lisätty", "Tuotteen lisäys onnistui!");
                 this.props.refreshWorks();
             } else {
-                this.props.showConfirmation(true, "Tuottetta ei lisätty", "Tuotteen lisäys epäonnistui!" + json.message);
+                this.props.showConfirmation(true, "Tuottetta ei lisätty", "Tuotteen lisäys epäonnistui! " + json.message);
             }
         });
     }
