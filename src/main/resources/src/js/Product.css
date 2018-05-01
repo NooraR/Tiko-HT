@@ -33,6 +33,7 @@
 .product table, .product tbody {
     width: 80%;
     margin: 15px auto;
+    margin-bottom: 40px;
 }
 
 .product .add-button {
