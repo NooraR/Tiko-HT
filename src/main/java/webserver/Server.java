@@ -3,6 +3,8 @@ package webserver;
 import database.HibernateConfiguration;
 import database.OrderHandler;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 import webserver.controllers.ManagementController;
 import webserver.controllers.OrderController;
 import webserver.controllers.PublicController;
@@ -14,7 +16,8 @@ public class Server {
     public static void main(String args[]) {
 
         //Load up database interface
-        SessionFactory sessionFactory = new HibernateConfiguration().getConfiguration().configure().buildSessionFactory();
+        Configuration configuration = new HibernateConfiguration().getConfiguration().configure();
+        SessionFactory sessionFactory = configuration.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build());
 
         //Spark config
         port(80);

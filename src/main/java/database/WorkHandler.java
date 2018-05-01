@@ -28,7 +28,7 @@ public class WorkHandler {
         try {
             session.beginTransaction();
 
-            Query query = session.createQuery("FROM Work WHERE products.size > 0");
+            Query query = session.createQuery("FROM Work WHERE size(products) > 0");
             List<Work> list = (List<Work>) query.list();
 
             session.getTransaction().commit();
