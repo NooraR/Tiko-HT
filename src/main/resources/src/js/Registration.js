@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Button, ButtonToolbar, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
+import AlertModal from "./AlertModal.js";
 
 export default class Registration extends Component {
     constructor(props) {
@@ -74,27 +75,12 @@ export default class Registration extends Component {
     render() {
         return (
             <div className="Registration">
-                <Modal
+                <AlertModal
                     show={this.state.showConfirmation}
-                    onHide={this.toggleConfirmation}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>Kiitos rekisteröitymisestäsi</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Rekisteröidyit onnistuneesti, voit nyt kirjautua sisään käyttäjälläsi.
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <ButtonToolbar>
-                            <Button
-                                onClick={this.toggleConfirmation}
-                                bsStyle="primary"
-                            >
-                                OK
-                            </Button>
-                        </ButtonToolbar>
-                    </Modal.Footer>
-                </Modal>
+                    toggleModal={this.toggleConfirmation}
+                    header="Kiitos rekisteröitymisestäsi"
+                    body="Rekisteröidyit onnistuneesti, voit nyt kirjautua sisään käyttäjälläsi."
+                />
                 <Modal
                     show={this.props.showModal}
                     onHide={this.props.toggleModal}
