@@ -32,6 +32,8 @@ public class Server {
         //Public data
         get("/data/works", (req, res) -> PublicController.getWorksAvailable(req, res, sessionFactory));
 
+        get("/data/works/all", (req, res) -> PublicController.getAllWorks(req, res, sessionFactory));
+
         get("/data/products", (req, res) -> PublicController.getProductsAvailable(req, res, sessionFactory));
 
         get("/data/antiquaries", (req, res) -> PublicController.getAntiquaries(req, res, sessionFactory));

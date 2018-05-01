@@ -34,6 +34,24 @@ public class PublicController {
         return json;
     }
 
+    public static String getAllWorks(Request req, Response res, SessionFactory sessionFactory) {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        String json = null;
+        try {
+            WorkHandler handler = new WorkHandler(sessionFactory);
+            List<Work> works = handler.getAllWorks();
+
+            json = gson.toJson(new Reply(true, "Successfully fetched works", works));
+
+            res.type("application/json");
+            res.status(200);
+        } catch (Exception e) {
+            System.out.println(e);
+            json = gson.toJson(new Reply(false, "Failed to fetch works", null));
+        }
+        return json;
+    }
+
     public static String getProductsAvailable(Request req, Response res, SessionFactory sessionFactory) {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         ProductHandler handler = new ProductHandler(sessionFactory);

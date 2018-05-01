@@ -42,6 +42,26 @@ public class WorkHandler {
         }
     }
 
+    public List<Work> getAllWorks() throws Exception {
+        Session session = sessionFactory.withOptions().tenantIdentifier("central").openSession();
+
+        try {
+            session.beginTransaction();
+
+            Query query = session.createQuery("FROM Work");
+            List<Work> list = (List<Work>) query.list();
+
+            session.getTransaction().commit();
+
+            return list;
+        } catch (HibernateException e) {
+            session.getTransaction().rollback();
+            throw new Exception("Failed to fetch works: " + e.getMessage());
+        } finally {
+            session.close();
+        }
+    }
+
     public Work addWork(Work work, Session session) throws HibernateException {
         try {
             //Try to find with different attributes in case it's a new work
