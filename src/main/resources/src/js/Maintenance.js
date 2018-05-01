@@ -7,7 +7,10 @@ export default class Maintenance extends Component {
     render() {
         return (
             <div className="container">
-                <AddProduct />
+                <AddProduct
+                    showConfirmation={this.props.showConfirmation}
+                    refreshWorks={this.props.refreshWorks}
+                />
                 <Reports />
             </div>
         );

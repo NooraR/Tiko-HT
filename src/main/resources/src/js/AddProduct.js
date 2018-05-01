@@ -17,11 +17,15 @@ export default class AddProduct extends Component {
             type: "",
             weight: 0,
             antiquaries: [],
-            antiquary: 0
+            antiquary: 1,
+            allWorks: [],
+            work: "",
+            newWork: true
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleWorkChange = this.handleWorkChange.bind(this);
     }
 
     validateForm() {
@@ -30,10 +34,34 @@ export default class AddProduct extends Component {
             && this.state.weight > 0;
     }
 
+    handleWorkChange(id) {
+        if(id) {
+            id = parseInt(id);
+            let work = this.state.allWorks.find((item) => {
+                return item.id === id;
+            });
+
+            this.setState({
+                newWork: false,
+                name: work.name,
+                author: work.author,
+                isbn: work.isbn,
+                published: work.published,
+                genre: work.genre,
+                type: work.type,
+                weight: work.weight
+            });
+        }
+    }
+
     handleChange = event => {
         this.setState({
             [event.target.id]: event.target.value
         });
+
+        if(event.target.id === "work") {
+            this.handleWorkChange(event.target.value);
+        }
     };
 
     componentDidMount() {
@@ -44,7 +72,16 @@ export default class AddProduct extends Component {
                 let antiquaries = data.data;
                 this.setState({antiquaries: antiquaries});
             }
-        )
+        );
+
+        fetch("/data/works/all")
+            .then(results => {
+                return results.json();
+            }).then(data => {
+                this.setState({
+                    allWorks: data.data
+                });
+            });
     }
 
     handleSubmit(event) {
@@ -76,13 +113,10 @@ export default class AddProduct extends Component {
             })
     .then(json => {
             if(json.success) {
-                /*
-                this.props.alert("Tuotteen lisäys onnistui!")
-                 */
+                this.props.showConfirmation(true, "Tuote lisätty", "Tuotteen lisäys onnistui!");
+                this.props.refreshWorks();
             } else {
-                /*
-                this.props.alert("Tuotteen lisäys epäonnistui");
-                 */
+                this.props.showConfirmation(true, "Tuottetta ei lisätty", "Tuotteen lisäys epäonnistui!" + json.message);
             }
         });
     }
@@ -92,7 +126,7 @@ export default class AddProduct extends Component {
 
         return (
             <div className="addProduct">
-                <h2>Uuden teoksen lisääminen</h2>
+                <h2>Tuotteen lisäys</h2>
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup className="formGroup" controlId="sellingPrice" bsSize="large">
                         <ControlLabel>Myyntihinta (euroa)*</ControlLabel>
@@ -110,68 +144,6 @@ export default class AddProduct extends Component {
                             type="number"
                             value={this.state.purchasePrice}
                             onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="name" bsSize="large">
-                        <ControlLabel>Nimi*</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="text"
-                            value={this.state.name}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="author" bsSize="large">
-                        <ControlLabel>Tekijä*</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="text"
-                            value={this.state.author}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="isbn" bsSize="large">
-                        <ControlLabel>ISBN</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="text"
-                            value={this.state.isbn}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="published" bsSize="large">
-                        <ControlLabel>Julkaisuvuosi (VVVV)</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="text"
-                            value={this.state.published}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="genre" bsSize="large">
-                        <ControlLabel>Genre</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="text"
-                            value={this.state.genre}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="type" bsSize="large">
-                        <ControlLabel>Tyyppi</ControlLabel>
-                        <FormControl
-                            autoFocus
-                            type="text"
-                            value={this.state.type}
-                            onChange={this.handleChange}
-                        />
-                    </FormGroup>
-                    <FormGroup className="formGroup" controlId="weight" bsSize="large">
-                        <ControlLabel>Paino* (kg)</ControlLabel>
-                        <FormControl
-                            value={this.state.weight}
-                            onChange={this.handleChange}
-                            type="number"
                         />
                     </FormGroup>
                     <FormGroup controlId="antiquary">
@@ -192,6 +164,95 @@ export default class AddProduct extends Component {
                                 })
                             }
                         </FormControl>
+                    </FormGroup>
+                    <FormGroup controlId="work">
+                        <ControlLabel>Valitse teos</ControlLabel>
+                        <FormControl
+                            className="work"
+                            componentClass="select"
+                            value={this.state.work}
+                            onChange={this.handleChange}
+                        >
+                            <option value="">Valitse...</option>
+                            {
+                                this.state.allWorks.map((result, i) => {
+                                    return(
+                                        <option key={i} value={result.id}>{result.name}, {result.author}</option>
+                                    )
+
+                                })
+                            }
+                        </FormControl>
+                    </FormGroup>
+                    <h3><strong>TAI</strong> Syötä teoksen tiedot</h3>
+                    <FormGroup className="formGroup" controlId="name" bsSize="large">
+                        <ControlLabel>Nimi*</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.name}
+                            onChange={this.handleChange}
+                            disabled={!this.state.newWork}
+                        />
+                    </FormGroup>
+                    <FormGroup className="formGroup" controlId="author" bsSize="large">
+                        <ControlLabel>Tekijä*</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.author}
+                            onChange={this.handleChange}
+                            disabled={!this.state.newWork}
+                        />
+                    </FormGroup>
+                    <FormGroup className="formGroup" controlId="isbn" bsSize="large">
+                        <ControlLabel>ISBN</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.isbn}
+                            onChange={this.handleChange}
+                            disabled={!this.state.newWork}
+                        />
+                    </FormGroup>
+                    <FormGroup className="formGroup" controlId="published" bsSize="large">
+                        <ControlLabel>Julkaisuvuosi (VVVV)</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.published}
+                            onChange={this.handleChange}
+                            disabled={!this.state.newWork}
+                        />
+                    </FormGroup>
+                    <FormGroup className="formGroup" controlId="genre" bsSize="large">
+                        <ControlLabel>Genre</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.genre}
+                            onChange={this.handleChange}
+                            disabled={!this.state.newWork}
+                        />
+                    </FormGroup>
+                    <FormGroup className="formGroup" controlId="type" bsSize="large">
+                        <ControlLabel>Tyyppi</ControlLabel>
+                        <FormControl
+                            autoFocus
+                            type="text"
+                            value={this.state.type}
+                            onChange={this.handleChange}
+                            disabled={!this.state.newWork}
+                        />
+                    </FormGroup>
+                    <FormGroup className="formGroup" controlId="weight" bsSize="large">
+                        <ControlLabel>Paino* (kg)</ControlLabel>
+                        <FormControl
+                            value={this.state.weight}
+                            onChange={this.handleChange}
+                            type="number"
+                            disabled={!this.state.newWork}
+                        />
                     </FormGroup>
                     <p>*:llä merkityt kohdat ovat pakollisia</p>
                     <Button

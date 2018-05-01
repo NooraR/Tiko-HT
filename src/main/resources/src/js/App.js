@@ -230,7 +230,11 @@ class App extends Component {
                 />
                 {
                     this.state.currentSite === "management" && this.state.user && this.state.user.isAdmin
-                    && <Maintenance />
+                    &&
+                    <Maintenance
+                        showConfirmation={this.toggleConfirmation}
+                        refreshWorks={this.fetchWorks}
+                    />
                 }
             </div>
         )
