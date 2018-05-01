@@ -6,6 +6,7 @@ CREATE TABLE useraccount (
     email VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(300) NOT NULL,
     phone_number VARCHAR(20),
+    isadmin BOOLEAN DEFAULT FALSE NOT NULL,
     PRIMARY KEY(id)
 );
 
