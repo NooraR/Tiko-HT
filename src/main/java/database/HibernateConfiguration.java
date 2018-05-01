@@ -1,5 +1,6 @@
 package database;
 
+import datamodel.*;
 import org.hibernate.cfg.Configuration;
 
 import java.io.IOException;
@@ -16,8 +17,15 @@ public class HibernateConfiguration {
 
         try {
             List<String> credentials = readSettingsFile();
-            configuration.setProperty("hibernate.connection.username", credentials.get(0));
-            configuration.setProperty("hibernate.connection.password", credentials.get(1));
+            configuration.setProperty("hibernate.connection.url", credentials.get(0));
+            configuration.setProperty("hibernate.connection.username", credentials.get(1));
+            configuration.setProperty("hibernate.connection.password", credentials.get(2));
+            configuration.addAnnotatedClass(Antiquarian.class)
+                    .addAnnotatedClass(Order.class)
+                    .addAnnotatedClass(Postage.class)
+                    .addAnnotatedClass(Product.class)
+                    .addAnnotatedClass(User.class)
+                    .addAnnotatedClass(Work.class);
         } catch (IOException e) {
             System.err.println("Hibernate configuration error: " + e.getMessage());
         }
