@@ -19,8 +19,8 @@ export default class Order extends Component {
             return results.json();
         })
         .then(json => {
-            console.log(json);
             this.props.toggleVisibility();
+            this.props.showConfirmation(true, "Tilaus peruttu", "Tilauksesi peruutettiin onnistuneesti.");
         });
     }
 
@@ -32,9 +32,10 @@ export default class Order extends Component {
             return results.json();
         })
         .then(json => {
-            console.log(json);
             this.props.toggleVisibility();
             this.props.refreshWorks();
+            this.props.clearShoppingCart();
+            this.props.showConfirmation(true, "Tilaus vahvistettu", "Kiitos tilauksestasi! Tilaus odottaa myyjän käsittelyä ja lähetetään teille pian.");
         });
     }
 

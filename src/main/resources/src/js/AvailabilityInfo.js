@@ -33,12 +33,12 @@ export default class Product extends Component {
                         <Modal.Title>Hinnat ja saatavuus</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {antiquaries.map((seller) => {
+                        {antiquaries.map((seller, i) => {
                             return(
-                                <dl>
+                                <dl key={i}>
                                     <dt>{seller.name}, {seller.address}</dt>
-                                    {seller.prices.map((price, i) => {
-                                        return <dd key={i}>{price} €</dd>;
+                                    {seller.prices.map((price, j) => {
+                                        return <dd key={j}>{price} €</dd>;
                                     })}
                                 </dl>
                             );

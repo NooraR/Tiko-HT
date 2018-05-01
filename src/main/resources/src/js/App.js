@@ -8,6 +8,7 @@ import Login from './Login'
 import Search from './Search';
 import ShoppingCart from "./ShoppingCart";
 import Maintenance from "./Maintenance";
+import AlertModal from "./AlertModal";
 
 class App extends Component {
     constructor(props) {
@@ -19,7 +20,10 @@ class App extends Component {
             isLoggedIn: false,
             user: null,
             shoppingCart: [],
-            availableWorks: []
+            availableWorks: [],
+            showConfirmation: false,
+            confirmationBody: "",
+            confirmationHeader: ""
         };
 
         this.setUser = this.setUser.bind(this);
@@ -31,6 +35,22 @@ class App extends Component {
         this.changeCartAmount = this.changeCartAmount.bind(this);
         this.switchSite = this.switchSite.bind(this);
         this.fetchWorks = this.fetchWorks.bind(this);
+        this.toggleConfirmation = this.toggleConfirmation.bind(this);
+        this.clearShoppingCart = this.clearShoppingCart.bind(this);
+    }
+
+    clearShoppingCart() {
+        this.setState({
+            shoppingCart: []
+        });
+    }
+
+    toggleConfirmation(show, header, body) {
+        this.setState({
+            showConfirmation: show,
+            confirmationBody: body,
+            confirmationHeader: header
+        });
     }
 
     fetchWorks() {
@@ -130,14 +150,29 @@ class App extends Component {
             if(json.success) {
                 this.setUser(false, null);
             }
+            this.toggleConfirmation(true, "Kirjauduit ulos", "Uloskirjautuminen onnistui.");
         });
     };
 
     render() {
         return (
             <div>
-                <Login showModal={this.state.showLogin} toggleModal={this.toggleLogin} setUser={this.setUser} />
-                <Registration showModal={this.state.showRegistration} toggleModal={this.toggleRegistration} />
+                <Login
+                    showModal={this.state.showLogin}
+                    toggleModal={this.toggleLogin}
+                    setUser={this.setUser}
+                    showConfirmation={this.toggleConfirmation}
+                />
+                <Registration
+                    showModal={this.state.showRegistration}
+                    toggleModal={this.toggleRegistration}
+                />
+                <AlertModal
+                    show={this.state.showConfirmation}
+                    toggleModal={() => this.toggleConfirmation(false, "", "")}
+                    header={this.state.confirmationHeader}
+                    body={this.state.confirmationBody}
+                />
                 <Navbar>
                     <Navbar.Header>
                         <Navbar.Brand>
@@ -183,6 +218,8 @@ class App extends Component {
                     changeCartAmount={this.changeCartAmount}
                     loggedIn={this.state.isLoggedIn}
                     fetchWorks={this.fetchWorks}
+                    showConfirmation={this.toggleConfirmation}
+                    clearShoppingCart={this.clearShoppingCart}
                 />
                 <Search
                     show={this.state.currentSite === "search"}

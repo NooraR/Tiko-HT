@@ -40,12 +40,13 @@ export default class ShoppingCart extends Component {
             return results.json();
         })
         .then(json => {
-            console.log(json);
             if(json.success) {
                 this.setState({
                     orderData: json.data,
                     showOrder: true
                 });
+            } else {
+                this.props.showConfirmation(true, "Tilaus epäonnistui", "Tilaaminen ei juuri nyt onnistu.");
             }
 
             this.setState({
@@ -104,6 +105,8 @@ export default class ShoppingCart extends Component {
                             toggleVisibility={this.toggleOrder}
                             data={this.state.orderData}
                             refreshWorks={this.props.fetchWorks}
+                            showConfirmation={this.props.showConfirmation}
+                            clearShoppingCart={this.props.clearShoppingCart}
                         />}
                 </div>
             );

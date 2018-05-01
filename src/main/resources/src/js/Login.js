@@ -8,7 +8,7 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            showAlert: false
+            showAlert: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -43,6 +43,7 @@ export default class Login extends Component {
             if(json.success) {
                 this.props.setUser(true, json.data);
                 this.props.toggleModal();
+                this.props.showConfirmation(true, "Hei " + json.data.firstName + "!", "Sisäänkirjautuminen onnistui.");
             } else {
                 this.setState({
                     showAlert: true
