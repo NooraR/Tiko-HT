@@ -18,7 +18,8 @@ class App extends Component {
             currentSite: "search",
             isLoggedIn: false,
             user: null,
-            shoppingCart: []
+            shoppingCart: [],
+            availableWorks: []
         };
 
         this.setUser = this.setUser.bind(this);
@@ -29,6 +30,18 @@ class App extends Component {
         this.removeFromCart = this.removeFromCart.bind(this);
         this.changeCartAmount = this.changeCartAmount.bind(this);
         this.switchSite = this.switchSite.bind(this);
+        this.fetchWorks = this.fetchWorks.bind(this);
+    }
+
+    fetchWorks() {
+        fetch('/data/works')
+            .then(results => {
+                return results.json();
+            }).then(data => {
+                let works = data.data;
+                this.setState({availableWorks: works});
+            }
+        )
     }
 
     setUser(state, user) {
@@ -169,10 +182,13 @@ class App extends Component {
                     removeFromCart={this.removeFromCart}
                     changeCartAmount={this.changeCartAmount}
                     loggedIn={this.state.isLoggedIn}
+                    fetchWorks={this.fetchWorks}
                 />
                 <Search
                     show={this.state.currentSite === "search"}
                     addToCart={this.addToCart}
+                    works={this.state.availableWorks}
+                    fetchWorks={this.fetchWorks}
                 />
                 {
                     this.state.currentSite === "management" && this.state.user && this.state.user.isAdmin

@@ -103,6 +103,7 @@ export default class ShoppingCart extends Component {
                             visible={this.state.showOrder}
                             toggleVisibility={this.toggleOrder}
                             data={this.state.orderData}
+                            refreshWorks={this.props.fetchWorks}
                         />}
                 </div>
             );

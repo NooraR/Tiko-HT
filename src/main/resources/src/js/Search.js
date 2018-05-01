@@ -8,21 +8,13 @@ export default class Search extends Component {
 
         this.state = {
             search: '',
-            works: [],
         };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
-        fetch('/data/works')
-            .then(results => {
-                return results.json();
-            }).then(data => {
-                let works = data.data;
-                this.setState({works: works});
-            }
-        )
+        this.props.fetchWorks();
     }
 
     handleChange = (e) => {
@@ -32,7 +24,7 @@ export default class Search extends Component {
     render() {
         if(this.props.show) {
             let search = this.state.search;
-            let works = this.state.works;
+            let works = this.props.works;
 
             if (search && works) {
                 works = works.filter(function (i) {

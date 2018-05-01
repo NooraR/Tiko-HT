@@ -34,6 +34,7 @@ export default class Order extends Component {
         .then(json => {
             console.log(json);
             this.props.toggleVisibility();
+            this.props.refreshWorks();
         });
     }
 
