@@ -189,6 +189,7 @@ class App extends Component {
                     addToCart={this.addToCart}
                     works={this.state.availableWorks}
                     fetchWorks={this.fetchWorks}
+                    shoppingCart={this.state.shoppingCart}
                 />
                 {
                     this.state.currentSite === "management" && this.state.user && this.state.user.isAdmin

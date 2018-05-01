@@ -51,7 +51,7 @@ export default class Search extends Component {
                                         key={i}
                                         work={work}
                                         addToCart={() => this.props.addToCart(work)}
-                                        isInShoppingCart={false}
+                                        isInShoppingCart={this.props.shoppingCart.includes(work)}
                                     />
                                 )
                             })

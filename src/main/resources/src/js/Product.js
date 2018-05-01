@@ -61,8 +61,9 @@ export default class Product extends Component {
                         <Button
                             bsStyle="primary"
                             onClick={this.props.addToCart}
+                            disabled={this.props.isInShoppingCart}
                         >
-                            Lisää koriin
+                            {this.props.isInShoppingCart ? "Ostoskorissa" : "Lisää koriin"}
                         </Button>
                     </ButtonGroup>
                     <AvailabilityInfo
