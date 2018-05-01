@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table } from 'react-bootstrap';
+import { Table, Modal } from 'react-bootstrap';
 import "./ReportWorks.css";
 
 export default class ReportWorks extends Component {
@@ -29,14 +29,14 @@ export default class ReportWorks extends Component {
         let works = this.state.works;
 
         return (
-            <div>
-                <h1>Myyntihinnat</h1>
+            <div className="worksContainer">
+                <h2>Myyntihinnat</h2>
                 <div>
                     {
                         works.map((result, i) => {
                             return(
                                 <div className="works" key={i}>
-                                    <h2>{result.genre}</h2>
+                                    <h3>{result.genre}</h3>
                                     <Table responsive>
                                         <tbody>
                                         <tr><td>Yhteenlaskettu myyntihinta: {result.totalSellingPrice}</td></tr>

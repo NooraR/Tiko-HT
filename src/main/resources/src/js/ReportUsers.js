@@ -19,7 +19,6 @@ export default class ReportUsers extends Component {
                 return results.json();
             }).then(data => {
                 let users = data.data;
-                console.log({users: users});
                 this.setState({users: users});
             }
         )
@@ -29,14 +28,14 @@ export default class ReportUsers extends Component {
         let users = this.state.users;
 
         return (
-            <div>
-                <h1>Käyttäjäraportit</h1>
+            <div className="usersContainer">
+                <h2>Käyttäjäraportit</h2>
                 <div>
                     {
                         users.map((result, i) => {
                             return(
                                 <div className="users" key={i}>
-                                    <h2>{result.user.firstName} {result.user.lastName}</h2>
+                                    <h3>{result.user.firstName} {result.user.lastName}</h3>
                                     <Table responsive>
                                         <tbody>
                                             <tr><td>Id: {result.user.id}</td></tr>

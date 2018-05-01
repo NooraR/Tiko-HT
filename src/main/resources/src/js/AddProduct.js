@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Dropdown, MenuItem, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./AddProduct.css";
 
 export default class AddProduct extends Component {
@@ -17,7 +17,7 @@ export default class AddProduct extends Component {
             type: "",
             weight: 0,
             antiquaries: [],
-            antiquary: ""
+            antiquary: 0
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -54,8 +54,9 @@ export default class AddProduct extends Component {
                         "type": this.state.type,
                         "weight": this.state.weight
                     },
-                    "antiquary": this.state.antiquary
-
+                    "antiquary": {
+                        "id": this.state.antiquary
+                    }
                 }),
                 credentials: "same-origin"
             })
@@ -64,17 +65,9 @@ export default class AddProduct extends Component {
                 })
                 .then(json => {
                     if(json.success) {
-                        this.props.setUser(true, json.data);
-                        this.props.toggleModal();
+                        console.log("Tuotteen lisäys onnistui!");
                     } else {
-                        this.setState({
-                            showAlert: true
-                        });
-                        setTimeout(() => {
-                            this.setState({
-                                showAlert: false
-                            });
-                        }, 5000)
+                        console.log("Tuotteen lisäys epäonnistui");
                     }
                 });
         }
@@ -96,11 +89,11 @@ export default class AddProduct extends Component {
         let antiquaries = this.state.antiquaries;
 
         return (
-            <div className="container">
+            <div className="addProduct">
                 <h2>Uuden teoksen lisääminen</h2>
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="sellingPrice" bsSize="large">
-                        <ControlLabel>Myyntihinta*</ControlLabel>
+                    <FormGroup className="formGroup" controlId="sellingPrice" bsSize="large">
+                        <ControlLabel>Myyntihinta (euroa)*</ControlLabel>
                         <FormControl
                             autoFocus
                             type="number"
@@ -108,8 +101,8 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="purchasePrice" bsSize="large">
-                        <ControlLabel>Ostohinta*</ControlLabel>
+                    <FormGroup className="formGroup" controlId="purchasePrice" bsSize="large">
+                        <ControlLabel>Ostohinta (euroa)*</ControlLabel>
                         <FormControl
                             autoFocus
                             type="number"
@@ -117,7 +110,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="name" bsSize="large">
+                    <FormGroup className="formGroup" controlId="name" bsSize="large">
                         <ControlLabel>Nimi*</ControlLabel>
                         <FormControl
                             autoFocus
@@ -126,7 +119,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="author" bsSize="large">
+                    <FormGroup className="formGroup" controlId="author" bsSize="large">
                         <ControlLabel>Tekijä*</ControlLabel>
                         <FormControl
                             autoFocus
@@ -135,7 +128,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="isbn" bsSize="large">
+                    <FormGroup className="formGroup" controlId="isbn" bsSize="large">
                         <ControlLabel>ISBN</ControlLabel>
                         <FormControl
                             autoFocus
@@ -144,7 +137,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="published" bsSize="large">
+                    <FormGroup className="formGroup" controlId="published" bsSize="large">
                         <ControlLabel>Julkaisuvuosi (VVVV)</ControlLabel>
                         <FormControl
                             autoFocus
@@ -153,7 +146,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="genre" bsSize="large">
+                    <FormGroup className="formGroup" controlId="genre" bsSize="large">
                         <ControlLabel>Genre</ControlLabel>
                         <FormControl
                             autoFocus
@@ -162,7 +155,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="type" bsSize="large">
+                    <FormGroup className="formGroup" controlId="type" bsSize="large">
                         <ControlLabel>Tyyppi</ControlLabel>
                         <FormControl
                             autoFocus
@@ -171,7 +164,7 @@ export default class AddProduct extends Component {
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId="weight" bsSize="large">
+                    <FormGroup className="formGroup" controlId="weight" bsSize="large">
                         <ControlLabel>Paino* (kg)</ControlLabel>
                         <FormControl
                             value={this.state.weight}
@@ -179,22 +172,23 @@ export default class AddProduct extends Component {
                             type="number"
                         />
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup controlId="antiquary">
                         <ControlLabel>Antikvariaatti*</ControlLabel>
-                        <Dropdown id="dropdown">
-                            <Dropdown.Toggle glyph="choose">
-                                Valitse..
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                {
-                                    antiquaries.map((result, i) => {
-                                        return(
-                                            <MenuItem key={i} value={result.id}>{result.name}</MenuItem>
-                                        )
-                                    })
-                                }
-                            </Dropdown.Menu>
-                        </Dropdown>
+                        <FormControl
+                            componentClass="select"
+                            placeholder="Valitse..."
+                            value={this.state.antiquary}
+                            onChange={this.handleChange}
+                        >
+                            {
+                                antiquaries.map((result, i) => {
+                                    return(
+                                        <option key={i} value={result.id}>{result.name}</option>
+                                    )
+
+                                })
+                            }
+                        </FormControl>
                     </FormGroup>
                     <p>*:llä merkityt kohdat ovat pakollisia</p>
                     <Button

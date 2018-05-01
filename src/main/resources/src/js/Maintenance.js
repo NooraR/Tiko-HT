@@ -8,7 +8,6 @@ export default class Maintenance extends Component {
         return (
             <div className="container">
                 <AddProduct />
-                <hr />
                 <Reports />
             </div>
         );

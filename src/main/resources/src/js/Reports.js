@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import "./Maintenance.css";
+import { Tabs, Tab } from 'react-bootstrap';
 import ReportWorks from "./ReportWorks";
 import ReportUsers from "./ReportUsers";
+import "./Maintenance.css";
 
 export default class Maintenance extends Component {
     constructor(props) {
@@ -11,10 +12,18 @@ export default class Maintenance extends Component {
     render() {
         return (
             <div>
-                <ReportWorks />
-                <hr />
-                <ReportUsers />
+                <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                    <Tab eventKey={1} title="Myyntihinta-raportti">
+                        <ReportWorks />
+                    </Tab>
+                    <Tab eventKey={2} title="Käyttäjäraportti">
+                        <ReportUsers />
+                    </Tab>
+                </Tabs>;
+
             </div>
         );
     }
 }
+
+

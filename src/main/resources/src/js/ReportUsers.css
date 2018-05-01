@@ -13,14 +13,14 @@
     width: 100%;
 }
 
-.users h2 {
+.users h3 {
     font-size: 24px;
-    margin-bottom: 2%;
+    margin: 2% 0;
     display: block;
 }
 
-h1 {
+.usersContainer h2 {
     display: block;
-    margin: 2% 0;
+    margin: 4% 0;
     width: 100%;
 }

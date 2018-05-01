@@ -1,8 +1,28 @@
-.container {
-    width: 70%;
-    margin: auto;
+.addProduct {
+    width: 90%;
+    display: inline-block;
+    border-radius: 5px;
+    margin-bottom: 10%;
+    vertical-align: top;
+    padding: 1%;
+    position: relative;
 }
 
-h1 {
-    float: left;
+.addProduct h2 {
+    display: block;
+    margin: 4% 0;
+    width: 100%;
+}
+
+.addProduct Button {
+    width: 10em;
+}
+
+.addProduct Button[type=submit] {
+    width: 9em;
+    margin-top: 5%;
+}
+
+.formGroup {
+    width: 30%;
 }
