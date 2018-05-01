@@ -75,11 +75,9 @@ export default class AddProduct extends Component {
     componentDidMount() {
         fetch('/data/antiquaries')
             .then(results => {
-                console.log({results: results});
                 return results.json();
             }).then(data => {
                 let antiquaries = data.data;
-                console.log(antiquaries);
                 this.setState({antiquaries: antiquaries});
             }
         )
@@ -175,6 +173,7 @@ export default class AddProduct extends Component {
                     <FormGroup controlId="antiquary">
                         <ControlLabel>Antikvariaatti*</ControlLabel>
                         <FormControl
+                            className="antiquary"
                             componentClass="select"
                             placeholder="Valitse..."
                             value={this.state.antiquary}
