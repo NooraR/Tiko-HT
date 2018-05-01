@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import "./AddProduct.css";
 
 export default class AddProduct extends Component {
@@ -36,53 +36,55 @@ export default class AddProduct extends Component {
         });
     };
 
-    handleSubmit(event) {
-            event.preventDefault();
-            fetch("/management/product/add", {
-                method: 'POST',
-                headers: {"Content-type": "application/json; charset=UTF-8"},
-                body: JSON.stringify({
-                    "status": "FREE",
-                    "sellingPrice": this.state.sellingPrice,
-                    "purchasePrice": this.state.purchasePrice,
-                    "work": {
-                        "name": this.state.name,
-                        "author": this.state.author,
-                        "isbn": this.state.isbn,
-                        "published": this.state.published,
-                        "genre": this.state.genre,
-                        "type": this.state.type,
-                        "weight": this.state.weight
-                    },
-                    "antiquary": {
-                        "id": this.state.antiquary
-                    }
-                }),
-                credentials: "same-origin"
-            })
-                .then(result => {
-                    return result.json();
-                })
-                .then(json => {
-                    if(json.success) {
-                        console.log("Tuotteen lisäys onnistui!");
-                    } else {
-                        console.log("Tuotteen lisäys epäonnistui");
-                    }
-                });
-        }
-
     componentDidMount() {
         fetch('/data/antiquaries')
             .then(results => {
-                console.log({results: results});
                 return results.json();
             }).then(data => {
                 let antiquaries = data.data;
-                console.log(antiquaries);
                 this.setState({antiquaries: antiquaries});
             }
         )
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        fetch("/management/product/add", {
+            method: 'POST',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify({
+                "status": "FREE",
+                "sellingPrice": this.state.sellingPrice,
+                "purchasePrice": this.state.purchasePrice,
+                "work": {
+                    "name": this.state.name,
+                    "author": this.state.author,
+                    "isbn": this.state.isbn,
+                    "published": this.state.published,
+                    "genre": this.state.genre,
+                    "type": this.state.type,
+                    "weight": this.state.weight
+                },
+                "antiquary": {
+                    "id": this.state.antiquary
+                }
+            }),
+            credentials: "same-origin"
+        })
+            .then(result => {
+                return result.json();
+            })
+    .then(json => {
+            if(json.success) {
+                /*
+                this.props.alert("Tuotteen lisäys onnistui!")
+                 */
+            } else {
+                /*
+                this.props.alert("Tuotteen lisäys epäonnistui");
+                 */
+            }
+        });
     }
 
     render() {
@@ -175,6 +177,7 @@ export default class AddProduct extends Component {
                     <FormGroup controlId="antiquary">
                         <ControlLabel>Antikvariaatti*</ControlLabel>
                         <FormControl
+                            className="antiquary"
                             componentClass="select"
                             placeholder="Valitse..."
                             value={this.state.antiquary}
@@ -194,6 +197,7 @@ export default class AddProduct extends Component {
                     <Button
                         block
                         bsSize="large"
+                        bsStyle="success"
                         disabled={!this.validateForm()}
                         type="submit"
                     >
